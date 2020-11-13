@@ -12,6 +12,6 @@ def convert_direction(dir):
         return (0,-1)
     elif dir='h':
         return (1,0)
-    elif dir='d':
+    elif dir='b':
         return (-1,0)
         
