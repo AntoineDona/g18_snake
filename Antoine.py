@@ -1,3 +1,6 @@
+from copy import copy 
+
+
 def create_grid(n):
     """ On crée une grille vide """
     grid = []
@@ -15,15 +18,6 @@ def snake_avance(snake,direction):
     snake=[snake[0]+direction]+snake[1:]
 
 def convert_dir(dir):
-    if dir='d':
-        return (0,1)
-    elif dir='g':
-        return (0,-1)
-    elif dir='h':
-        return (1,0)
-    elif dir='b':
-        return (-1,0)
+    dir_dic = {'d':(0,1),'g':(0,-1),'h':(1,0),'b':(-1,0)}
+    return dir_dic[dir]
 
-def change_dir():
-
-        
