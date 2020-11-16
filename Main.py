@@ -92,7 +92,6 @@ while not game_over:
     pygame.draw.rect(dis, white, [poire[0], poire[1], 10, 10] )
     if poire[0] == l[0][0] and poire[1] == l[0][1] :
        
-
 pygame.quit()
 quit()
 
