@@ -23,7 +23,7 @@ dy = 0
 
 l = [[300, 300], [290, 300], [280, 300]]
 pomme = [100, 100]
-
+score = 0
 n = 3
 clock = pygame.time.Clock()
 
@@ -45,11 +45,13 @@ while not game_over:
                 dx = 0
                 dy = 10
 
-    if border and (l[0][0] < 10 or l[0][0] > L-10 or l[0][1] < 10 or l[0][1] > H-10):  # lorsqu'on touche le bord
+    # lorsqu'on touche le bord
+    if border and (l[0][0] < 10 or l[0][0] > L-10 or l[0][1] < 10 or l[0][1] > H-10):
         game_over = True
-    if not border and (l[0][0] < 10 or l[0][0] > L-10 or l[0][1] < 10 or l[0][1] > H-10): #si bord désactivé on passe de l'autre coté
-        l[0][0]=l[0][0]%L
-        l[0][1]=l[0][1]%H
+    # si bord désactivé on passe de l'autre coté
+    if not border and (l[0][0] < 10 or l[0][0] > L-10 or l[0][1] < 10 or l[0][1] > H-10):
+        l[0][0] = l[0][0] % L
+        l[0][1] = l[0][1] % H
 
     for k in range(1, len(l)):  # lorsqu'on se touche
         if n > 3:
@@ -64,6 +66,7 @@ while not game_over:
     l[0][1] += dy
     dis.fill(black)
     if pomme == l[0]:  # lorsqu'on touche la pomme
+        score += 1
         l.append([queue[0], queue[1]])
         pygame.draw.rect(dis, black, [pomme[0], pomme[1], 10, 10])
         pomme[0] = random.randint(0, L/10)*10
