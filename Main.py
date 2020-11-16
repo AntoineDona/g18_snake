@@ -16,7 +16,7 @@ dis = pygame.display.set_mode((L, H))
 pygame.display.set_caption('Snake Game')
 
 game_over = False
-
+border=False
 
 dx = 0
 dy = 0
