@@ -3,7 +3,7 @@ from pygame.locals import *
 from copy import copy
 import random
 from message import message
-import time  #### Lola
+import time  # Lola
 
 
 pygame.init()
@@ -20,12 +20,9 @@ dis = pygame.display.set_mode((L, H))
 pygame.display.set_caption('Snake Game')
 
 
-
-
-
 game_over = False
-border=False
-collision=False
+border = False
+collision = False
 
 dx = 0
 dy = 0
@@ -36,18 +33,23 @@ score = 0
 n = 3
 clock = pygame.time.Clock()
 
+
 def detection_collision_bordure():
-    if border and (l[0][0] < 10 or l[0][0] > L-10 or l[0][1] < 10 or l[0][1] > H-10):  # lorsqu'on touche le bord
+    # lorsqu'on touche le bord
+    if border and (l[0][0] < 10 or l[0][0] > L-10 or l[0][1] < 10 or l[0][1] > H-10):
         game_over = True
-    if not border and (l[0][0] < 10 or l[0][0] > L-10 or l[0][1] < 10 or l[0][1] > H-10): #si bord désactivé on passe de l'autre coté
-        l[0][0]=l[0][0]%L
-        l[0][1]=l[0][1]%H
+    # si bord désactivé on passe de l'autre coté
+    if not border and (l[0][0] < 10 or l[0][0] > L-10 or l[0][1] < 10 or l[0][1] > H-10):
+        l[0][0] = l[0][0] % L
+        l[0][1] = l[0][1] % H
+
 
 def detection_auto_collision():
     for k in range(1, len(l)):  # lorsqu'on se touche
         if n > 3:
             if collision and l[0][0] == l[k][0] and l[0][1] == l[k][1]:
                 game_over = True
+
 
 while not game_over:
     for event in pygame.event.get():
@@ -70,17 +72,16 @@ while not game_over:
     # lorsqu'on touche le bord
     if border and (l[0][0] < 10 or l[0][0] > L-10 or l[0][1] < 10 or l[0][1] > H-10):
         game_over = True
-<<<<<<< HEAD
+
     # si bord désactivé on passe de l'autre coté
     if not border and (l[0][0] < 10 or l[0][0] > L-10 or l[0][1] < 10 or l[0][1] > H-10):
         l[0][0] = l[0][0] % L
         l[0][1] = l[0][1] % H
-=======
- 
-    if not border and (l[0][0] < 10 or l[0][0] > L-10 or l[0][1] < 10 or l[0][1] > H-10): #si bord désactivé on passe de l'autre coté
-        l[0][0]=l[0][0]%L
-        l[0][1]=l[0][1]%H
->>>>>>> 29a77f12603af3e6af720c345d4658b3609db13c
+
+    # si bord désactivé on passe de l'autre coté
+    if not border and (l[0][0] < 10 or l[0][0] > L-10 or l[0][1] < 10 or l[0][1] > H-10):
+        l[0][0] = l[0][0] % L
+        l[0][1] = l[0][1] % H
 
     for k in range(1, len(l)):  # lorsqu'on se touche
         if n > 3:
@@ -88,7 +89,6 @@ while not game_over:
                 game_over = True
     detection_collision_bordure()
     detection_auto_collision()
-
 
     queue = copy(l[n-1])
     for k in range(0, n-1):
@@ -115,12 +115,9 @@ while not game_over:
     pygame.display.update()
     clock.tick(20)
 
-message("You lost",red,dis) #### Lola
-pygame.display.update() #### Lola
-time.sleep(10) #### Lola
+message("You lost", red, dis)  # Lola
+pygame.display.update()  # Lola
+time.sleep(10)  # Lola
 
 pygame.quit()
 quit()
-
-
-
