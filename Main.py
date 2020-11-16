@@ -10,6 +10,7 @@ black = (0, 0, 0)
 red = (255, 0, 0)
 violet = (127, 0, 255)
 green = (0, 255, 65)
+
 L = 800
 H = 600
 
@@ -19,6 +20,7 @@ pygame.display.set_caption('Snake Game')
 game_over = False
 border=False
 collision=False
+direction='null'
 
 dx = 0
 dy = 0
@@ -47,18 +49,22 @@ while not game_over:
         if event.type == pygame.QUIT or (event.type == pygame.KEYDOWN and event.key == pygame.K_ESCAPE):
             game_over = True
         if event.type == pygame.KEYDOWN:
-            if event.key == pygame.K_LEFT:
+            if event.key == pygame.K_LEFT and direction != 'horizontal':
                 dx = -20
                 dy = 0
-            elif event.key == pygame.K_RIGHT:
+                direction='horizontal'
+            elif event.key == pygame.K_RIGHT and direction != 'horizontal':
                 dx = 20
                 dy = 0
-            elif event.key == pygame.K_UP:
+                direction='horizontal'
+            elif event.key == pygame.K_UP and direction != 'vertical':
                 dx = 0
                 dy = -20
-            elif event.key == pygame.K_DOWN:
+                direction='vertical'
+            elif event.key == pygame.K_DOWN and direction != 'vertical':
                 dx = 0
                 dy = 20
+                direction='vertical'
 
     detection_collision_bordure()
     detection_auto_collision()
@@ -74,6 +80,7 @@ while not game_over:
         pygame.draw.rect(dis, black, [pomme[0], pomme[1], 20, 20])
         pomme[0] = random.randint(0, (L-20)/20)*20
         pomme[1] = random.randint(0, (H-20)/20)*20
+
     n = len(l)
     pygame.draw.rect(dis, red, [pomme[0], pomme[1], 20, 20])
     for x in l:
@@ -81,7 +88,7 @@ while not game_over:
     pygame.display.update()
 
     score_font = pygame.font.SysFont("comicsansms", 35)
-    value = score_font.render("Your Score: " + str(len(l)-1), True, red)
+    value = score_font.render("Your Score: " + str(len(l)-3), True, red)
     dis.blit(value, [300, 0])
 
     pygame.display.update()
