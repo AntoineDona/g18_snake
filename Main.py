@@ -9,6 +9,7 @@ white = (255, 255, 255)
 black = (0, 0, 0)
 red = (255, 0, 0)
 violet = (127, 0, 255)
+green = (0, 255, 65)
 L = 800
 H = 600
 
@@ -66,14 +67,19 @@ while not game_over:
     if pomme == l[0]:  # lorsqu'on touche la pomme
         l.append([queue[0], queue[1]])
         pygame.draw.rect(dis, black, [pomme[0], pomme[1], 20, 20])
-        pomme[0] = random.randint(0, L/20)*20
-        pomme[1] = random.randint(0, H/20)*20
+        pomme[0] = random.randint(0, (L-20)/20)*20
+        pomme[1] = random.randint(0, (H-20)/20)*20
     n = len(l)
     pygame.draw.rect(dis, red, [pomme[0], pomme[1], 20, 20])
     for x in l:
         pygame.draw.rect(dis, violet, [x[0], x[1], 20, 20])
     pygame.display.update()
 
+    score_font = pygame.font.SysFont("comicsansms", 35)
+    value = score_font.render("Your Score: " + str(len(l)-1), True, red)
+    dis.blit(value, [300, 0])
+
+    pygame.display.update()
     clock.tick(20)
 
 pygame.quit()
