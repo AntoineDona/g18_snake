@@ -55,6 +55,7 @@ while not game_over:
             elif event.key == pygame.K_DOWN:
                 y1_change = 10
                 x1_change = 0
+    n=len(l)
     for k in range(0, n-1):
         l[n-1-k] = copy(l[n-2-k])
     l[0][0] += x1_change
