@@ -16,7 +16,7 @@ dis = pygame.display.set_mode((L, H))
 pygame.display.set_caption('Snake Game')
 
 game_over = False
-
+border=False
 
 dx = 0
 dy = 0
@@ -59,7 +59,6 @@ while not game_over:
                 game_over = True
 
     queue = copy(l[n-1])
-    print(queue)
     for k in range(0, n-1):
         l[n-1-k] = copy(l[n-2-k])
     l[0][0] += dx
@@ -77,7 +76,7 @@ while not game_over:
         pygame.draw.rect(dis, violet, [x[0], x[1], 10, 10])
     pygame.display.update()
 
-    clock.tick(30)
+    clock.tick(20)
 
 pygame.quit()
 quit()
