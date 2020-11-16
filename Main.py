@@ -64,7 +64,7 @@ while not game_over:
         l.append([queue[0], queue[1]])
         pygame.draw.rect(dis, black, [pomme[0], pomme[1], 10, 10])
         pomme[0] = random.randint(0, L/10)*10
-        pomme[1] = random.randint(0, H/20)*20
+        pomme[1] = random.randint(0, H/10)*10
     n = len(l)
     pygame.draw.rect(dis, red, [pomme[0], pomme[1], 10, 10])
     for x in l:
