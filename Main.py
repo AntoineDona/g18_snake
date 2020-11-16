@@ -17,6 +17,7 @@ pygame.display.set_caption('Snake Game')
 
 game_over = False
 border=False
+collision=False
 
 dx = 0
 dy = 0
@@ -53,7 +54,7 @@ while not game_over:
 
     for k in range(1, len(l)):  # lorsqu'on se touche
         if n > 3:
-            if l[0][0] == l[k][0] and l[0][1] == l[k][1]:
+            if collision and l[0][0] == l[k][0] and l[0][1] == l[k][1]:
                 game_over = True
 
     queue = copy(l[n-1])
