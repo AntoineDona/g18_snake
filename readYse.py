@@ -58,7 +58,7 @@ while not game_over:
                 game_over = True
 
     queue = copy(l[n-1])
-    print(queue)
+    #print(queue)
     for k in range(0, n-1):
         l[n-1-k] = copy(l[n-2-k])
     l[0][0] += dx
@@ -71,12 +71,13 @@ while not game_over:
         pomme[1] = random.randint(0, H/10)*10
     n = len(l)
     pygame.draw.rect(dis, red, [pomme[0], pomme[1], 10, 10])
+    pygame.draw.rect(dis, white, [poire[0], poire[1], 10, 10] )
     for x in l:
         pygame.draw.rect(dis, violet, [x[0], x[1], 10, 10])
     pygame.display.update()
 
     clock.tick(30)
-   
+   print(temps)
  
     #poire[0] = random.randint(0,790)
     #poire[1] = random.randint(0,590)
@@ -85,7 +86,7 @@ while not game_over:
     if poire[0] == l[0][0] and poire[1] == l[0][1] :
         debut = pygame.time.get_ticks()
         while temps - debut < 20000:
-            clock.tick(60)
+            pygame.draw.rect(dis, white, [poire[0], 150, 10, 10] )    
 
             
 pygame.quit()
