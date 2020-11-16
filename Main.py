@@ -9,13 +9,15 @@ black = (0, 0, 0)
 red = (255, 0, 0)
 violet = (127, 0, 255)
 
+largeur=800
+hauteur=600
+
 dis = pygame.display.set_mode((800, 600))
-pygame.display.set_caption('Snake Game by Edureka')
+pygame.display.set_caption('Notre jeu Snake')
 
 game_over = False
 
 l = [[300, 300], [290, 300], [280, 300]]
-
 
 x1_change = 0
 y1_change = 0
@@ -23,6 +25,17 @@ y1_change = 0
 n = 3  # taille du serpent
 
 clock = pygame.time.Clock()
+
+border=True
+
+def critere_bodure(x,y):
+    if border :
+        if x>=largeur or x<=0 or y>=hauteur or y<=0:
+            game_over=True
+    if not border:
+        if x>=largeur or x<=0 or y>=hauteur or y<=0:
+            x=x%largeur
+            y=y%hauteur
 
 while not game_over:
     for event in pygame.event.get():
@@ -46,9 +59,9 @@ while not game_over:
     l[0][0] += x1_change
     l[0][1] += y1_change
     dis.fill(black)
-    print(l)
     for x in l:
         pygame.draw.rect(dis, violet, [x[0], x[1], 10, 10])
+    critere_bodure(l[0][0],l[0][1])
     pygame.display.update()
 
     clock.tick(30)
