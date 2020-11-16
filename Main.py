@@ -9,6 +9,7 @@ white = (255, 255, 255)
 black = (0, 0, 0)
 red = (255, 0, 0)
 violet = (127, 0, 255)
+green = (0, 255, 65)
 L = 800
 H = 600
 
@@ -17,6 +18,7 @@ pygame.display.set_caption('Snake Game')
 
 game_over = False
 border=False
+collision=False
 
 dx = 0
 dy = 0
@@ -26,6 +28,19 @@ pomme = [100, 100]
 
 n = 3
 clock = pygame.time.Clock()
+
+def detection_collision_bordure():
+    if border and (l[0][0] < 10 or l[0][0] > L-10 or l[0][1] < 10 or l[0][1] > H-10):  # lorsqu'on touche le bord
+        game_over = True
+    if not border and (l[0][0] < 10 or l[0][0] > L-10 or l[0][1] < 10 or l[0][1] > H-10): #si bord désactivé on passe de l'autre coté
+        l[0][0]=l[0][0]%L
+        l[0][1]=l[0][1]%H
+
+def detection_auto_collision():
+    for k in range(1, len(l)):  # lorsqu'on se touche
+        if n > 3:
+            if collision and l[0][0] == l[k][0] and l[0][1] == l[k][1]:
+                game_over = True
 
 while not game_over:
     for event in pygame.event.get():
@@ -45,16 +60,8 @@ while not game_over:
                 dx = 0
                 dy = 20
 
-    if border and (l[0][0] < 10 or l[0][0] > L-10 or l[0][1] < 10 or l[0][1] > H-10):  # lorsqu'on touche le bord
-        game_over = True
-    if not border and (l[0][0] < 10 or l[0][0] > L-10 or l[0][1] < 10 or l[0][1] > H-10): #si bord désactivé on passe de l'autre coté
-        l[0][0]=l[0][0]%L
-        l[0][1]=l[0][1]%H
-
-    for k in range(1, len(l)):  # lorsqu'on se touche
-        if n > 3:
-            if l[0][0] == l[k][0] and l[0][1] == l[k][1]:
-                game_over = True
+    detection_collision_bordure()
+    detection_auto_collision()
 
     queue = copy(l[n-1])
     for k in range(0, n-1):
@@ -73,6 +80,11 @@ while not game_over:
         pygame.draw.rect(dis, violet, [x[0], x[1], 20, 20])
     pygame.display.update()
 
+    score_font = pygame.font.SysFont("comicsansms", 35)
+    value = score_font.render("Your Score: " + str(len(l)-1), True, red)
+    dis.blit(value, [300, 0])
+
+    pygame.display.update()
     clock.tick(20)
 
 pygame.quit()
