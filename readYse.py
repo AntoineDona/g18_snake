@@ -23,9 +23,11 @@ dy = 0
 
 l = [[300, 300], [290, 300], [280, 300]]
 pomme = [100, 100]
-
+poire = [50,50]
 n = 3
 clock = pygame.time.Clock()
+
+temps = 0
 
 while not game_over:
     for event in pygame.event.get():
@@ -44,6 +46,8 @@ while not game_over:
             elif event.key == pygame.K_DOWN:
                 dx = 0
                 dy = 10
+
+    temps  = pygame.time.get_ticks()
 
     if l[0][0] < 10 or l[0][0] > L-10 or l[0][1] < 10 or l[0][1] > H-10:  # lorsqu'on touche le bord
         game_over = True
@@ -72,7 +76,18 @@ while not game_over:
     pygame.display.update()
 
     clock.tick(30)
+   
+ 
+    #poire[0] = random.randint(0,790)
+    #poire[1] = random.randint(0,590)
 
+    pygame.draw.rect(dis, white, [poire[0], poire[1], 10, 10] )
+    if poire[0] == l[0][0] and poire[1] == l[0][1] :
+        debut = pygame.time.get_ticks()
+        while temps - debut < 20000:
+            clock.tick(60)
+
+            
 pygame.quit()
 quit()
 
