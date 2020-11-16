@@ -29,6 +29,19 @@ pomme = [100, 100]
 n = 3
 clock = pygame.time.Clock()
 
+def detection_collision_bordure():
+    if border and (l[0][0] < 10 or l[0][0] > L-10 or l[0][1] < 10 or l[0][1] > H-10):  # lorsqu'on touche le bord
+        game_over = True
+    if not border and (l[0][0] < 10 or l[0][0] > L-10 or l[0][1] < 10 or l[0][1] > H-10): #si bord désactivé on passe de l'autre coté
+        l[0][0]=l[0][0]%L
+        l[0][1]=l[0][1]%H
+
+def detection_auto_collision():
+    for k in range(1, len(l)):  # lorsqu'on se touche
+        if n > 3:
+            if collision and l[0][0] == l[k][0] and l[0][1] == l[k][1]:
+                game_over = True
+
 while not game_over:
     for event in pygame.event.get():
         if event.type == pygame.QUIT or (event.type == pygame.KEYDOWN and event.key == pygame.K_ESCAPE):
@@ -47,16 +60,8 @@ while not game_over:
                 dx = 0
                 dy = 20
 
-    if border and (l[0][0] < 10 or l[0][0] > L-10 or l[0][1] < 10 or l[0][1] > H-10):  # lorsqu'on touche le bord
-        game_over = True
-    if not border and (l[0][0] < 10 or l[0][0] > L-10 or l[0][1] < 10 or l[0][1] > H-10): #si bord désactivé on passe de l'autre coté
-        l[0][0]=l[0][0]%L
-        l[0][1]=l[0][1]%H
-
-    for k in range(1, len(l)):  # lorsqu'on se touche
-        if n > 3:
-            if collision and l[0][0] == l[k][0] and l[0][1] == l[k][1]:
-                game_over = True
+    detection_collision_bordure()
+    detection_auto_collision()
 
     queue = copy(l[n-1])
     for k in range(0, n-1):
