@@ -49,7 +49,7 @@ while not game_over:
     if not border and (l[0][0] < 0 or l[0][0] > L or l[0][1] < 0 or l[0][1] > H): #si bord désactivé on passe de l'autre coté
         l[0][0]=l[0][0]%L
         l[0][1]=l[0][1]%H
-
+    n = len(l)
     queue = copy(l[n-1])
     for k in range(0, n-1):
         l[n-1-k] = copy(l[n-2-k])
