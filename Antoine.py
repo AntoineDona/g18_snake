@@ -1,9 +1,18 @@
-border=True
-def critere_bodure(x,y):
-    if border==True:
-        if x>=largeur or x<=0 or y>=hauteur or y<=0:
+import pygame
+pygame.init()
+dis=pygame.display.set_mode((400,300))
+ 
+pygame.display.set_caption('Snake game by Edureka')
+ 
+blue=(0,0,255)
+red=(255,0,0)
+ 
+game_over=False
+while not game_over:
+    for event in pygame.event.get():
+        if event.type==pygame.QUIT:
             game_over=True
-    else:
-        if x>=largeur or x<=0 or y>=hauteur or y<=0:
-            x=x%largeur
-            y=y%hauteur
+    pygame.draw.rect(dis,blue,[0,0,20,20])
+    pygame.display.update()
+pygame.quit()
+quit()

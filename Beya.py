@@ -1,3 +1,6 @@
+<<<<<<< HEAD
+from pygame import * 
+=======
 import pygame
 import time
 import copy
@@ -58,3 +61,4 @@ while not gameover:
     clock.tick(30)
 pygame.quit()
 quit()
+>>>>>>> 608443a807a79b429aabc6ea785fcdb64403f92e
