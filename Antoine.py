@@ -1,9 +1,9 @@
 border=True
-def critere_bodure():
+def critere_bodure(x,y):
     if border==True:
-        if x1>=largeur or x1<=0 or y1>=hauteur or y1<=0:
+        if x>=largeur or x<=0 or y>=hauteur or y<=0:
             game_over=True
-    if border==False:
-        if x1>=largeur or x1<=0 or y1>=hauteur or y1<=0:
-            x1=x1%largeur
-            y1=y1%hauteur
+    else:
+        if x>=largeur or x<=0 or y>=hauteur or y<=0:
+            x=x%largeur
+            y=y%hauteur

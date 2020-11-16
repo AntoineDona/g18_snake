@@ -31,7 +31,8 @@ border=True
 def critere_bodure(x,y):
     if border :
         if x>=largeur or x<=0 or y>=hauteur or y<=0:
-            game_over=True
+            print (x,y)
+            game_over = True
     if not border:
         if x>=largeur or x<=0 or y>=hauteur or y<=0:
             x=x%largeur
