@@ -18,7 +18,7 @@ def pomme_coupe(score, pomme_coupe):
                 dis, vert, [pomme_coupe[0], pomme_coupe[1], 10, 10])
 
 
-def coll_pomme_coupe(l):
+def coll_pomme_coupe(l, pomme_coupe):
     if pomme_coupe[2]:
         if l[0][0] == pomme_coupe[0] and l[0][1] == pomme_coupe[1]:
             score += 1
@@ -107,7 +107,7 @@ while not game_over:
     # une pomme verte peut apparaitre
     pomme_coupe(score, pomme_coupe)
     # si il rencontre une pomme verte sa taille est divisé par 2
-    coll_pomme_coupe(l)
+    coll_pomme_coupe(l, pomme_coupe)
 
     n = len(l)
     pygame.draw.rect(dis, red, [pomme[0], pomme[1], 10, 10])
