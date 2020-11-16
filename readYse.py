@@ -1,6 +1,7 @@
 import pygame
 from pygame.locals import *
 from copy import copy
+import random
 
 pygame.init()
 
@@ -8,20 +9,22 @@ white = (255, 255, 255)
 black = (0, 0, 0)
 red = (255, 0, 0)
 violet = (127, 0, 255)
+L = 800
+H = 600
 
-dis = pygame.display.set_mode((800, 600))
-pygame.display.set_caption('Snake Game by Edureka')
+dis = pygame.display.set_mode((L, H))
+pygame.display.set_caption('Snake Game')
 
 game_over = False
 
+
+dx = 0
+dy = 0
+
 l = [[300, 300], [290, 300], [280, 300]]
+pomme = [100, 100]
 
-
-x1_change = 0
-y1_change = 0
-
-n = 3  # taille du serpent
-
+n = 3
 clock = pygame.time.Clock()
 
 while not game_over:
@@ -30,23 +33,40 @@ while not game_over:
             game_over = True
         if event.type == pygame.KEYDOWN:
             if event.key == pygame.K_LEFT:
-                x1_change = -10
-                y1_change = 0
+                dx = -10
+                dy = 0
             elif event.key == pygame.K_RIGHT:
-                x1_change = 10
-                y1_change = 0
+                dx = 10
+                dy = 0
             elif event.key == pygame.K_UP:
-                y1_change = -10
-                x1_change = 0
+                dx = 0
+                dy = -10
             elif event.key == pygame.K_DOWN:
-                y1_change = 10
-                x1_change = 0
+                dx = 0
+                dy = 10
+
+    if l[0][0] < 10 or l[0][0] > L-10 or l[0][1] < 10 or l[0][1] > H-10:  # lorsqu'on touche le bord
+        game_over = True
+
+    for k in range(1, len(l)):  # lorsqu'on se touche
+        if n > 3:
+            if l[0][0] == l[k][0] and l[0][1] == l[k][1]:
+                game_over = True
+
+    queue = copy(l[n-1])
+    print(queue)
     for k in range(0, n-1):
         l[n-1-k] = copy(l[n-2-k])
-    l[0][0] += x1_change
-    l[0][1] += y1_change
+    l[0][0] += dx
+    l[0][1] += dy
     dis.fill(black)
-    print(l)
+    if pomme == l[0]:  # lorsqu'on touche la pomme
+        l.append([queue[0], queue[1]])
+        pygame.draw.rect(dis, black, [pomme[0], pomme[1], 10, 10])
+        pomme[0] = random.randint(0, L/10)*10
+        pomme[1] = random.randint(0, H/10)*10
+    n = len(l)
+    pygame.draw.rect(dis, red, [pomme[0], pomme[1], 10, 10])
     for x in l:
         pygame.draw.rect(dis, violet, [x[0], x[1], 10, 10])
     pygame.display.update()
@@ -55,3 +75,5 @@ while not game_over:
 
 pygame.quit()
 quit()
+
+# apparition carré
