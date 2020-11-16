@@ -65,8 +65,8 @@ while not game_over:
     if pomme == l[0]:  # lorsqu'on touche la pomme
         l.append([queue[0], queue[1]])
         pygame.draw.rect(dis, black, [pomme[0], pomme[1], 20, 20])
-        pomme[0] = random.randint(0, L/20)*20
-        pomme[1] = random.randint(0, H/20)*20
+        pomme[0] = random.randint(0, (L-20)/20)*20
+        pomme[1] = random.randint(0, (H-20)/20)*20
     n = len(l)
     pygame.draw.rect(dis, red, [pomme[0], pomme[1], 20, 20])
     for x in l:
