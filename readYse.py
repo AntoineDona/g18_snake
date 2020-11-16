@@ -44,8 +44,15 @@ while not game_over:
             elif event.key == pygame.K_DOWN:
                 dx = 0
                 dy = 10
-    if l[0][0] < 0 or l[0][0] > L or l[0][1] < 0 or l[0][1] > H:  # on voit si on touche le bord
+
+    if l[0][0] < 10 or l[0][0] > L-10 or l[0][1] < 10 or l[0][1] > H-10:  # lorsqu'on touche le bord
         game_over = True
+
+    for k in range(1, len(l)):  # lorsqu'on se touche
+        if n > 3:
+            if l[0][0] == l[k][0] and l[0][1] == l[k][1]:
+                game_over = True
+
     queue = copy(l[n-1])
     print(queue)
     for k in range(0, n-1):
@@ -57,8 +64,8 @@ while not game_over:
         l.append([queue[0], queue[1]])
         pygame.draw.rect(dis, black, [pomme[0], pomme[1], 10, 10])
         pomme[0] = random.randint(0, L/10)*10
-        pomme[1] = random.randint(0, H/10)*10
-        print(pomme, l)
+        pomme[1] = random.randint(0, H/20)*20
+    n = len(l)
     pygame.draw.rect(dis, red, [pomme[0], pomme[1], 10, 10])
     for x in l:
         pygame.draw.rect(dis, violet, [x[0], x[1], 10, 10])
