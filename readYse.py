@@ -23,9 +23,11 @@ dy = 0
 
 l = [[300, 300], [290, 300], [280, 300]]
 pomme = [100, 100]
-
+poire = [50,50]
 n = 3
 clock = pygame.time.Clock()
+
+temps = 0
 
 while not game_over:
     for event in pygame.event.get():
@@ -44,10 +46,19 @@ while not game_over:
             elif event.key == pygame.K_DOWN:
                 dx = 0
                 dy = 10
-    if l[0][0] < 0 or l[0][0] > L or l[0][1] < 0 or l[0][1] > H:  # on voit si on touche le bord
+
+    temps  = pygame.time.get_ticks()
+
+    if l[0][0] < 10 or l[0][0] > L-10 or l[0][1] < 10 or l[0][1] > H-10:  # lorsqu'on touche le bord
         game_over = True
+
+    for k in range(1, len(l)):  # lorsqu'on se touche
+        if n > 3:
+            if l[0][0] == l[k][0] and l[0][1] == l[k][1]:
+                game_over = True
+
     queue = copy(l[n-1])
-    print(queue)
+    #print(queue)
     for k in range(0, n-1):
         l[n-1-k] = copy(l[n-2-k])
     l[0][0] += dx
@@ -58,14 +69,26 @@ while not game_over:
         pygame.draw.rect(dis, black, [pomme[0], pomme[1], 10, 10])
         pomme[0] = random.randint(0, L/10)*10
         pomme[1] = random.randint(0, H/10)*10
-        print(pomme, l)
+    n = len(l)
     pygame.draw.rect(dis, red, [pomme[0], pomme[1], 10, 10])
+    pygame.draw.rect(dis, white, [poire[0], poire[1], 10, 10] )
     for x in l:
         pygame.draw.rect(dis, violet, [x[0], x[1], 10, 10])
     pygame.display.update()
 
     clock.tick(30)
+   print(temps)
+ 
+    #poire[0] = random.randint(0,790)
+    #poire[1] = random.randint(0,590)
 
+    pygame.draw.rect(dis, white, [poire[0], poire[1], 10, 10] )
+    if poire[0] == l[0][0] and poire[1] == l[0][1] :
+        debut = pygame.time.get_ticks()
+        while temps - debut < 20000:
+            pygame.draw.rect(dis, white, [poire[0], 150, 10, 10] )    
+
+            
 pygame.quit()
 quit()
 
