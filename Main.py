@@ -44,7 +44,7 @@ def proba_pomme_blanche (pomme_rapide):
     if pomme_rapide[2]:
             pygame.draw.rect(dis, white, [pomme_rapide[0], pomme_rapide[1], 20, 20])
     if not pomme_rapide[2]:
-        p = random.randint(0, 41)
+        p = random.randint(0, 81)
         if p == 0:
             pomme_rapide[0] = random.randint(0, (L-20)/20)*20
             pomme_rapide[1] = random.randint(0, (H-20)/20)*20
@@ -69,9 +69,9 @@ def  acceleration (tps_blanche,frequence):
         if tps_blanche[i] == 0 :
             frequence+=15
             tps_blanche[-1]=1
-        elif tps_blanche[i] > 0 and tps_blanche[i] <= 15*10 :
+        elif tps_blanche[i] > 0 and tps_blanche[i] <= frequence*10 :
             tps_blanche[i]+=1
-        elif tps_blanche[i] == 151:
+        elif tps_blanche[i] == (frequence*10)+1:
             frequence-=15
             tps_blanche[i]+=1
            
