@@ -1,3 +1,17 @@
+import pygame
+from pygame.locals import *
+from copy import copy
+import random
+import time  # Lola
+from math import floor
+
+L = 800
+H = 600
+
+dis = pygame.display.set_mode((L, H))
+pygame.display.set_caption('Snake Game')
+clock = pygame.time.Clock()
+
 vert = (0, 255, 0)
 white = (255, 255, 255)
 black = (0, 0, 0)
@@ -6,6 +20,54 @@ violet = (127, 0, 255)
 green = (0, 255, 65)
 turquoise = (64, 224, 208)
 rose = (253, 108, 158)
+
+pomme = [100, 100]
+pomme_t = [200, 100, False]
+pomme_coupe = [0, 0, False]
+pomme_rose = [10, 10, False]
+pomme_rapide = [50, 50, False]
+tps_turquoise = -1
+tps_blanche = []
+
+
+def proba_pomme_blanche(pomme_rapide):
+    if pomme_rapide[2]:
+        pygame.draw.rect(
+            dis, white, [pomme_rapide[0], pomme_rapide[1], 20, 20])
+    if not pomme_rapide[2]:
+        p = random.randint(0, 81)
+        if p == 0:
+            pomme_rapide[0] = random.randint(0, (L-20)/20)*20
+            pomme_rapide[1] = random.randint(0, (H-20)/20)*20
+            pomme_rapide[2] = True
+
+    return pomme_rapide
+
+
+def pomme_blanche(l, score, pomme_rapide, tps_blanche):
+    if pomme_rapide[2]:
+        if l[0][0] == pomme_rapide[0] and l[0][1] == pomme_rapide[1]:
+            score += 10
+            pygame.draw.rect(
+                dis, black, [pomme_coupe[0], pomme_coupe[1], 10, 10])
+            pomme_rapide[2] = False
+            tps_blanche.append(0)
+
+    return score, pomme_rapide, tps_blanche
+
+
+def acceleration(tps_blanche, frequence):
+    for i in range(len(tps_blanche)):
+        if tps_blanche[i] == 0:
+            frequence += 15
+            tps_blanche[-1] = 1
+        elif tps_blanche[i] > 0 and tps_blanche[i] <= frequence*10:
+            tps_blanche[i] += 1
+        elif tps_blanche[i] == (frequence*10)+1:
+            frequence -= 15
+            tps_blanche[i] += 1
+
+    return tps_blanche, frequence
 
 
 def collision_pomme(score, pomme, l, queue):

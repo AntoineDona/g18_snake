@@ -76,3 +76,6 @@ if event.type == pygame.QUIT or (event.type == pygame.KEYDOWN and event.key == p
                     direction='vertical'
                     already_changed=True
         already_changed=False
+
+    def update_level(score, n=5):
+    return floor(score/n)
