@@ -76,4 +76,33 @@ while not game_over:
 pygame.quit()
 quit()
 
-# apparition carré
+# pomme turquoise
+
+
+def pomme_turquoise(score, l, pomme_t):
+    if not pomme_t[2] and score > 5:
+        s = random.randint(0, 1001)
+        if s == 0:
+            pomme_t[0] = random.randint(0, (L-20)/20)*20
+            pomme_t[1] = random.randint(0, (H-20)/20)*20
+            pomme_t[2] = True
+
+
+def coll_pomme_turquoise(score, l, pomme_t, tps_t, border):
+    l1 = l
+    if pomme_t[2]:
+        if l[0][0] == pomme_t[0] and l[0][1] == pomme_t[1]:
+            score += 1
+            tps_t = 0
+            border = False
+            pomme_t[2] = False
+
+
+def temps_border(tps_t, border, frequence):
+    if tps_t < frequence*20 and tps_t > 0:
+        tps_t += 1
+    else:
+        border = True
+        tps_t = -1
+
+    return l1, score
