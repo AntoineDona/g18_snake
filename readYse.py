@@ -23,9 +23,11 @@ dy = 0
 
 l = [[300, 300], [290, 300], [280, 300]]
 pomme = [100, 100]
-
+poire = [50,50]
 n = 3
 clock = pygame.time.Clock()
+
+temps = 0
 
 while not game_over:
     for event in pygame.event.get():
@@ -45,6 +47,8 @@ while not game_over:
                 dx = 0
                 dy = 10
 
+    temps  = pygame.time.get_ticks()
+
     if l[0][0] < 10 or l[0][0] > L-10 or l[0][1] < 10 or l[0][1] > H-10:  # lorsqu'on touche le bord
         game_over = True
 
@@ -54,7 +58,7 @@ while not game_over:
                 game_over = True
 
     queue = copy(l[n-1])
-    print(queue)
+    #print(queue)
     for k in range(0, n-1):
         l[n-1-k] = copy(l[n-2-k])
     l[0][0] += dx
@@ -67,13 +71,54 @@ while not game_over:
         pomme[1] = random.randint(0, H/10)*10
     n = len(l)
     pygame.draw.rect(dis, red, [pomme[0], pomme[1], 10, 10])
+    pygame.draw.rect(dis, white, [poire[0], poire[1], 10, 10] )
     for x in l:
         pygame.draw.rect(dis, violet, [x[0], x[1], 10, 10])
     pygame.display.update()
 
     clock.tick(30)
+   print(temps)
+ 
+    #poire[0] = random.randint(0,790)
+    #poire[1] = random.randint(0,590)
 
+    pygame.draw.rect(dis, white, [poire[0], poire[1], 10, 10] )
+    if poire[0] == l[0][0] and poire[1] == l[0][1] :
+        debut = pygame.time.get_ticks()
+        while temps - debut < 20000:
+            pygame.draw.rect(dis, white, [poire[0], 150, 10, 10] )    
+
+            
 pygame.quit()
 quit()
 
-# apparition carré
+# pomme turquoise
+
+
+def pomme_turquoise(score, l, pomme_t):
+    if not pomme_t[2] and score > 5:
+        s = random.randint(0, 1001)
+        if s == 0:
+            pomme_t[0] = random.randint(0, (L-20)/20)*20
+            pomme_t[1] = random.randint(0, (H-20)/20)*20
+            pomme_t[2] = True
+
+
+def coll_pomme_turquoise(score, l, pomme_t, tps_t, border):
+    l1 = l
+    if pomme_t[2]:
+        if l[0][0] == pomme_t[0] and l[0][1] == pomme_t[1]:
+            score += 1
+            tps_t = 0
+            border = False
+            pomme_t[2] = False
+
+
+def temps_border(tps_t, border, frequence):
+    if tps_t < frequence*20 and tps_t > 0:
+        tps_t += 1
+    else:
+        border = True
+        tps_t = -1
+
+    return l1, score
