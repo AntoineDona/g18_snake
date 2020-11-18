@@ -32,8 +32,8 @@ clock = pygame.time.Clock()
 pomme_coupe = [0, 0, False]
 game_over = False
 game_close = False
-border = True
-collision = True
+border = False
+collision = False
 
 
 def pomme_coupe2(score, pomme_coupe):
@@ -77,11 +77,11 @@ def detection_auto_collision(l, collision, game_over):
 
 # fin fonction
 
-def game_loop(border=False):
+def game_loop(border=True):
     pomme_coupe = [0, 0, False]
     game_over = False
     game_close = False
-    collision = True
+    collision = False
     vert = (0, 255, 0)
     white = (255, 255, 255)
     black = (0, 0, 0)
@@ -210,7 +210,7 @@ def game_loop(border=False):
         dis.blit(value, [300, 0])
 
         pygame.display.update()
-        clock.tick(15)
+        clock.tick(10)
     pygame.quit()
     quit()
 
