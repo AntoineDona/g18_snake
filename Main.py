@@ -2,7 +2,6 @@ import pygame
 from pygame.locals import *
 from copy import copy
 import random
-from message import message
 import time  # Lola
 
 ## Initialisation des paramètres de la fenêtre de jeu 
