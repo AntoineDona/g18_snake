@@ -47,29 +47,39 @@ def display_ecran_pause():
     dis.blit(message_surface, message_rect)
 
 
-def move(event,dx,dy,game_over,already_changed):
+def move(event,dx,dy,game_over,already_changed,direction):
+    if event.type == pygame.QUIT or (event.type == pygame.KEYDOWN and event.key == pygame.K_ESCAPE):
+        game_over = True
     if event.type == pygame.KEYDOWN:
-        if event.key == pygame.K_LEFT and direction != 'horizontal' and not already_changed:
-            dx = -20
-            dy = 0
-            direction='horizontal'
-            already_changed=True
-        elif event.key == pygame.K_RIGHT and direction != 'horizontal' and not already_changed:
-            dx = 20
-            dy = 0
-            direction='horizontal'
-            already_changed=True
-        elif event.key == pygame.K_UP and direction != 'vertical'and not already_changed:
-            dx = 0
-            dy = -20
-            direction='vertical'
-            already_changed=True
-        elif event.key == pygame.K_DOWN and direction != 'vertical'and not already_changed:
-            dx = 0
-            dy = 20
-            direction='vertical'
-            already_changed=True
-    return dx, dy , game_over, already_changed
+        if event.key == pygame.K_p:
+            exit = False
+            while not(exit):
+                display_ecran_pause()
+                for event2 in pygame.event.get():
+                    if event2.type == pygame.KEYDOWN:
+                        if event2.key == pygame.K_p:
+                            exit = True
+            if event.key == pygame.K_LEFT and direction != 'horizontal' and not already_changed:
+                dx = -20
+                dy = 0
+                direction='horizontal'
+                already_changed=True
+            elif event.key == pygame.K_RIGHT and direction != 'horizontal' and not already_changed:
+                dx = 20
+                dy = 0
+                direction='horizontal'
+                already_changed=True
+            elif event.key == pygame.K_UP and direction != 'vertical'and not already_changed:
+                dx = 0
+                dy = -20
+                direction='vertical'
+                already_changed=True
+            elif event.key == pygame.K_DOWN and direction != 'vertical'and not already_changed:
+                dx = 0
+                dy = 20
+                direction='vertical'
+                already_changed=True
+    return dx, dy, game_over, already_changed, direction
 
 def pomme_coupe2(score, pomme_coupe):
     if not pomme_coupe[2] and score > 5:
@@ -155,7 +165,7 @@ def game_loop(border=False):
         
         already_changed=False
         for event in pygame.event.get():                    #transfo du mouvement en fonction pour les test 
-            dx,dy,game_over,already_changed = move(event,dx,dy,game_over,already_changed)
+            dx,dy,game_over,already_changed,direction = move(event,dx,dy,game_over,already_changed,direction)
             
 
         # on avance
