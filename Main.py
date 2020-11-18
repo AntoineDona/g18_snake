@@ -48,7 +48,7 @@ def display_ecran_pause():
 
 
 def move(event,dx,dy,game_over,already_changed,direction):
-    if event.type == pygame.QUIT or (event.type == pygame.KEYDOWN and event.key == pygame.K_ESCAPE):
+    if event.type == pygame.QUIT or (event.type == pygame.KEYDOWN and event.key == pygame.K_q):
         game_over = True
     if event.type == pygame.KEYDOWN:
         if event.key == pygame.K_p:
@@ -154,7 +154,21 @@ def game_loop(border=False):
     while not game_over:
 
         while game_close == True:
-            display_ecran_pause()
+            police = pygame.font.SysFont('times new roman', 90)
+            game_over_surface = police.render(
+                'Game over', True, (255, 0, 0))  # decription
+            # on récupère les coordonées du rectancle game_over_surface
+            game_over_rect = game_over_surface.get_rect()
+            game_over_rect.midtop = (800/2, 600/4)  # positionnement
+            dis.fill(black)
+            dis.blit(game_over_surface, game_over_rect)  # affiche
+
+            police_message = pygame.font.SysFont('times', 20)
+            message_surface = police_message.render(
+                'Press Q to quit game and C to restart', True, (255, 0, 0))
+            message_rect = message_surface.get_rect()
+            message_rect.midtop = (800/2, 600/1.5)
+            dis.blit(message_surface, message_rect)
             for event in pygame.event.get():
                 if event.type == pygame.KEYDOWN:
                     if event.key == pygame.K_q or event.type == pygame.QUIT:
@@ -195,7 +209,10 @@ def game_loop(border=False):
             l[0][1] = l[0][1] % H
 
         # lorsqu'on se touche
-        detection_auto_collision(l, collision, game_over)
+        for k in range(1, len(l)):  # lorsqu'on se touche
+            if n > 3:
+                if collision and l[0][0] == l[k][0] and l[0][1] == l[k][1]:
+                    game_close = True
 
         # lorsqu'on touche la pomme
         if pomme == l[0]:
