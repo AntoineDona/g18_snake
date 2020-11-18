@@ -23,6 +23,7 @@ pomme = [100, 100]
 score = 0
 n = 3
 
+
 dis = pygame.display.set_mode((L, H))
 pygame.display.set_caption('Snake Game')
 clock = pygame.time.Clock()
@@ -34,7 +35,44 @@ game_over = False
 game_close = False
 border = True
 collision = True
+pomme_rapide = [50,50,False]
 
+def proba_pomme_blanche (pomme_rapide):
+    if pomme_rapide[2]:
+            pygame.draw.rect(dis, white, [pomme_rapide[0], pomme_rapide[1], 20, 20])
+    if not pomme_rapide[2]:
+        p = random.randint(0, 10)
+        if p == 0:
+            pomme_rapide[0] = random.randint(0, (L-20)/20)*20
+            pomme_rapide[1] = random.randint(0, (H-20)/20)*20
+            pomme_rapide[2] = True
+            
+    return pomme_rapide
+
+    
+
+def pomme_blanche (l,score,pomme_rapide,tps_blanche) :
+    if pomme_rapide[2]:
+        if l[0][0] == pomme_rapide[0] and l[0][1] == pomme_rapide[1]:
+            score += 1
+            pygame.draw.rect(dis, black, [pomme_coupe[0], pomme_coupe[1], 10, 10])
+            pomme_rapide[2] = False 
+            tps_blanche.append(0)
+          
+    return score,pomme_rapide,tps_blanche
+
+def  acceleration (tps_blanche,frequence):
+    for i in range(len(tps_blanche)):
+        if tps_blanche[i] == 0 :
+            frequence+=15
+            tps_blanche[-1]=1
+        elif tps_blanche[i] > 0 and tps_blanche[i] <= 15*10 :
+            tps_blanche[i]+=1
+        elif tps_blanche[i] == 151:
+            frequence-=15
+            tps_blanche[i]+=1
+    print(frequence)        
+    return tps_blanche,frequence
 
 def pomme_coupe2(score, pomme_coupe):
     if not pomme_coupe[2] and score > 5:
@@ -82,6 +120,7 @@ def game_loop(border=False):
     game_over = False
     game_close = False
     collision = True
+    pomme_rapide = [50,50,False]
     vert = (0, 255, 0)
     white = (255, 255, 255)
     black = (0, 0, 0)
@@ -96,6 +135,8 @@ def game_loop(border=False):
     pomme = [100, 100]
     score = 0
     n = 3
+    tps_blanche=[]
+    frequence=10
     while not game_over:
 
         while game_close == True:
@@ -129,7 +170,7 @@ def game_loop(border=False):
             time.sleep(1)
 
         for event in pygame.event.get():
-
+            
             if event.type == pygame.QUIT or (event.type == pygame.KEYDOWN and event.key == pygame.K_ESCAPE):
                 game_over = True
             if event.type == pygame.KEYDOWN:
@@ -195,6 +236,14 @@ def game_loop(border=False):
         # si il rencontre une pomme verte sa taille est divisé par 2
         l, score = coll_pomme_coupe(l, score, pomme_coupe)
 
+
+        pomme_rapide = proba_pomme_blanche (pomme_rapide)
+        
+        score,pomme_rapide,tps_blanche = pomme_blanche (l,score,pomme_rapide,tps_blanche)
+        tps_blanche,frequence = acceleration (tps_blanche,frequence)
+        print(tps_blanche)
+        
+
         n = len(l)  # taille du serpent après avoir peut être mangé une pomme
         if pomme_coupe[2]:
             pygame.draw.rect(
@@ -210,7 +259,7 @@ def game_loop(border=False):
         dis.blit(value, [300, 0])
 
         pygame.display.update()
-        clock.tick(15)
+        clock.tick(frequence)
     pygame.quit()
     quit()
 
