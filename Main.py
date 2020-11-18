@@ -34,8 +34,47 @@ pygame.display.set_caption('Snake Game')
 clock = pygame.time.Clock()
 record=0
 
+def ecran_fin(game_close, game_over, record, score):
+    while game_close == True:
+        record=max(record,score) # calcul du record
+        police = pygame.font.SysFont('times new roman', 90)
+        game_over_surface = police.render(
+            'Game over', True, (255, 0, 0))  # decription
+        # on récupère les coordonées du rectancle game_over_surface
+        game_over_rect = game_over_surface.get_rect()
+        game_over_rect.midtop = (800/2, 600/4)  # positionnement
+        dis.fill(black)
+        dis.blit(game_over_surface, game_over_rect)  # affiche
 
-def game_loop():
+        police_score = pygame.font.SysFont('times', 40)
+        score_surface = police_score.render(
+            'Score:'+ str(score)+'   '+'Record:'+ str(record), True, (255, 0, 0))
+        score_rect = score_surface.get_rect()
+        score_rect.midtop = (800/2, 600/2)
+        dis.blit(score_surface, score_rect)
+
+        police_message = pygame.font.SysFont('times', 20)
+        message_surface = police_message.render(
+            'Press Q to quit game and C to restart', True, (255, 0, 0))
+        message_rect = message_surface.get_rect()
+        message_rect.midtop = (800/2, 600/1.5)
+        dis.blit(message_surface, message_rect)
+        for event in pygame.event.get():
+            if event.type == pygame.KEYDOWN:
+                if event.key == pygame.K_q or event.type == pygame.QUIT:
+                    game_over = True
+                    game_close = False
+                    pygame.quit()
+                    quit()
+                if event.key == pygame.K_c:
+                    game_loop(record)
+
+        pygame.display.flip()
+        time.sleep(1)
+    return game_close, game_over, record
+
+
+def game_loop(record):
     game_over = False
     game_close = False
     collision = True
