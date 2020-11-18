@@ -2,10 +2,9 @@ import pygame
 from pygame.locals import *
 from copy import copy
 import random
-from message import message
 import time  # Lola
 
-
+# Initialisation des paramètres de la fenêtre de jeu
 pygame.init()
 
 vert = (0, 255, 0)
@@ -14,6 +13,7 @@ black = (0, 0, 0)
 red = (255, 0, 0)
 violet = (127, 0, 255)
 green = (0, 255, 65)
+
 L = 800
 H = 600
 dx = 0
@@ -34,6 +34,32 @@ game_over = False
 game_close = False
 border = False
 collision = False
+
+
+def move(event, dx, dy, game_over):
+    if event.type == pygame.QUIT or (event.type == pygame.KEYDOWN and event.key == pygame.K_ESCAPE):
+        game_over = True
+    if event.type == pygame.KEYDOWN:
+        if event.key == pygame.K_p:
+            exit = False
+            while not(exit):
+                for event2 in pygame.event.get():
+                    if event2.type == pygame.KEYDOWN:
+                        if event2.key == pygame.K_p:
+                            exit = True
+        if event.key == pygame.K_LEFT:
+            dx = -20
+            dy = 0
+        if event.key == pygame.K_RIGHT:
+            dx = 20
+            dy = 0
+        if event.key == pygame.K_UP:
+            dx = 0
+            dy = -20
+        if event.key == pygame.K_DOWN:
+            dx = 0
+            dy = 20
+    return dx, dy, game_over
 
 
 def pomme_coupe2(score, pomme_coupe):
@@ -81,7 +107,8 @@ def game_loop(border=True):
     pomme_coupe = [0, 0, False]
     game_over = False
     game_close = False
-    collision = False
+    collision = True
+    direction = 'null'
     vert = (0, 255, 0)
     white = (255, 255, 255)
     black = (0, 0, 0)
@@ -128,31 +155,8 @@ def game_loop(border=True):
             pygame.display.flip()
             time.sleep(1)
 
-        for event in pygame.event.get():
-
-            if event.type == pygame.QUIT or (event.type == pygame.KEYDOWN and event.key == pygame.K_ESCAPE):
-                game_over = True
-            if event.type == pygame.KEYDOWN:
-                if event.key == pygame.K_p:
-                    exit = False
-                    while not(exit):
-                        for event2 in pygame.event.get():
-                            if event2.type == pygame.KEYDOWN:
-                                if event2.key == pygame.K_p:
-                                    exit = True
-
-                if event.key == pygame.K_LEFT:
-                    dx = -20
-                    dy = 0
-                if event.key == pygame.K_RIGHT:
-                    dx = 20
-                    dy = 0
-                if event.key == pygame.K_UP:
-                    dx = 0
-                    dy = -20
-                if event.key == pygame.K_DOWN:
-                    dx = 0
-                    dy = 20
+        for event in pygame.event.get():  # transfo du mouvement en fonction pour les test
+            dx, dy, game_over = move(event, dx, dy, game_over)
 
         # on avance
         queue = copy(l[n-1])

@@ -50,6 +50,7 @@ def game_loop(border=True, n=3):
         for event in pygame.event.get():
             if event.type == pygame.QUIT or (event.type == pygame.KEYDOWN and event.key == pygame.K_ESCAPE):
                 game_close = True
+            
             if event.type == pygame.KEYDOWN:
                 if event.key == pygame.K_LEFT:
                     dx = -20
