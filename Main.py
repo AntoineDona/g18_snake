@@ -17,6 +17,15 @@ violet = (127, 0, 255)
 green = (0, 255, 65)
 turquoise = (64, 224, 208)
 rose = (253, 108, 158)
+
+pomme = [100, 100]
+pomme_t = [200, 100, False]
+pomme_coupe = [0, 0, False]
+pomme_rose = [10, 10, False]
+pomme_rapide = [50, 50, False]
+tps_turquoise = -1
+tps_blanche = []
+
 dis = pygame.display.set_mode((L, H))
 pygame.display.set_caption('Snake Game')
 clock = pygame.time.Clock()
@@ -24,6 +33,59 @@ record=0
 
 
 # fonction
+def proba_pomme_blanche(pomme_rapide):
+    if pomme_rapide[2]:
+        pygame.draw.rect(
+            dis, white, [pomme_rapide[0], pomme_rapide[1], 20, 20])
+    if not pomme_rapide[2]:
+        p = random.randint(0, 81)
+        if p == 0:
+            pomme_rapide[0] = random.randint(0, (L-20)/20)*20
+            pomme_rapide[1] = random.randint(0, (H-20)/20)*20
+            pomme_rapide[2] = True
+
+    return pomme_rapide
+
+
+def pomme_blanche(l, score, pomme_rapide, tps_blanche):
+    if pomme_rapide[2]:
+        if l[0][0] == pomme_rapide[0] and l[0][1] == pomme_rapide[1]:
+            score += 10
+            pygame.draw.rect(
+                dis, black, [pomme_coupe[0], pomme_coupe[1], 10, 10])
+            pomme_rapide[2] = False
+            tps_blanche.append(0)
+
+    return score, pomme_rapide, tps_blanche
+
+
+def acceleration(tps_blanche, frequence):
+    for i in range(len(tps_blanche)):
+        if tps_blanche[i] == 0:
+            frequence += 15
+            tps_blanche[-1] = 1
+        elif tps_blanche[i] > 0 and tps_blanche[i] <= frequence*10:
+            tps_blanche[i] += 1
+        elif tps_blanche[i] == (frequence*10)+1:
+            frequence -= 15
+            tps_blanche[i] += 1
+
+    return tps_blanche, frequence
+
+
+def collision_pomme(score, pomme, l, queue):
+    if pomme == l[0]:
+        score += 1
+        l.append([queue[0], queue[1]])
+
+        pygame.draw.rect(dis, black, [pomme[0], pomme[1], 20, 20])
+        pomme[0] = random.randint(0, (L-20)/20)*20
+        pomme[1] = random.randint(0, (H-20)/20)*20
+
+    pygame.draw.rect(dis, red, [pomme[0], pomme[1], 20, 20])
+    return score, pomme, l, queue
+
+
 def collision_pomme(score, pomme, l, queue):
     if pomme == l[0]:
         score += 1
@@ -281,7 +343,9 @@ def game_loop(record):
     pomme_t = [200, 100, False]
     pomme_coupe = [0, 0, False]
     pomme_rose = [10, 10, False]
+    pomme_rapide = [50, 50, False]
     tps_turquoise = -1
+    tps_blanche = []
 
     score = 0
     level = 0
@@ -304,21 +368,6 @@ def game_loop(record):
         # detection mur ou soit même
         l, game_close = detection_collision_bordure(l, border, game_close)
         game_close = detection_auto_collision(l, collision, game_close, n)
-
-        # lorsqu'on touche le bord
-        #detection_collision_bordure(l, border, game_over)
-        # if border and (l[0][0] < 20 or l[0][0] > L-20 or l[0][1] < 20 or l[0][1] > H-20):
-        #game_close = True
-        # si bord désactivé on passe de l'autre coté
-        # if not border and (l[0][0] < 10 or l[0][0] > L-10 or l[0][1] < 10 or l[0][1] > H-10):
-        #l[0][0] = l[0][0] % L
-        #l[0][1] = l[0][1] % H
-
-        # lorsqu'on se touche
-        # for k in range(1, len(l)):  # lorsqu'on se touche
-        # if n > 3:
-        # if collision and l[0][0] == l[k][0] and l[0][1] == l[k][1]:
-        #game_close = True
 
         # lorsqu'on touche la pomme
         score, pomme, l, queue = collision_pomme(score, pomme, l, queue)
@@ -346,9 +395,11 @@ def game_loop(record):
         # lorsqu'on touche un pomme rose
         l, score = collision_pomme_rose(l, score, pomme_rose, queue)
 
-        # s'il rencontre une pomme rose, la taille du serpent augmente de 1 et gagne 3 points
-        # if pomme_rose[2]:
-        #pygame.draw.rect(dis, rose, [pomme_rose[0], pomme_rose[1], 20, 20])
+        # lorsqu'on touche une pomme blanche on accèlere pendant 10sec
+        pomme_rapide = proba_pomme_blanche(pomme_rapide)
+        score, pomme_rapide, tps_blanche = pomme_blanche(
+            l, score, pomme_rapide, tps_blanche)
+        tps_blanche, frequence = acceleration(tps_blanche, frequence)
 
         # on affiche le serpent
         affiche_snake(l)
