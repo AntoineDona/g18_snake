@@ -17,55 +17,85 @@ green = (0, 255, 65)
 L = 800
 H = 600
 
-dis = pygame.display.set_mode((L, H))
-pygame.display.set_caption('Snake Game')
 
+def game_loop():  
 
-def game_loop(border=True,n=3):                 
     dis = pygame.display.set_mode((L, H))       
-    pygame.display.set_caption('Snake Game')    
+    pygame.display.set_caption('Snake Game')  
 
-game_over = False
-border=False
-collision=False
-direction='null'
-
-    dx = 0                                      
+    dx = 0                             
     dy = 0
 
     l = [[300, 300], [280, 300], [260, 300]]
     pomme = [100, 100]
 
     n = 3
+
+    border=True
+    collision=False
+    direction='null'              
+    
     clock = pygame.time.Clock()
     game_over = False
     game_close = False
+    pause=False
 
-def detection_collision_bordure():
-    if border and (l[0][0] < 10 or l[0][0] > L-10 or l[0][1] < 10 or l[0][1] > H-10):  # lorsqu'on touche le bord
-        game_over = True
-    if not border and (l[0][0] < 10 or l[0][0] > L-10 or l[0][1] < 10 or l[0][1] > H-10): #si bord désactivé on passe de l'autre coté
-        l[0][0]=l[0][0]%L
-        l[0][1]=l[0][1]%H
+    def detection_collision_bordure():
+        if border and (l[0][0] < 10 or l[0][0] > L-10 or l[0][1] < 10 or l[0][1] > H-10):  # lorsqu'on touche le bord
+            game_over = True
+        if not border and (l[0][0] < 10 or l[0][0] > L-10 or l[0][1] < 10 or l[0][1] > H-10): #si bord désactivé on passe de l'autre coté
+            l[0][0]=l[0][0]%L
+            l[0][1]=l[0][1]%H
 
-def detection_auto_collision():
-    for k in range(1, len(l)):  # lorsqu'on se touche
-        if n > 3:
-            if collision and l[0][0] == l[k][0] and l[0][1] == l[k][1]:
-                game_over = True
+    def detection_auto_collision():
+        for k in range(1, len(l)):  # lorsqu'on se touche
+            if n > 3:
+                if collision and l[0][0] == l[k][0] and l[0][1] == l[k][1]:
+                    game_over = True
+    
+    def paused():
+        screen.fill(black)
 
-    while not game_over:
+        largeText = pygame.font.SysFont("comicsansms",115)
+        TextSurf, TextRect = text_objects("Paused", largeText)
+        TextRect.center = ((L/2),(H/2))
+        dis.blit(TextSurf, TextRect)
 
-        while game_close == True:
+
+        while pause:
+            for event in pygame.event.get():
+
+                if event.type == pygame.QUIT:
+                    pygame.quit()
+                    quit()
+
+            #gameDisplay.fill(white)
+
+
+            button("Continue",150,450,100,50,green,bright_green,unpause)
+            button("Quit",550,450,100,50,red,bright_red,quitgame)
+
+            pygame.display.update()
+            clock.tick(15)  
+
+
+    while not game_close:
+
+        while game_over == True:
             dis.fill(white)
             message("You Lost! Press Q-Quit or C-Play Again", red,dis)
             pygame.display.update()
 
             for event in pygame.event.get():
+                if event.type == pygame.QUIT or (event.type == pygame.KEYDOWN and event.key == pygame.K_ESCAPE):
+                    game_close=True
+                    game_over=False
+                    pygame.quit()
+                    quit()
                 if event.type == pygame.KEYDOWN:
                     if event.key == pygame.K_q:
-                        game_over = True
-                        game_close = False
+                        game_close=True
+                        game_over=False
                         pygame.quit()
                         quit()
                     if event.key == pygame.K_c:
@@ -74,8 +104,17 @@ def detection_auto_collision():
 
 
         for event in pygame.event.get():
+            if event.type == pygame.KEYUP:
+                 if event.key==K_p:
+                     pause=True
+                 if pause == True:
+                     dis.fill(black)
+                     myfont=pygame.font.SysFont("Britannic Bold", 40)
+                     nlabelBB=myfont.render("Pause", 1, (255, 0, 0))
+                     dis.blit(nlabelBB,(200, 100))
+                     pygame.display.flip()
             if event.type == pygame.QUIT or (event.type == pygame.KEYDOWN and event.key == pygame.K_ESCAPE):
-                game_close = True
+                game_close=True
             if event.type == pygame.KEYDOWN:
                 if event.key == pygame.K_LEFT and direction != 'horizontal':
                     dx = -20
@@ -95,19 +134,12 @@ def detection_auto_collision():
                     direction='vertical'
 
         if border and (l[0][0] < 10 or l[0][0] > L-10 or l[0][1] < 10 or l[0][1] > H-10):  # lorsqu'on touche le bord
-            game_close = True ## Lola
-    
+            game_over = True
         if not border and (l[0][0] < 10 or l[0][0] > L-10 or l[0][1] < 10 or l[0][1] > H-10): #si bord désactivé on passe de l'autre coté
             l[0][0]=l[0][0]%L
             l[0][1]=l[0][1]%H
-
-        for k in range(1, len(l)):  # lorsqu'on se touche
-            if n > 3:
-                if l[0][0] == l[k][0] and l[0][1] == l[k][1]:
-                    game_close = True ## Lola
-        detection_collision_bordure()
         detection_auto_collision()
-        
+
         queue = copy(l[n-1])
         for k in range(0, n-1):
             l[n-1-k] = copy(l[n-2-k])
@@ -126,20 +158,22 @@ def detection_auto_collision():
             pygame.draw.rect(dis, violet, [x[0], x[1], 20, 20])
         pygame.display.update()
 
-    score_font = pygame.font.SysFont("comicsansms", 35)
-    value = score_font.render("Your Score: " + str(len(l)-3), True, red)
-    dis.blit(value, [300, 0])
+        score_font = pygame.font.SysFont("comicsansms", 35)
+        value = score_font.render("Your Score: " + str(len(l)-3), True, red)
+        dis.blit(value, [300, 0])
 
-    pygame.display.update()
-    clock.tick(20)
+        pygame.display.update()
+        clock.tick(20)
 
-    message("You lost",red, dis) #### Lola
+    #score_font = pygame.font.SysFont("comicsansms", 35)
+    #perdu=font_style.render("You lost", True, red)
+    #dis.blit(perdu, [L/2,H/2]) #### Lola
+    #message("You lost",red, dis)
     pygame.display.update() #### Lola
-    time.sleep(10) #### Lola
+    #time.sleep(5) #### Lola
 
     pygame.quit()
     quit()
-
 
 
 game_loop()
