@@ -4,6 +4,7 @@ from copy import copy
 import random
 from message import message
 import time  # Lola
+from math import floor
 
 
 pygame.init()
@@ -22,6 +23,7 @@ dy = 0
 l = [[300, 300], [280, 300], [260, 300]]
 pomme = [100, 100]
 score = 0
+level = 0
 n = 3
 
 dis = pygame.display.set_mode((L, H))
@@ -75,6 +77,9 @@ def detection_auto_collision(l, collision, game_over):
             if collision and l[0][0] == l[k][0] and l[0][1] == l[k][1]:
                 game_over = True
 
+def update_level(score, n=5):
+    return floor(score/n)
+
 
 # fin fonction
 
@@ -97,6 +102,7 @@ def game_loop(border=False):
     l = [[300, 300], [280, 300], [260, 300]]
     pomme = [100, 100]
     score = 0
+    level = 0
     n = 3
     while not game_over:
 
@@ -164,23 +170,27 @@ def game_loop(border=False):
                         pygame.display.flip()
                         time.sleep(1)
 
-                if event.key == pygame.K_LEFT and direction != 'horizontal':
+                if event.key == pygame.K_LEFT and direction != 'horizontal' and not already_changed:
                     dx = -20
                     dy = 0
                     direction='horizontal'
-                elif event.key == pygame.K_RIGHT and direction != 'horizontal':
+                    already_changed=True
+                elif event.key == pygame.K_RIGHT and direction != 'horizontal' and not already_changed:
                     dx = 20
                     dy = 0
                     direction='horizontal'
-                elif event.key == pygame.K_UP and direction != 'vertical':
+                    already_changed=True
+                elif event.key == pygame.K_UP and direction != 'vertical'and not already_changed:
                     dx = 0
                     dy = -20
                     direction='vertical'
-                elif event.key == pygame.K_DOWN and direction != 'vertical':
+                    already_changed=True
+                elif event.key == pygame.K_DOWN and direction != 'vertical'and not already_changed:
                     dx = 0
                     dy = 20
                     direction='vertical'
-
+                    already_changed=True
+        already_changed=False
         # on avance
         queue = copy(l[n-1])
         for k in range(0, n-1):
@@ -194,6 +204,7 @@ def game_loop(border=False):
         # detection_auto_collision(l, collision, game_over)
 
         # lorsqu'on touche le bord
+        #detection_collision_bordure(l, border, game_over)
         if border and (l[0][0] < 20 or l[0][0] > L-20 or l[0][1] < 20 or l[0][1] > H-20):
             game_close = True
         # si bord désactivé on passe de l'autre coté
@@ -202,10 +213,7 @@ def game_loop(border=False):
             l[0][1] = l[0][1] % H
 
         # lorsqu'on se touche
-        for k in range(1, len(l)):
-            if n > 3:
-                if collision and l[0][0] == l[k][0] and l[0][1] == l[k][1]:
-                    game_close = True
+        detection_auto_collision(l, collision, game_over)
 
         # lorsqu'on touche la pomme
         if pomme == l[0]:
@@ -231,10 +239,14 @@ def game_loop(border=False):
             pygame.draw.rect(dis, violet, [x[0], x[1], 20, 20])
         pygame.display.update()
 
-        # on affiche le score
+        level=update_level(score)
+        # on affiche le score et le niveau
         score_font = pygame.font.SysFont("Times new roman", 35)
-        value = score_font.render("Your Score: " + str(score), True, red)
-        dis.blit(value, [300, 0])
+        value_score = score_font.render("Your Score: " + str(score), True, red)
+        dis.blit(value_score, [0, 0])
+
+        value_level = score_font.render("Your Level: " + str(level), True, red)
+        dis.blit(value_level, [600, 0])
 
         pygame.display.update()
         clock.tick(15)
