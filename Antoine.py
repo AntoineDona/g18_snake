@@ -110,6 +110,7 @@ while (end_it==False):
     nlabel=myfont.render("Welcome to "+ " Jet shooter ", 1, (255, 0, 0))
     label=myfont.render("Click on the mouse to start ", 1, (255, 0, 0))
     for event in pygame.event.get():
+    <<<<<<< HEAD
         if event.type == pygame.MOUSEBUTTONDOWN:
             end_it=True
 
@@ -194,3 +195,33 @@ clock.tick(20)
 # Be IDLE friendly. If you forget this line, the program will 'hang'
 # on exit.
 pygame.quit()
+=======
+        if event.type==pygame.QUIT:
+            game_over=True
+    pygame.draw.rect(dis,blue,[0,0,20,20])
+    pygame.display.update()
+pygame.quit()
+quit()
+
+direction = 'null'
+
+if event.type == pygame.QUIT or (event.type == pygame.KEYDOWN and event.key == pygame.K_ESCAPE):
+            game_over = True
+        if event.type == pygame.KEYDOWN:
+            if event.key == pygame.K_LEFT and direction != 'horizontal':
+                dx = -20
+                dy = 0
+                direction='horizontal'
+            elif event.key == pygame.K_RIGHT and direction != 'horizontal':
+                dx = 20
+                dy = 0
+                direction='horizontal'
+            elif event.key == pygame.K_UP and direction != 'vertical':
+                dx = 0
+                dy = -20
+                direction='vertical'
+            elif event.key == pygame.K_DOWN and direction != 'vertical':
+                dx = 0
+                dy = 20
+                direction='vertical'
+>>>>>>> master
