@@ -3,7 +3,7 @@ from pygame.locals import *
 from copy import copy
 import random
 from message import message
-import time  #### Lola
+import time  # Lola
 
 
 pygame.init()
@@ -17,12 +17,10 @@ L = 800
 H = 600
 
 
-
-
-def game_loop(border=True,n=3):                 
-    dis = pygame.display.set_mode((L, H))       
-    pygame.display.set_caption('Snake Game')    
-    dx = 0                                      
+def game_loop(border=True, n=3):
+    dis = pygame.display.set_mode((L, H))
+    pygame.display.set_caption('Snake Game')
+    dx = 0
     dy = 0
 
     l = [[300, 300], [280, 300], [260, 300]]
@@ -37,7 +35,7 @@ def game_loop(border=True,n=3):
         
         while game_close == True:
             dis.fill(white)
-            message("You Lost! Press Q-Quit or C-Play Again", red,dis)
+            message("You Lost! Press Q-Quit or C-Play Again", red, dis)
             pygame.display.update()
             temps = pygame.time.get_ticks()
             for event in pygame.event.get():
@@ -49,8 +47,6 @@ def game_loop(border=True,n=3):
                         quit()
                     if event.key == pygame.K_c:
                         game_loop()
-
-
 
         for event in pygame.event.get():
             if event.type == pygame.QUIT or (event.type == pygame.KEYDOWN and event.key == pygame.K_ESCAPE):
@@ -69,18 +65,19 @@ def game_loop(border=True,n=3):
                     dx = 0
                     dy = 20
 
-        if border and (l[0][0] < 10 or l[0][0] > L-10 or l[0][1] < 10 or l[0][1] > H-10):  # lorsqu'on touche le bord
-            game_close = True ## Lola
-    
-        if not border and (l[0][0] < 10 or l[0][0] > L-10 or l[0][1] < 10 or l[0][1] > H-10): #si bord désactivé on passe de l'autre coté
-            l[0][0]=l[0][0]%L
-            l[0][1]=l[0][1]%H
+        # lorsqu'on touche le bord
+        if border and (l[0][0] < 10 or l[0][0] > L-10 or l[0][1] < 10 or l[0][1] > H-10):
+            game_close = True  # Lola
+
+        # si bord désactivé on passe de l'autre coté
+        if not border and (l[0][0] < 10 or l[0][0] > L-10 or l[0][1] < 10 or l[0][1] > H-10):
+            l[0][0] = l[0][0] % L
+            l[0][1] = l[0][1] % H
 
         for k in range(1, len(l)):  # lorsqu'on se touche
             if n > 3:
                 if l[0][0] == l[k][0] and l[0][1] == l[k][1]:
-                    game_close = True ## Lola
-
+                    game_close = True  # Lola
 
         queue = copy(l[n-1])
         for k in range(0, n-1):
@@ -108,13 +105,12 @@ def game_loop(border=True,n=3):
 
         clock.tick(20)
 
-    message("You lost",red, dis) #### Lola
-    pygame.display.update() #### Lola
-    time.sleep(10) #### Lola
+    message("You lost", red, dis)  # Lola
+    pygame.display.update()  # Lola
+    time.sleep(10)  # Lola
 
     pygame.quit()
     quit()
-
 
 
 game_loop()
