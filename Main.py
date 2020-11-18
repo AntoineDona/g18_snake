@@ -265,7 +265,7 @@ def affiche_snake(l):
 def detection_collision_bordure(l, border, game_over):
     # lorsqu'on touche le bord
     if border and (l[0][0] < 20 or l[0][0] > L-20 or l[0][1] < 20 or l[0][1] > H-20):
-        game_close = True
+        game_over = True
     # si bord désactivé on passe de l'autre coté
     if not border and (l[0][0] < 10 or l[0][0] > L-10 or l[0][1] < 10 or l[0][1] > H-10):
         l[0][0] = l[0][0] % L
