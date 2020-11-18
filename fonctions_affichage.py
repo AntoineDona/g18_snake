@@ -66,7 +66,7 @@ def update_level(score, n=5):
     return floor(score/n)
 
 
-def ecran_fin(game_close, game_over):
+def ecran_fin(game_close, game_over, record, score):
     while game_close == True:
         police = pygame.font.SysFont('times new roman', 90)
         game_over_surface = police.render(
