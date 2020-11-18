@@ -3,6 +3,7 @@ from pygame.locals import *
 from copy import copy
 import random
 import time  # Lola
+from math import floor
 
 L = 800
 H = 600
@@ -19,6 +20,14 @@ violet = (127, 0, 255)
 green = (0, 255, 65)
 turquoise = (64, 224, 208)
 rose = (253, 108, 158)
+
+pomme = [100, 100]
+pomme_t = [200, 100, False]
+pomme_coupe = [0, 0, False]
+pomme_rose = [10, 10, False]
+pomme_rapide = [50, 50, False]
+tps_turquoise = -1
+tps_blanche = []
 
 
 def display_ecran_pause():

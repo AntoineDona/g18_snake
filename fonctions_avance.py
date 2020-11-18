@@ -3,6 +3,7 @@ from pygame.locals import *
 from copy import copy
 import random
 import time  # Lola
+from math import floor
 
 L = 800
 H = 600
