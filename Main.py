@@ -5,11 +5,7 @@ import random
 import time  # Lola
 from math import floor
 
-<<<<<<< HEAD
 # Initialisation des paramètres de la fenêtre de jeu
-=======
-## Initialisation des paramètres de la fenêtre de jeu 
->>>>>>> Antoine
 pygame.init()
 
 vert = (0, 255, 0)
