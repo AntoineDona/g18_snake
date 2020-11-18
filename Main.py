@@ -2,7 +2,7 @@ import pygame
 from pygame.locals import *
 from copy import copy
 import random
-from message import message
+
 import time  # Lola
 
 ## Initialisation des paramètres de la fenêtre de jeu 
@@ -29,7 +29,30 @@ clock = pygame.time.Clock()
 
 
 
-
+def move(event,dx,dy,game_over):
+    if event.type == pygame.QUIT or (event.type == pygame.KEYDOWN and event.key == pygame.K_ESCAPE):
+        game_over = True
+    if event.type == pygame.KEYDOWN:
+        if event.key == pygame.K_p:
+            exit = False
+            while not(exit):
+                for event2 in pygame.event.get():
+                    if event2.type == pygame.KEYDOWN:
+                        if event2.key == pygame.K_p:
+                            exit = True
+        if event.key == pygame.K_LEFT:
+            dx = -20
+            dy = 0
+        if event.key == pygame.K_RIGHT:
+            dx = 20
+            dy = 0
+        if event.key == pygame.K_UP:
+            dx = 0
+            dy = -20
+        if event.key == pygame.K_DOWN:
+            dx = 0
+            dy = 20
+    return dx, dy , game_over
 
 def pomme_coupe2(score, pomme_coupe):
     if not pomme_coupe[2] and score > 5:
@@ -123,31 +146,9 @@ def game_loop(border=False):
             pygame.display.flip()
             time.sleep(1)
 
-        for event in pygame.event.get():
-
-            if event.type == pygame.QUIT or (event.type == pygame.KEYDOWN and event.key == pygame.K_ESCAPE):
-                game_over = True
-            if event.type == pygame.KEYDOWN:
-                if event.key == pygame.K_p:
-                    exit = False
-                    while not(exit):
-                        for event2 in pygame.event.get():
-                            if event2.type == pygame.KEYDOWN:
-                                if event2.key == pygame.K_p:
-                                    exit = True
-
-                if event.key == pygame.K_LEFT:
-                    dx = -20
-                    dy = 0
-                if event.key == pygame.K_RIGHT:
-                    dx = 20
-                    dy = 0
-                if event.key == pygame.K_UP:
-                    dx = 0
-                    dy = -20
-                if event.key == pygame.K_DOWN:
-                    dx = 0
-                    dy = 20
+        for event in pygame.event.get():                    #transfo du mouvement en fonction pour les test 
+            dx,dy,game_over = move(event,dx,dy,game_over)
+            
 
         # on avance
         queue = copy(l[n-1])
