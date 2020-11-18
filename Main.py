@@ -13,6 +13,7 @@ black = (0, 0, 0)
 red = (255, 0, 0)
 violet = (127, 0, 255)
 green = (0, 255, 65)
+
 L = 800
 H = 600
 dx = 0
@@ -76,6 +77,7 @@ def game_loop(border=False):
     game_over = False
     game_close = False
     collision = True
+    direction='null'
     vert = (0, 255, 0)
     white = (255, 255, 255)
     black = (0, 0, 0)
@@ -135,18 +137,22 @@ def game_loop(border=False):
                                 if event2.key == pygame.K_p:
                                     exit = True
 
-                if event.key == pygame.K_LEFT:
+                if event.key == pygame.K_LEFT and direction != 'horizontal':
                     dx = -20
                     dy = 0
-                if event.key == pygame.K_RIGHT:
+                    direction='horizontal'
+                elif event.key == pygame.K_RIGHT and direction != 'horizontal':
                     dx = 20
                     dy = 0
-                if event.key == pygame.K_UP:
+                    direction='horizontal'
+                elif event.key == pygame.K_UP and direction != 'vertical':
                     dx = 0
                     dy = -20
-                if event.key == pygame.K_DOWN:
+                    direction='vertical'
+                elif event.key == pygame.K_DOWN and direction != 'vertical':
                     dx = 0
                     dy = 20
+                    direction='vertical'
 
         # on avance
         queue = copy(l[n-1])
