@@ -96,7 +96,6 @@ def game_loop(record):
 
     score = 0
     level = 0
-    record=0
     n = 3
     while not game_over:
 

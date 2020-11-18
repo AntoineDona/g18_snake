@@ -49,6 +49,7 @@ def display_ecran_pause():
 
 
 def newsnake(l, n, dx, dy):
+    #deplace le snake de dx dy
     for k in range(0, n-1):
         l[n-1-k] = copy(l[n-2-k])
     l[0][0] += dx
