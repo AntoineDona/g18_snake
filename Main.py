@@ -23,6 +23,19 @@ clock = pygame.time.Clock()
 
 
 # fonction
+def collision_pomme(score, pomme, l, queue):
+    if pomme == l[0]:
+        score += 1
+        l.append([queue[0], queue[1]])
+
+        pygame.draw.rect(dis, black, [pomme[0], pomme[1], 20, 20])
+        pomme[0] = random.randint(0, (L-20)/20)*20
+        pomme[1] = random.randint(0, (H-20)/20)*20
+
+    pygame.draw.rect(dis, red, [pomme[0], pomme[1], 20, 20])
+    return score, pomme, l, queue
+
+
 def apparition_pomme_rose(score, pomme_rose):
     if pomme_rose[2]:
         pygame.draw.rect(
@@ -194,20 +207,54 @@ def detection_collision_bordure(l, border, game_over):
     if not border and (l[0][0] < 10 or l[0][0] > L-10 or l[0][1] < 10 or l[0][1] > H-10):
         l[0][0] = l[0][0] % L
         l[0][1] = l[0][1] % H
+    return l, game_over
 
 
-def detection_auto_collision(l, collision, game_over):
+def detection_auto_collision(l, collision, game_over, n):
     for k in range(1, len(l)):  # lorsqu'on se touche
         if n > 3:
             if collision and l[0][0] == l[k][0] and l[0][1] == l[k][1]:
                 game_over = True
+    return game_over
 
 
 def update_level(score, n=5):
     return floor(score/n)
 
 
+def ecran_fin(game_close, game_over):
+    while game_close == True:
+        police = pygame.font.SysFont('times new roman', 90)
+        game_over_surface = police.render(
+            'Game over', True, (255, 0, 0))  # decription
+        # on récupère les coordonées du rectancle game_over_surface
+        game_over_rect = game_over_surface.get_rect()
+        game_over_rect.midtop = (800/2, 600/4)  # positionnement
+        dis.fill(black)
+        dis.blit(game_over_surface, game_over_rect)  # affiche
+
+        police_message = pygame.font.SysFont('times', 20)
+        message_surface = police_message.render(
+            'Press Q to quit game and C to restart', True, (255, 0, 0))
+        message_rect = message_surface.get_rect()
+        message_rect.midtop = (800/2, 600/1.5)
+        dis.blit(message_surface, message_rect)
+        for event in pygame.event.get():
+            if event.type == pygame.KEYDOWN:
+                if event.key == pygame.K_q or event.type == pygame.QUIT:
+                    game_over = True
+                    game_close = False
+                    pygame.quit()
+                    quit()
+                if event.key == pygame.K_c:
+                    game_loop()
+
+        pygame.display.flip()
+        time.sleep(1)
+    return game_close, game_over
+
 # fin fonction
+
 
 def game_loop():
     game_over = False
@@ -232,34 +279,7 @@ def game_loop():
     n = 3
     while not game_over:
 
-        while game_close == True:
-            police = pygame.font.SysFont('times new roman', 90)
-            game_over_surface = police.render(
-                'Game over', True, (255, 0, 0))  # decription
-            # on récupère les coordonées du rectancle game_over_surface
-            game_over_rect = game_over_surface.get_rect()
-            game_over_rect.midtop = (800/2, 600/4)  # positionnement
-            dis.fill(black)
-            dis.blit(game_over_surface, game_over_rect)  # affiche
-
-            police_message = pygame.font.SysFont('times', 20)
-            message_surface = police_message.render(
-                'Press Q to quit game and C to restart', True, (255, 0, 0))
-            message_rect = message_surface.get_rect()
-            message_rect.midtop = (800/2, 600/1.5)
-            dis.blit(message_surface, message_rect)
-            for event in pygame.event.get():
-                if event.type == pygame.KEYDOWN:
-                    if event.key == pygame.K_q or event.type == pygame.QUIT:
-                        game_over = True
-                        game_close = False
-                        pygame.quit()
-                        quit()
-                    if event.key == pygame.K_c:
-                        game_loop()
-
-            pygame.display.flip()
-            time.sleep(1)
+        game_close, game_over = ecran_fin(game_close, game_over)
 
         already_changed = False
         for event in pygame.event.get():  # transfo du mouvement en fonction pour les test
@@ -272,34 +292,26 @@ def game_loop():
         dis.fill(black)
 
         # detection mur ou soit même
-        # detection_collision_bordure(l, border, game_over)
-        # detection_auto_collision(l, collision, game_over)
+        l, game_close = detection_collision_bordure(l, border, game_close)
+        game_close = detection_auto_collision(l, collision, game_close, n)
 
         # lorsqu'on touche le bord
         #detection_collision_bordure(l, border, game_over)
-        if border and (l[0][0] < 20 or l[0][0] > L-20 or l[0][1] < 20 or l[0][1] > H-20):
-            game_close = True
+        # if border and (l[0][0] < 20 or l[0][0] > L-20 or l[0][1] < 20 or l[0][1] > H-20):
+        #game_close = True
         # si bord désactivé on passe de l'autre coté
-        if not border and (l[0][0] < 10 or l[0][0] > L-10 or l[0][1] < 10 or l[0][1] > H-10):
-            l[0][0] = l[0][0] % L
-            l[0][1] = l[0][1] % H
+        # if not border and (l[0][0] < 10 or l[0][0] > L-10 or l[0][1] < 10 or l[0][1] > H-10):
+        #l[0][0] = l[0][0] % L
+        #l[0][1] = l[0][1] % H
 
         # lorsqu'on se touche
-        for k in range(1, len(l)):  # lorsqu'on se touche
-            if n > 3:
-                if collision and l[0][0] == l[k][0] and l[0][1] == l[k][1]:
-                    game_close = True
+        # for k in range(1, len(l)):  # lorsqu'on se touche
+        # if n > 3:
+        # if collision and l[0][0] == l[k][0] and l[0][1] == l[k][1]:
+        #game_close = True
 
         # lorsqu'on touche la pomme
-        if pomme == l[0]:
-            score += 1
-            l.append([queue[0], queue[1]])
-
-            pygame.draw.rect(dis, black, [pomme[0], pomme[1], 20, 20])
-            pomme[0] = random.randint(0, (L-20)/20)*20
-            pomme[1] = random.randint(0, (H-20)/20)*20
-
-        pygame.draw.rect(dis, red, [pomme[0], pomme[1], 20, 20])
+        score, pomme, l, queue = collision_pomme(score, pomme, l, queue)
 
         # une pomme verte peut apparaitre, s'il y en a déjà déjà une on l'affiche
         pomme_coupe = pomme_coupe2(score, pomme_coupe, l)
