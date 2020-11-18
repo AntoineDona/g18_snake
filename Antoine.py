@@ -76,3 +76,4 @@ if event.type == pygame.QUIT or (event.type == pygame.KEYDOWN and event.key == p
                     direction='vertical'
                     already_changed=True
         already_changed=False
+
