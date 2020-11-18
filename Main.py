@@ -25,6 +25,7 @@ pomme = [100, 100]
 score = 0
 level = 0
 n = 3
+record=0
 
 dis = pygame.display.set_mode((L, H))
 pygame.display.set_caption('Snake Game')
@@ -169,7 +170,7 @@ def affiche_snake(l):
 def detection_collision_bordure(l, border, game_over):
     # lorsqu'on touche le bord
     if border and (l[0][0] < 20 or l[0][0] > L-20 or l[0][1] < 20 or l[0][1] > H-20):
-        game_over = True
+        game_close = True
     # si bord désactivé on passe de l'autre coté
     if not border and (l[0][0] < 10 or l[0][0] > L-10 or l[0][1] < 10 or l[0][1] > H-10):
         l[0][0] = l[0][0] % L
@@ -180,7 +181,7 @@ def detection_auto_collision(l, collision, game_over):
     for k in range(1, len(l)):  # lorsqu'on se touche
         if n > 3:
             if collision and l[0][0] == l[k][0] and l[0][1] == l[k][1]:
-                game_over = True
+                game_close = True
 
 def update_level(score, n=5):
     return floor(score/n)
@@ -188,7 +189,7 @@ def update_level(score, n=5):
 
 # fin fonction
 
-def game_loop():
+def game_loop(record):
     game_over = False
     game_close = False
     collision = True
@@ -196,7 +197,7 @@ def game_loop():
     border = True
     score = 0
     n = 3
-    frequence = 10
+    frequence = 15
     vert = (0, 255, 0)
     white = (255, 255, 255)
     black = (0, 0, 0)
@@ -220,6 +221,9 @@ def game_loop():
     while not game_over:
 
         while game_close == True:
+            
+            record=max(record,score) # calcul du record
+
             police = pygame.font.SysFont('times new roman', 90)
             game_over_surface = police.render(
                 'Game over', True, (255, 0, 0))  # decription
@@ -229,21 +233,28 @@ def game_loop():
             dis.fill(black)
             dis.blit(game_over_surface, game_over_rect)  # affiche
 
+            police_score = pygame.font.SysFont('times', 40)
+            score_surface = police_score.render(
+                'Score:'+ str(score)+'   '+'Record:'+ str(record), True, (255, 0, 0))
+            score_rect = score_surface.get_rect()
+            score_rect.midtop = (800/2, 600/2)
+            dis.blit(score_surface, score_rect)
+
             police_message = pygame.font.SysFont('times', 20)
             message_surface = police_message.render(
                 'Press Q to quit game and C to restart', True, (255, 0, 0))
             message_rect = message_surface.get_rect()
             message_rect.midtop = (800/2, 600/1.5)
             dis.blit(message_surface, message_rect)
+
             for event in pygame.event.get():
-                if event.type == pygame.KEYDOWN:
-                    if event.key == pygame.K_q or event.type == pygame.QUIT:
-                        game_over = True
-                        game_close = False
-                        pygame.quit()
-                        quit()
-                    if event.key == pygame.K_c:
-                        game_loop()
+                if (event.type == pygame.KEYDOWN and event.key == pygame.K_q) or event.type == pygame.QUIT:
+                    game_over = True
+                    game_close = False
+                    pygame.quit()
+                    quit()
+                if event.type == pygame.KEYDOWN and event.key == pygame.K_c:
+                    game_loop(record)
 
             pygame.display.flip()
             time.sleep(1)
@@ -311,10 +322,11 @@ def game_loop():
         level=update_level(score)
         # on affiche le score et le niveau
         score_font = pygame.font.SysFont("Times new roman", 35)
-        value_score = score_font.render("Your Score: " + str(score), True, red)
+        value_score = score_font.render("Score: " + str(score), True, red)
         dis.blit(value_score, [0, 0])
-
-        value_level = score_font.render("Your Level: " + str(level), True, red)
+        value_record = score_font.render("Record: " + str(record), True, red)
+        dis.blit(value_record, [300, 0])
+        value_level = score_font.render("Level: " + str(level), True, red)
         dis.blit(value_level, [600, 0])
 
         pygame.display.update()
@@ -323,4 +335,4 @@ def game_loop():
     quit()
 
 
-game_loop()
+game_loop(record)
