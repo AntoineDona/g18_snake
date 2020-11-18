@@ -8,24 +8,6 @@ from math import floor
 # Initialisation des paramètres de la fenêtre de jeu
 pygame.init()
 
-vert = (0, 255, 0)
-white = (255, 255, 255)
-black = (0, 0, 0)
-red = (255, 0, 0)
-violet = (127, 0, 255)
-green = (0, 255, 65)
-
-L = 800
-H = 600
-dx = 0
-dy = 0
-l = [[300, 300], [280, 300], [260, 300]]
-l1 = []
-pomme = [100, 100]
-score = 0
-level = 0
-n = 3
-
 dis = pygame.display.set_mode((L, H))
 pygame.display.set_caption('Snake Game')
 clock = pygame.time.Clock()
@@ -38,7 +20,7 @@ def pomme_turquoise(score, l, pomme_t):
         pygame.draw.rect(
             dis, turquoise, [pomme_t[0], pomme_t[1], 20, 20])
     if not pomme_t[2] and score > 5:
-        s = random.randint(0, 101)
+        s = random.randint(0, 501)
         if s == 0:
             pomme_t[0] = random.randint(0, (L-20)/20)*20
             pomme_t[1] = random.randint(0, (H-20)/20)*20
@@ -88,7 +70,7 @@ def display_ecran_pause():
     dis.blit(message_surface, message_rect)
 
 
-def move(event,dx,dy,game_over,already_changed,direction):
+def move(event, dx, dy, game_over, already_changed, direction):
     if event.type == pygame.QUIT or (event.type == pygame.KEYDOWN and event.key == pygame.K_q):
         game_over = True
     if event.type == pygame.KEYDOWN:
@@ -97,46 +79,51 @@ def move(event,dx,dy,game_over,already_changed,direction):
             while not(exit):
                 display_ecran_pause()
                 for event2 in pygame.event.get():
-                            if event2.type == pygame.QUIT or (event2.type == pygame.KEYDOWN and event2.key == pygame.K_q):
-                                pygame.quit()
-                                quit()
-                            if event2.type == pygame.KEYDOWN:
-                                if event2.key == pygame.K_p:
-                                    exit = True
+                    if event2.type == pygame.QUIT or (event2.type == pygame.KEYDOWN and event2.key == pygame.K_q):
+                        pygame.quit()
+                        quit()
+                    if event2.type == pygame.KEYDOWN:
+                        if event2.key == pygame.K_p:
+                            exit = True
                 pygame.display.flip()
                 time.sleep(1)
         if event.key == pygame.K_LEFT and direction != 'horizontal' and not already_changed:
             dx = -20
             dy = 0
-            direction='horizontal'
-            already_changed=True
+            direction = 'horizontal'
+            already_changed = True
         elif event.key == pygame.K_RIGHT and direction != 'horizontal' and not already_changed:
             dx = 20
             dy = 0
-            direction='horizontal'
-            already_changed=True
-        elif event.key == pygame.K_UP and direction != 'vertical'and not already_changed:
+            direction = 'horizontal'
+            already_changed = True
+        elif event.key == pygame.K_UP and direction != 'vertical' and not already_changed:
             dx = 0
             dy = -20
-            direction='vertical'
-            already_changed=True
-        elif event.key == pygame.K_DOWN and direction != 'vertical'and not already_changed:
+            direction = 'vertical'
+            already_changed = True
+        elif event.key == pygame.K_DOWN and direction != 'vertical' and not already_changed:
             dx = 0
             dy = 20
-            direction='vertical'
-            already_changed=True
+            direction = 'vertical'
+            already_changed = True
     return dx, dy, game_over, already_changed, direction
 
-def pomme_coupe2(score, pomme_coupe):
+
+def pomme_coupe2(score, pomme_coupe, l):
     if pomme_coupe[2]:
         pygame.draw.rect(
             dis, vert, [pomme_coupe[0], pomme_coupe[1], 20, 20])
-    if not pomme_coupe[2] and score > 10 and len(l) > 5:
-        s = random.randint(0, 201)
-        if s == 0:
-            pomme_coupe[0] = random.randint(0, (L-20)/20)*20
-            pomme_coupe[1] = random.randint(0, (H-20)/20)*20
-            pomme_coupe[2] = True
+    if not pomme_coupe[2]:
+        if score > 5 and len(l) > 5:
+            s = random.randint(0, 601)
+            if s == 0:
+                pomme_coupe[0] = random.randint(0, (L-20)/20)*20
+                pomme_coupe[1] = random.randint(0, (H-20)/20)*20
+                pomme_coupe[2] = True
+                pygame.draw.rect(
+                    dis, vert, [pomme_coupe[0], pomme_coupe[1], 20, 20])
+    return pomme_coupe
 
 
 def coll_pomme_coupe(l, score, pomme_coupe):
@@ -149,7 +136,7 @@ def coll_pomme_coupe(l, score, pomme_coupe):
             pygame.draw.rect(
                 dis, black, [pomme_coupe[0], pomme_coupe[1], 10, 10])
             pomme_coupe[2] = False
-    return l1, score
+    return l1, score, pomme_coupe
 
 
 def newsnake(l, n, dx, dy):
@@ -182,6 +169,7 @@ def detection_auto_collision(l, collision, game_over):
             if collision and l[0][0] == l[k][0] and l[0][1] == l[k][1]:
                 game_over = True
 
+
 def update_level(score, n=5):
     return floor(score/n)
 
@@ -193,7 +181,7 @@ def game_loop():
     game_close = False
     collision = True
     direction = 'null'
-    border = True
+    border = False
     score = 0
     n = 3
     frequence = 10
@@ -247,11 +235,11 @@ def game_loop():
 
             pygame.display.flip()
             time.sleep(1)
-        
-        already_changed=False
-        for event in pygame.event.get():                    #transfo du mouvement en fonction pour les test 
-            dx,dy,game_over,already_changed,direction = move(event,dx,dy,game_over,already_changed,direction)
-            
+
+        already_changed = False
+        for event in pygame.event.get():  # transfo du mouvement en fonction pour les test
+            dx, dy, game_over, already_changed, direction = move(
+                event, dx, dy, game_over, already_changed, direction)
 
         # on avance
         queue = copy(l[n-1])
@@ -289,9 +277,9 @@ def game_loop():
         pygame.draw.rect(dis, red, [pomme[0], pomme[1], 20, 20])
 
         # une pomme verte peut apparaitre, s'il y en a déjà déjà une on l'affiche
-        pomme_coupe2(score, pomme_coupe)
+        pomme_coupe = pomme_coupe2(score, pomme_coupe, l)
         # si il rencontre une pomme verte sa taille est divisé par 2
-        l, score = coll_pomme_coupe(l, score, pomme_coupe)
+        l, score, pomme_coupe = coll_pomme_coupe(l, score, pomme_coupe)
 
         n = len(l)  # taille du serpent après avoir peut être mangé une pomme
 
@@ -308,7 +296,7 @@ def game_loop():
         # on affiche le serpent
         affiche_snake(l)
 
-        level=update_level(score)
+        level = update_level(score)
         # on affiche le score et le niveau
         score_font = pygame.font.SysFont("Times new roman", 35)
         value_score = score_font.render("Your Score: " + str(score), True, red)
