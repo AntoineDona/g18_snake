@@ -5,7 +5,7 @@ import random
 from message import message
 import time  # Lola
 
-
+## Initialisation des paramètres de la fenêtre de jeu 
 pygame.init()
 
 vert = (0, 255, 0)
@@ -28,12 +28,7 @@ pygame.display.set_caption('Snake Game')
 clock = pygame.time.Clock()
 
 
-# fonction
-pomme_coupe = [0, 0, False]
-game_over = False
-game_close = False
-border = True
-collision = True
+
 
 
 def pomme_coupe2(score, pomme_coupe):
