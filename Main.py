@@ -32,14 +32,54 @@ tps_blanche = []
 dis = pygame.display.set_mode((L, H))
 pygame.display.set_caption('Snake Game')
 clock = pygame.time.Clock()
+record=0
+
+def ecran_fin(game_close, game_over, record, score):
+    while game_close == True:
+        record=max(record,score) # calcul du record
+        police = pygame.font.SysFont('times new roman', 90)
+        game_over_surface = police.render(
+            'Game over', True, (255, 0, 0))  # decription
+        # on récupère les coordonées du rectancle game_over_surface
+        game_over_rect = game_over_surface.get_rect()
+        game_over_rect.midtop = (800/2, 600/4)  # positionnement
+        dis.fill(black)
+        dis.blit(game_over_surface, game_over_rect)  # affiche
+
+        police_score = pygame.font.SysFont('times', 40)
+        score_surface = police_score.render(
+            'Score:'+ str(score)+'   '+'Record:'+ str(record), True, (255, 0, 0))
+        score_rect = score_surface.get_rect()
+        score_rect.midtop = (800/2, 600/2)
+        dis.blit(score_surface, score_rect)
+
+        police_message = pygame.font.SysFont('times', 20)
+        message_surface = police_message.render(
+            'Press Q to quit game and C to restart', True, (255, 0, 0))
+        message_rect = message_surface.get_rect()
+        message_rect.midtop = (800/2, 600/1.5)
+        dis.blit(message_surface, message_rect)
+        for event in pygame.event.get():
+            if event.type == pygame.KEYDOWN:
+                if event.key == pygame.K_q or event.type == pygame.QUIT:
+                    game_over = True
+                    game_close = False
+                    pygame.quit()
+                    quit()
+                if event.key == pygame.K_c:
+                    game_loop(record)
+
+        pygame.display.flip()
+        time.sleep(1)
+    return game_close, game_over, record
 
 
-def game_loop():
+def game_loop(record):
     game_over = False
     game_close = False
     collision = True
     direction = 'null'
-    border = False
+    border = True
     score = 0
     n = 3
     frequence = 10
@@ -56,10 +96,11 @@ def game_loop():
 
     score = 0
     level = 0
+    record=0
     n = 3
     while not game_over:
 
-        game_close, game_over = ecran_fin(game_close, game_over)
+        game_close, game_over, record = ecran_fin(game_close, game_over,record,score)
 
         already_changed = False
         for event in pygame.event.get():  # transfo du mouvement en fonction pour les test
@@ -112,10 +153,11 @@ def game_loop():
         level = update_level(score)
         # on affiche le score et le niveau
         score_font = pygame.font.SysFont("Times new roman", 35)
-        value_score = score_font.render("Your Score: " + str(score), True, red)
+        value_score = score_font.render("Score: " + str(score), True, red)
         dis.blit(value_score, [0, 0])
-
-        value_level = score_font.render("Your Level: " + str(level), True, red)
+        value_record = score_font.render("Record: " + str(record), True, red)
+        dis.blit(value_record, [300, 0])
+        value_level = score_font.render("Level: " + str(level), True, red)
         dis.blit(value_level, [600, 0])
 
         pygame.display.update()
@@ -172,4 +214,4 @@ def ecran_fin(game_close, game_over):
     return game_close, game_over
 
 
-game_loop()
+game_loop(record)
