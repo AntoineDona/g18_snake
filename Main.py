@@ -44,7 +44,7 @@ def proba_pomme_blanche (pomme_rapide):
     if pomme_rapide[2]:
             pygame.draw.rect(dis, white, [pomme_rapide[0], pomme_rapide[1], 20, 20])
     if not pomme_rapide[2]:
-        p = random.randint(0, 10)
+        p = random.randint(0, 41)
         if p == 0:
             pomme_rapide[0] = random.randint(0, (L-20)/20)*20
             pomme_rapide[1] = random.randint(0, (H-20)/20)*20
@@ -57,7 +57,7 @@ def proba_pomme_blanche (pomme_rapide):
 def pomme_blanche (l,score,pomme_rapide,tps_blanche) :
     if pomme_rapide[2]:
         if l[0][0] == pomme_rapide[0] and l[0][1] == pomme_rapide[1]:
-            score += 1
+            score += 10
             pygame.draw.rect(dis, black, [pomme_coupe[0], pomme_coupe[1], 10, 10])
             pomme_rapide[2] = False 
             tps_blanche.append(0)
