@@ -8,20 +8,32 @@ turquoise = (64, 224, 208)
 rose = (253, 108, 158)
 
 
-def collision_pomme(score, pomme, l, queue):
-    if pomme == l[0]:
+def collision_pomme(score, pomme, snake, queue):
+    """Pomme : une liste qui représente les coordonnées de la pomme et si une pomme est déjà présente 
+    sur la grille de jeu. 
+    Snake : La liste avec les coordonées des carrés du serpent
+    score : le score 
+    queue : la coordonnée du dernier rectangle du serpent  
+    Fait apparaître la pomme à une coordonnée aléatoire et retourne cette coordonnée, 
+    [entrée/sortie: pomme]: liste :  [int,int,bool]
+    [entrée/sortie: score]: int
+    [entrée/sortie: snake]: liste de liste
+    [entrée/sortie: queue]: liste de liste
+    """
+    if pomme == snake[0]:
         score += 1
-        l.append([queue[0], queue[1]])
+        snake.append([queue[0], queue[1]])
 
         pygame.draw.rect(dis, black, [pomme[0], pomme[1], 20, 20])
         pomme[0] = random.randint(0, (L-20)/20)*20
         pomme[1] = random.randint(0, (H-20)/20)*20
 
     pygame.draw.rect(dis, red, [pomme[0], pomme[1], 20, 20])
-    return score, pomme, l, queue
+    return score, pomme, snake, queue
 
 
 def apparition_pomme_rose(score, pomme_rose):
+
     if pomme_rose[2]:
         pygame.draw.rect(
             dis, rose, [pomme_rose[0], pomme_rose[1], 20, 20])
@@ -33,17 +45,28 @@ def apparition_pomme_rose(score, pomme_rose):
             pomme_rose[2] = True
 
 
-def collision_pomme_rose(l, score, pomme_rose, queue):
+def collision_pomme_rose(snake, score, pomme_rose, queue):
+    """Pomme : une liste qui représente les coordonnées de la pomme et si une pomme est déjà présente 
+    sur la grille de jeu. 
+    Snake : La liste avec les coordonées des carrés du serpent
+    score : le score 
+    queue : la coordonnée du dernier rectangle du serpent  
+    Fait apparaître la pomme à une coordonnée aléatoire et retourne cette coordonnée, 
+    [entrée: pomme]: liste :  [int,int,bool]
+    [entrée/sortie: score]: int
+    [entrée/sortie: snake]: liste de liste
+    [entrée: queue]: liste de liste
+    """
     if pomme_rose[2]:
-        if l[0][0] == pomme_rose[0] and l[0][1] == pomme_rose[1]:
+        if snake[0][0] == pomme_rose[0] and snake[0][1] == pomme_rose[1]:
             score += 3
-            l.append([queue[0], queue[1]])
+            snake.append([queue[0], queue[1]])
             pygame.draw.rect(
                 dis, black, [pomme_rose[0], pomme_rose[1], 20, 20])
             pomme_rose[0] = random.randint(0, (L-20)/20)*20
             pomme_rose[1] = random.randint(0, (H-20)/20)*20
             pomme_rose[2] = False
-    return l, score
+    return snake, score
 
 
 def pomme_turquoise(score, l, pomme_t):
