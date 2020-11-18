@@ -8,6 +8,7 @@ import time  #### Lola
 
 pygame.init()
 
+
 white = (255, 255, 255)
 black = (0, 0, 0)
 red = (255, 0, 0)
@@ -26,19 +27,19 @@ def game_loop(border=True,n=3):
 
     l = [[300, 300], [280, 300], [260, 300]]
     pomme = [100, 100]
-
+    poire = [80,100]
     n = 3
     clock = pygame.time.Clock()
     game_over = False
     game_close = False
 
     while not game_over:
-
+        
         while game_close == True:
             dis.fill(white)
             message("You Lost! Press Q-Quit or C-Play Again", red,dis)
             pygame.display.update()
-
+            temps = pygame.time.get_ticks()
             for event in pygame.event.get():
                 if event.type == pygame.KEYDOWN:
                     if event.key == pygame.K_q:
@@ -94,6 +95,13 @@ def game_loop(border=True,n=3):
             pomme[1] = random.randint(0, (H-20)/20)*20
         n = len(l)
         pygame.draw.rect(dis, red, [pomme[0], pomme[1], 20, 20])
+        pygame.draw.rect(dis, white, [poire[0], poire[1], 20, 20])
+        if poire == l[0]:
+            debut = pygame.time.get_ticks()
+            poire[0] = random.randint(0, (L-20)/20)*20
+            poire[1] = random.randint(0, (H-20)/20)*20
+            while temps <= debut + 20000:
+                clock.tick(50)
         for x in l:
             pygame.draw.rect(dis, violet, [x[0], x[1], 20, 20])
         pygame.display.update()
