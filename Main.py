@@ -15,6 +15,16 @@ black = (0, 0, 0)
 red = (255, 0, 0)
 violet = (127, 0, 255)
 green = (0, 255, 65)
+
+
+dx = 0
+dy = 0
+l = [[300, 300], [280, 300], [260, 300]]
+pomme = [100, 100]
+score = 0
+n = 3
+
+
 turquoise = (64, 224, 208)
 rose = (253, 108, 158)
 dis = pygame.display.set_mode((L, H))
@@ -23,6 +33,49 @@ clock = pygame.time.Clock()
 
 
 # fonction
+pomme_coupe = [0, 0, False]
+game_over = False
+game_close = False
+border = True
+collision = True
+pomme_rapide = [50,50,False]
+
+def proba_pomme_blanche (pomme_rapide):
+    if pomme_rapide[2]:
+            pygame.draw.rect(dis, white, [pomme_rapide[0], pomme_rapide[1], 20, 20])
+    if not pomme_rapide[2]:
+        p = random.randint(0, 81)
+        if p == 0:
+            pomme_rapide[0] = random.randint(0, (L-20)/20)*20
+            pomme_rapide[1] = random.randint(0, (H-20)/20)*20
+            pomme_rapide[2] = True
+            
+    return pomme_rapide
+
+    
+
+def pomme_blanche (l,score,pomme_rapide,tps_blanche) :
+    if pomme_rapide[2]:
+        if l[0][0] == pomme_rapide[0] and l[0][1] == pomme_rapide[1]:
+            score += 10
+            pygame.draw.rect(dis, black, [pomme_coupe[0], pomme_coupe[1], 10, 10])
+            pomme_rapide[2] = False 
+            tps_blanche.append(0)
+          
+    return score,pomme_rapide,tps_blanche
+
+def  acceleration (tps_blanche,frequence):
+    for i in range(len(tps_blanche)):
+        if tps_blanche[i] == 0 :
+            frequence+=15
+            tps_blanche[-1]=1
+        elif tps_blanche[i] > 0 and tps_blanche[i] <= frequence*10 :
+            tps_blanche[i]+=1
+        elif tps_blanche[i] == (frequence*10)+1:
+            frequence-=15
+            tps_blanche[i]+=1
+           
+    return tps_blanche,frequence
 def collision_pomme(score, pomme, l, queue):
     if pomme == l[0]:
         score += 1
@@ -260,6 +313,15 @@ def game_loop():
     game_over = False
     game_close = False
     collision = True
+    pomme_rapide = [50,50,False]
+    vert = (0, 255, 0)
+    white = (255, 255, 255)
+    black = (0, 0, 0)
+    red = (255, 0, 0)
+    violet = (127, 0, 255)
+    green = (0, 255, 65)
+    L = 800
+    H = 600
     direction = 'null'
     border = False
     score = 0
@@ -277,10 +339,37 @@ def game_loop():
     score = 0
     level = 0
     n = 3
+    tps_blanche=[]
+    frequence=10
     while not game_over:
 
         game_close, game_over = ecran_fin(game_close, game_over)
 
+        for event in pygame.event.get():
+            
+            if event.type == pygame.QUIT or (event.type == pygame.KEYDOWN and event.key == pygame.K_ESCAPE):
+                game_over = True
+            if event.type == pygame.KEYDOWN:
+                if event.key == pygame.K_p:
+                    exit = False
+                    while not(exit):
+                        for event2 in pygame.event.get():
+                            if event2.type == pygame.KEYDOWN:
+                                if event2.key == pygame.K_p:
+                                    exit = True
+
+                if event.key == pygame.K_LEFT:
+                    dx = -20
+                    dy = 0
+                if event.key == pygame.K_RIGHT:
+                    dx = 20
+                    dy = 0
+                if event.key == pygame.K_UP:
+                    dx = 0
+                    dy = -20
+                if event.key == pygame.K_DOWN:
+                    dx = 0
+                    dy = 20
         already_changed = False
         for event in pygame.event.get():  # transfo du mouvement en fonction pour les test
             dx, dy, game_over, already_changed, direction = move(
@@ -317,6 +406,14 @@ def game_loop():
         pomme_coupe = pomme_coupe2(score, pomme_coupe, l)
         # si il rencontre une pomme verte sa taille est divisé par 2
         l, score, pomme_coupe = coll_pomme_coupe(l, score, pomme_coupe)
+
+
+        pomme_rapide = proba_pomme_blanche (pomme_rapide)
+        
+        score,pomme_rapide,tps_blanche = pomme_blanche (l,score,pomme_rapide,tps_blanche)
+        tps_blanche,frequence = acceleration (tps_blanche,frequence)
+        
+        
 
         n = len(l)  # taille du serpent après avoir peut être mangé une pomme
 
