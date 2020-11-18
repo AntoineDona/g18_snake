@@ -19,6 +19,7 @@ H = 600
 dx = 0
 dy = 0
 l = [[300, 300], [280, 300], [260, 300]]
+l1 = []
 pomme = [100, 100]
 score = 0
 n = 3
@@ -29,16 +30,50 @@ clock = pygame.time.Clock()
 
 
 # fonction
-pomme_coupe = [0, 0, False]
-game_over = False
-game_close = False
-border = False
-collision = False
+def pomme_turquoise(score, l, pomme_t):
+    turquoise = (64, 224, 208)
+    if pomme_t[2]:
+        pygame.draw.rect(
+            dis, turquoise, [pomme_t[0], pomme_t[1], 20, 20])
+    if not pomme_t[2] and score > 5:
+        s = random.randint(0, 101)
+        if s == 0:
+            pomme_t[0] = random.randint(0, (L-20)/20)*20
+            pomme_t[1] = random.randint(0, (H-20)/20)*20
+            pomme_t[2] = True
+            pygame.draw.rect(
+                dis, black, [pomme_t[0], pomme_t[1], 20, 20])
+    return score, l, pomme_t
+
+
+def coll_pomme_turquoise(score, l, pomme_t, tps_t, border):
+    if pomme_t[2]:
+        if l[0][0] == pomme_t[0] and l[0][1] == pomme_t[1]:
+            score += 1
+            tps_t = 0
+            border = False
+            pygame.draw.rect(
+                dis, black, [pomme_t[0], pomme_t[1], 10, 10])
+            pomme_t[2] = False
+    return score, pomme_t, tps_t, border
+
+
+def temps_border(tps_t, border, frequence):
+    if tps_t < frequence*10 and tps_t > -1:
+        tps_t += 1
+    else:
+        border = True
+        tps_t = -1
+
+    return tps_t, border
 
 
 def pomme_coupe2(score, pomme_coupe):
-    if not pomme_coupe[2] and score > 5:
-        s = random.randint(0, 101)
+    if pomme_coupe[2]:
+        pygame.draw.rect(
+            dis, vert, [pomme_coupe[0], pomme_coupe[1], 20, 20])
+    if not pomme_coupe[2] and score > 10 and len(l) > 5:
+        s = random.randint(0, 201)
         if s == 0:
             pomme_coupe[0] = random.randint(0, (L-20)/20)*20
             pomme_coupe[1] = random.randint(0, (H-20)/20)*20
@@ -56,6 +91,20 @@ def coll_pomme_coupe(l, score, pomme_coupe):
                 dis, black, [pomme_coupe[0], pomme_coupe[1], 10, 10])
             pomme_coupe[2] = False
     return l1, score
+
+
+def newsnake(l, n, dx, dy):
+    for k in range(0, n-1):
+        l[n-1-k] = copy(l[n-2-k])
+    l[0][0] += dx
+    l[0][1] += dy
+    return l
+
+
+def affiche_snake(l):
+    for x in l:
+        pygame.draw.rect(dis, violet, [x[0], x[1], 20, 20])
+    pygame.display.update()
 
 
 def detection_collision_bordure(l, border, game_over):
@@ -77,25 +126,31 @@ def detection_auto_collision(l, collision, game_over):
 
 # fin fonction
 
-def game_loop(border=True):
-    pomme_coupe = [0, 0, False]
+def game_loop():
     game_over = False
     game_close = False
     collision = False
+    border = True
+    score = 0
+    n = 3
+    frequence = 10
     vert = (0, 255, 0)
     white = (255, 255, 255)
     black = (0, 0, 0)
     red = (255, 0, 0)
     violet = (127, 0, 255)
     green = (0, 255, 65)
+    turquoise = (64, 224, 208)
     L = 800
     H = 600
     dx = 0
     dy = 0
     l = [[300, 300], [280, 300], [260, 300]]
     pomme = [100, 100]
-    score = 0
-    n = 3
+    pomme_t = [200, 100, False]
+    pomme_coupe = [0, 0, False]
+    tps_turquoise = -1
+
     while not game_over:
 
         while game_close == True:
@@ -156,10 +211,7 @@ def game_loop(border=True):
 
         # on avance
         queue = copy(l[n-1])
-        for k in range(0, n-1):
-            l[n-1-k] = copy(l[n-2-k])
-        l[0][0] += dx
-        l[0][1] += dy
+        l = newsnake(l, n, dx, dy)
         dis.fill(black)
 
         # detection mur ou soit même
@@ -190,19 +242,26 @@ def game_loop(border=True):
             pomme[1] = random.randint(0, (H-20)/20)*20
 
         pygame.draw.rect(dis, red, [pomme[0], pomme[1], 20, 20])
-        # une pomme verte peut apparaitre
+
+        # une pomme verte peut apparaitre, s'il y en a déjà déjà une on l'affiche
         pomme_coupe2(score, pomme_coupe)
         # si il rencontre une pomme verte sa taille est divisé par 2
         l, score = coll_pomme_coupe(l, score, pomme_coupe)
 
         n = len(l)  # taille du serpent après avoir peut être mangé une pomme
-        if pomme_coupe[2]:
-            pygame.draw.rect(
-                dis, vert, [pomme_coupe[0], pomme_coupe[1], 20, 20])
 
-        for x in l:
-            pygame.draw.rect(dis, violet, [x[0], x[1], 20, 20])
-        pygame.display.update()
+        # une pomme tuquoise peut apparaitre
+        score, l, pomme_t = pomme_turquoise(score, l, pomme_t)
+
+        # si on mange une pomme turquoise, on désactive les border
+        score, pomme_t, tps_turquoise, border = coll_pomme_turquoise(
+            score, l, pomme_t, tps_turquoise, border)
+
+        # pendant 20secondes il n'y a plus de border
+        tps_turquoise, border = temps_border(tps_turquoise, border, frequence)
+
+        # on affiche le serpent
+        affiche_snake(l)
 
         # on affiche le score
         score_font = pygame.font.SysFont("Times new roman", 35)
@@ -210,7 +269,7 @@ def game_loop(border=True):
         dis.blit(value, [300, 0])
 
         pygame.display.update()
-        clock.tick(10)
+        clock.tick(frequence)
     pygame.quit()
     quit()
 
