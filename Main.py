@@ -15,67 +15,76 @@ black = (0, 0, 0)
 red = (255, 0, 0)
 violet = (127, 0, 255)
 green = (0, 255, 65)
-
-
-dx = 0
-dy = 0
-l = [[300, 300], [280, 300], [260, 300]]
-pomme = [100, 100]
-score = 0
-n = 3
-
-
 turquoise = (64, 224, 208)
 rose = (253, 108, 158)
+
+pomme = [100, 100]
+pomme_t = [200, 100, False]
+pomme_coupe = [0, 0, False]
+pomme_rose = [10, 10, False]
+pomme_rapide = [50, 50, False]
+tps_turquoise = -1
+tps_blanche = []
+
 dis = pygame.display.set_mode((L, H))
 pygame.display.set_caption('Snake Game')
 clock = pygame.time.Clock()
 
 
 # fonction
-pomme_coupe = [0, 0, False]
-game_over = False
-game_close = False
-border = True
-collision = True
-pomme_rapide = [50,50,False]
-
-def proba_pomme_blanche (pomme_rapide):
+def proba_pomme_blanche(pomme_rapide):
     if pomme_rapide[2]:
-            pygame.draw.rect(dis, white, [pomme_rapide[0], pomme_rapide[1], 20, 20])
+        pygame.draw.rect(
+            dis, white, [pomme_rapide[0], pomme_rapide[1], 20, 20])
     if not pomme_rapide[2]:
         p = random.randint(0, 81)
         if p == 0:
             pomme_rapide[0] = random.randint(0, (L-20)/20)*20
             pomme_rapide[1] = random.randint(0, (H-20)/20)*20
             pomme_rapide[2] = True
-            
+
     return pomme_rapide
 
-    
 
-def pomme_blanche (l,score,pomme_rapide,tps_blanche) :
+def pomme_blanche(l, score, pomme_rapide, tps_blanche):
     if pomme_rapide[2]:
         if l[0][0] == pomme_rapide[0] and l[0][1] == pomme_rapide[1]:
             score += 10
-            pygame.draw.rect(dis, black, [pomme_coupe[0], pomme_coupe[1], 10, 10])
-            pomme_rapide[2] = False 
+            pygame.draw.rect(
+                dis, black, [pomme_coupe[0], pomme_coupe[1], 10, 10])
+            pomme_rapide[2] = False
             tps_blanche.append(0)
-          
-    return score,pomme_rapide,tps_blanche
 
-def  acceleration (tps_blanche,frequence):
+    return score, pomme_rapide, tps_blanche
+
+
+def acceleration(tps_blanche, frequence):
     for i in range(len(tps_blanche)):
-        if tps_blanche[i] == 0 :
-            frequence+=15
-            tps_blanche[-1]=1
-        elif tps_blanche[i] > 0 and tps_blanche[i] <= frequence*10 :
-            tps_blanche[i]+=1
+        if tps_blanche[i] == 0:
+            frequence += 15
+            tps_blanche[-1] = 1
+        elif tps_blanche[i] > 0 and tps_blanche[i] <= frequence*10:
+            tps_blanche[i] += 1
         elif tps_blanche[i] == (frequence*10)+1:
-            frequence-=15
-            tps_blanche[i]+=1
-           
-    return tps_blanche,frequence
+            frequence -= 15
+            tps_blanche[i] += 1
+
+    return tps_blanche, frequence
+
+
+def collision_pomme(score, pomme, l, queue):
+    if pomme == l[0]:
+        score += 1
+        l.append([queue[0], queue[1]])
+
+        pygame.draw.rect(dis, black, [pomme[0], pomme[1], 20, 20])
+        pomme[0] = random.randint(0, (L-20)/20)*20
+        pomme[1] = random.randint(0, (H-20)/20)*20
+
+    pygame.draw.rect(dis, red, [pomme[0], pomme[1], 20, 20])
+    return score, pomme, l, queue
+
+
 def collision_pomme(score, pomme, l, queue):
     if pomme == l[0]:
         score += 1
@@ -313,15 +322,6 @@ def game_loop():
     game_over = False
     game_close = False
     collision = True
-    pomme_rapide = [50,50,False]
-    vert = (0, 255, 0)
-    white = (255, 255, 255)
-    black = (0, 0, 0)
-    red = (255, 0, 0)
-    violet = (127, 0, 255)
-    green = (0, 255, 65)
-    L = 800
-    H = 600
     direction = 'null'
     border = False
     score = 0
@@ -334,42 +334,17 @@ def game_loop():
     pomme_t = [200, 100, False]
     pomme_coupe = [0, 0, False]
     pomme_rose = [10, 10, False]
+    pomme_rapide = [50, 50, False]
     tps_turquoise = -1
+    tps_blanche = []
 
     score = 0
     level = 0
     n = 3
-    tps_blanche=[]
-    frequence=10
     while not game_over:
 
         game_close, game_over = ecran_fin(game_close, game_over)
 
-        for event in pygame.event.get():
-            
-            if event.type == pygame.QUIT or (event.type == pygame.KEYDOWN and event.key == pygame.K_ESCAPE):
-                game_over = True
-            if event.type == pygame.KEYDOWN:
-                if event.key == pygame.K_p:
-                    exit = False
-                    while not(exit):
-                        for event2 in pygame.event.get():
-                            if event2.type == pygame.KEYDOWN:
-                                if event2.key == pygame.K_p:
-                                    exit = True
-
-                if event.key == pygame.K_LEFT:
-                    dx = -20
-                    dy = 0
-                if event.key == pygame.K_RIGHT:
-                    dx = 20
-                    dy = 0
-                if event.key == pygame.K_UP:
-                    dx = 0
-                    dy = -20
-                if event.key == pygame.K_DOWN:
-                    dx = 0
-                    dy = 20
         already_changed = False
         for event in pygame.event.get():  # transfo du mouvement en fonction pour les test
             dx, dy, game_over, already_changed, direction = move(
@@ -384,21 +359,6 @@ def game_loop():
         l, game_close = detection_collision_bordure(l, border, game_close)
         game_close = detection_auto_collision(l, collision, game_close, n)
 
-        # lorsqu'on touche le bord
-        #detection_collision_bordure(l, border, game_over)
-        # if border and (l[0][0] < 20 or l[0][0] > L-20 or l[0][1] < 20 or l[0][1] > H-20):
-        #game_close = True
-        # si bord désactivé on passe de l'autre coté
-        # if not border and (l[0][0] < 10 or l[0][0] > L-10 or l[0][1] < 10 or l[0][1] > H-10):
-        #l[0][0] = l[0][0] % L
-        #l[0][1] = l[0][1] % H
-
-        # lorsqu'on se touche
-        # for k in range(1, len(l)):  # lorsqu'on se touche
-        # if n > 3:
-        # if collision and l[0][0] == l[k][0] and l[0][1] == l[k][1]:
-        #game_close = True
-
         # lorsqu'on touche la pomme
         score, pomme, l, queue = collision_pomme(score, pomme, l, queue)
 
@@ -406,14 +366,6 @@ def game_loop():
         pomme_coupe = pomme_coupe2(score, pomme_coupe, l)
         # si il rencontre une pomme verte sa taille est divisé par 2
         l, score, pomme_coupe = coll_pomme_coupe(l, score, pomme_coupe)
-
-
-        pomme_rapide = proba_pomme_blanche (pomme_rapide)
-        
-        score,pomme_rapide,tps_blanche = pomme_blanche (l,score,pomme_rapide,tps_blanche)
-        tps_blanche,frequence = acceleration (tps_blanche,frequence)
-        
-        
 
         n = len(l)  # taille du serpent après avoir peut être mangé une pomme
 
@@ -433,9 +385,11 @@ def game_loop():
         # lorsqu'on touche un pomme rose
         l, score = collision_pomme_rose(l, score, pomme_rose, queue)
 
-        # s'il rencontre une pomme rose, la taille du serpent augmente de 1 et gagne 3 points
-        # if pomme_rose[2]:
-        #pygame.draw.rect(dis, rose, [pomme_rose[0], pomme_rose[1], 20, 20])
+        # lorsqu'on touche une pomme blanche on accèlere pendant 10sec
+        pomme_rapide = proba_pomme_blanche(pomme_rapide)
+        score, pomme_rapide, tps_blanche = pomme_blanche(
+            l, score, pomme_rapide, tps_blanche)
+        tps_blanche, frequence = acceleration(tps_blanche, frequence)
 
         # on affiche le serpent
         affiche_snake(l)
