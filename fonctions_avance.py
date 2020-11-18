@@ -1,3 +1,17 @@
+import pygame
+from pygame.locals import *
+from copy import copy
+import random
+import time  # Lola
+
+L = 800
+H = 600
+
+dis = pygame.display.set_mode((L, H))
+pygame.display.set_caption('Snake Game')
+clock = pygame.time.Clock()
+
+
 def move(event, dx, dy, game_over, already_changed, direction):
     if event.type == pygame.QUIT or (event.type == pygame.KEYDOWN and event.key == pygame.K_q):
         game_over = True

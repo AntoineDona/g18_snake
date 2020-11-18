@@ -1,3 +1,16 @@
+import pygame
+from pygame.locals import *
+from copy import copy
+import random
+import time  # Lola
+
+L = 800
+H = 600
+
+dis = pygame.display.set_mode((L, H))
+pygame.display.set_caption('Snake Game')
+clock = pygame.time.Clock()
+
 vert = (0, 255, 0)
 white = (255, 255, 255)
 black = (0, 0, 0)
