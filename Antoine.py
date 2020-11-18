@@ -222,4 +222,3 @@ if event.type == pygame.QUIT or (event.type == pygame.KEYDOWN and event.key == p
                 dx = 0
                 dy = 20
                 direction='vertical'
->>>>>>> master
