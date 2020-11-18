@@ -7,15 +7,48 @@ from math import floor
 
 # Initialisation des paramètres de la fenêtre de jeu
 pygame.init()
-
+L = 800
+H = 600
+vert = (0, 255, 0)
+white = (255, 255, 255)
+black = (0, 0, 0)
+red = (255, 0, 0)
+violet = (127, 0, 255)
+green = (0, 255, 65)
+turquoise = (64, 224, 208)
+rose = (253, 108, 158)
 dis = pygame.display.set_mode((L, H))
 pygame.display.set_caption('Snake Game')
 clock = pygame.time.Clock()
 
 
 # fonction
+def apparition_pomme_rose(score, pomme_rose):
+    if pomme_rose[2]:
+        pygame.draw.rect(
+            dis, rose, [pomme_rose[0], pomme_rose[1], 20, 20])
+    if not pomme_rose[2] and score > 5:
+        s = random.randint(0, 101)
+        if s == 0:
+            pomme_rose[0] = random.randint(0, (L-20)/20)*20
+            pomme_rose[1] = random.randint(0, (H-20)/20)*20
+            pomme_rose[2] = True
+
+
+def collision_pomme_rose(l, score, pomme_rose, queue):
+    if pomme_rose[2]:
+        if l[0][0] == pomme_rose[0] and l[0][1] == pomme_rose[1]:
+            score += 3
+            l.append([queue[0], queue[1]])
+            pygame.draw.rect(
+                dis, black, [pomme_rose[0], pomme_rose[1], 20, 20])
+            pomme_rose[0] = random.randint(0, (L-20)/20)*20
+            pomme_rose[1] = random.randint(0, (H-20)/20)*20
+            pomme_rose[2] = False
+    return l, score
+
+
 def pomme_turquoise(score, l, pomme_t):
-    turquoise = (64, 224, 208)
     if pomme_t[2]:
         pygame.draw.rect(
             dis, turquoise, [pomme_t[0], pomme_t[1], 20, 20])
@@ -116,7 +149,7 @@ def pomme_coupe2(score, pomme_coupe, l):
             dis, vert, [pomme_coupe[0], pomme_coupe[1], 20, 20])
     if not pomme_coupe[2]:
         if score > 5 and len(l) > 5:
-            s = random.randint(0, 601)
+            s = random.randint(0, 201)
             if s == 0:
                 pomme_coupe[0] = random.randint(0, (L-20)/20)*20
                 pomme_coupe[1] = random.randint(0, (H-20)/20)*20
@@ -185,21 +218,13 @@ def game_loop():
     score = 0
     n = 3
     frequence = 10
-    vert = (0, 255, 0)
-    white = (255, 255, 255)
-    black = (0, 0, 0)
-    red = (255, 0, 0)
-    violet = (127, 0, 255)
-    green = (0, 255, 65)
-    turquoise = (64, 224, 208)
-    L = 800
-    H = 600
     dx = 0
     dy = 0
     l = [[300, 300], [280, 300], [260, 300]]
     pomme = [100, 100]
     pomme_t = [200, 100, False]
     pomme_coupe = [0, 0, False]
+    pomme_rose = [10, 10, False]
     tps_turquoise = -1
 
     score = 0
@@ -292,6 +317,16 @@ def game_loop():
 
         # pendant 20secondes il n'y a plus de border
         tps_turquoise, border = temps_border(tps_turquoise, border, frequence)
+
+        # une pomme rose peut apparaitre
+        apparition_pomme_rose(score, pomme_rose)
+
+        # lorsqu'on touche un pomme rose
+        l, score = collision_pomme_rose(l, score, pomme_rose, queue)
+
+        # s'il rencontre une pomme rose, la taille du serpent augmente de 1 et gagne 3 points
+        # if pomme_rose[2]:
+        #pygame.draw.rect(dis, rose, [pomme_rose[0], pomme_rose[1], 20, 20])
 
         # on affiche le serpent
         affiche_snake(l)
