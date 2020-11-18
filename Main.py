@@ -35,7 +35,7 @@ clock = pygame.time.Clock()
 record=0
 
 
-def game_loop(record):
+def game_loop():
     game_over = False
     game_close = False
     collision = True
