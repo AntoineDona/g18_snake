@@ -80,8 +80,8 @@ def proba_pomme_jaune(pomme_lente):
     if not pomme_lente[2]:
         p = random.randint(0, 40)
         if p == 0 and pomme_lente[3]:
-            pomme_lente[0] = random.randint(0, (L-20)/20)*20
-            pomme_lente[1] = random.randint(0, (H-20)/20)*20
+            pomme_lente[0] = 20 + random.randint(0, (L-60)/20)*20
+            pomme_lente[1] = 60 + random.randint(0, (H-100)/20)*20
             pomme_lente[2] = True
             pomme_lente[3] = False
 
