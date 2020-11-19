@@ -17,7 +17,7 @@ Executer la partie Main.py pour jouer.
 
 
 # Commandes : 
-Le joueur peut appuyer sur les flèches du clavier pour déplacer le serpent. Pour mettre en pause la partie, il peut appuyer sur P. Quand il perd il peut rejouer en appuyant sur C ou quitter en appuyant sur Q.
+Le joueur peut appuyer sur les flèches du clavier pour déplacer le serpent. Pour mettre en pause la partie, il peut appuyer sur P. Quand il perd, il peut rejouer en appuyant sur C ou quitter en appuyant sur Q.
 
 # PRINCIPE DU JEU:   
     Obtenir le Score le plus haut possible en mangeant des fruits.
@@ -25,11 +25,11 @@ Le joueur peut appuyer sur les flèches du clavier pour déplacer le serpent. Po
 # DEROULEMENT:   
     Un serpent de taille 3 apparaît.   
     En faisant bouger le snake avec les flèches du clavier ("Up", "Down", "Right","Left"), le joueur essaye de manger les fruits qui apparaissent et qui correspondent chacun à des bonus ou mallus différents :  
-    - pomme rouge : allonge d'une case, fait gagner un point  
-    - pomme jaune : coupe le serpent en deux, fait gagner un point  
+    - pomme rouge : allonge d'une case, fait gagner 1 point  
+    - pomme jaune : coupe le serpent en deux, fait gagner 1 point  
     - pomme blanche : accélère la vitesse du serpent pendant 30 secondes, fait gagner 10 points  
-    - pomme rose  : fait gagner trois points et allonge la longueur du serpent de 1  
-    - pomme turquoise : enlève les bords de la grille pendant 20s  
+    - pomme rose :  allonge le serpent d'une case, fait gagner 3 points 
+    - pomme turquoise, sous la forme d'un petit fantôme : enlève les bords de la grille pendant 20 secondes, fait gagner 1 point
 
 
 # FIN DU JEU :   
@@ -42,6 +42,7 @@ Le joueur peut appuyer sur les flèches du clavier pour déplacer le serpent. Po
 - Package copy
 - Package Random
 - Package Time
+- Package pytest_mock
 
 
 # Composition du projet 
