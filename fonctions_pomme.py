@@ -26,7 +26,39 @@ violet = (127, 0, 255)
 green = (0, 255, 65)
 turquoise = (64, 224, 208)
 rose = (253, 108, 158)
-jaune = (255,255,0)
+
+
+#---------- Définition des images --------------------
+# afficher la pomme rouge
+image_pomme_rouge = pygame.image.load(r'g18_snake/images/pomme_rouge.png')
+image_pomme_rouge = pygame.transform.scale(image_pomme_rouge, (20, 20))
+image_pomme_rouge = image_pomme_rouge.convert()
+
+# afficher la pomme blanche
+image_pomme_blanche = pygame.image.load(r'g18_snake/images/pomme_blanche.png')
+image_pomme_blanche = pygame.transform.scale(image_pomme_blanche, (20, 20))
+image_pomme_blanche = image_pomme_blanche.convert()
+
+# afficher la pomme rose
+image_pomme_rose = pygame.image.load(r'g18_snake/images/pomme_rose.png')
+image_pomme_rose = pygame.transform.scale(image_pomme_rose, (20, 20))
+image_pomme_rose = image_pomme_rose.convert()
+
+# afficher la pomme turquoise
+image_pomme_turquoise = pygame.image.load(r'g18_snake/images/pomme_turquoise.png')
+image_pomme_turquoise = pygame.transform.scale(image_pomme_turquoise, (20, 20))
+image_pomme_turquoise = image_pomme_turquoise.convert()
+
+# afficher la pomme verte
+image_pomme_verte = pygame.image.load(r'g18_snake/images/pomme_verte.png')
+image_pomme_verte = pygame.transform.scale(image_pomme_verte, (20, 20))
+image_pomme_verte = image_pomme_verte.convert()
+
+# afficher la pomme jaune
+image_pomme_jaune = pygame.image.load(r'g18_snake/images/pomme_jaune.png')
+image_pomme_jaune = pygame.transform.scale(image_pomme_jaune, (20, 20))
+image_pomme_jaune = image_pomme_jaune .convert()
+
 
 #### Initialisation des paramètres de fruits de jeux --------------------------------------
 pomme = [100, 100]
@@ -77,13 +109,11 @@ def ralentissement(tps_jaune, frequence):
 def proba_pomme_blanche(pomme_rapide):
     """prend en entrée la liste avec les coordonnées de la pomme et un booléen indiquant si 
     il y a déjà une pomme blanche sur la grille de jeu.
-    Augmente le score de 10
     Génére avec une proba 1/80 une position aléatoire pour la pomme blanche
     [entrée/sortie]: liste : [int,int,bool]
     """
     if pomme_rapide[2]:
-        pygame.draw.rect(
-            dis, white, [pomme_rapide[0], pomme_rapide[1], 20, 20])
+        dis.blit(image_pomme_blanche, (pomme_rapide[0], pomme_rapide[1]))
     if not pomme_rapide[2]:
         p = random.randint(0, 81)
         if p == 0:
@@ -137,7 +167,7 @@ def acceleration(tps_blanche, frequence):
 
 
 def collision_pomme(score, pomme, snake, queue):
-    """Pomme : une liste qui représente les coordonnées de la pomme et si une pomme est déjà présente 
+    """Pomme : une liste qui représente les coordonnées de la pomme rouge et si une pomme rouge est déjà présente 
     sur la grille de jeu. 
     Snake : La liste avec les coordonées des carrés du serpent
     score : le score 
@@ -156,7 +186,8 @@ def collision_pomme(score, pomme, snake, queue):
         pomme[0] = random.randint(0, (L-20)/20)*20
         pomme[1] = random.randint(0, (H-20)/20)*20
 
-    pygame.draw.rect(dis, red, [pomme[0], pomme[1], 20, 20])
+    pygame.draw.rect(dis, black, [pomme[0], pomme[1], 20, 20])
+    dis.blit(image_pomme_rouge, (pomme[0], pomme[1]))
     return score, pomme, snake, queue
 
 
@@ -170,10 +201,9 @@ def apparition_pomme_rose(score, pomme_rose):
     """
 
     if pomme_rose[2]:
-        pygame.draw.rect(
-            dis, rose, [pomme_rose[0], pomme_rose[1], 20, 20])
-    if not pomme_rose[2] and score > 5:
-        s = random.randint(0, 101)
+        dis.blit(image_pomme_rose, (pomme_rose[0], pomme_rose[1]))
+    if not pomme_rose[2] and score > 0:
+        s = random.randint(0, 10)
         if s == 0:
             pomme_rose[0] = random.randint(0, (L-20)/20)*20
             pomme_rose[1] = random.randint(0, (H-20)/20)*20
@@ -197,9 +227,7 @@ def collision_pomme_rose(snake, score, pomme_rose, queue):
             score += 3
             snake.append([queue[0], queue[1]])
             pygame.draw.rect(
-                dis, black, [pomme_rose[0], pomme_rose[1], 20, 20])
-            pomme_rose[0] = random.randint(0, (L-20)/20)*20
-            pomme_rose[1] = random.randint(0, (H-20)/20)*20
+                dis, red, [pomme_rose[0], pomme_rose[1], 20, 20])
             pomme_rose[2] = False
     return snake, score
 
@@ -214,17 +242,14 @@ def pomme_turquoise(score, snake, pomme_t):
     [entrée/sortie]: score : int
     """
     if pomme_t[2]:
-        pygame.draw.rect(
-            dis, turquoise, [pomme_t[0], pomme_t[1], 20, 20])
+        dis.blit(image_pomme_turquoise, (pomme_t[0], pomme_t[1]))
     if not pomme_t[2] and score > 5:
         s = random.randint(0, 501)
         if s == 0:
             pomme_t[0] = random.randint(0, (L-20)/20)*20
             pomme_t[1] = random.randint(0, (H-20)/20)*20
             pomme_t[2] = True
-            pygame.draw.rect(
-                dis, black, [pomme_t[0], pomme_t[1], 20, 20])
-    return score, snake, pomme_t
+    return score, snake, pomme_t    
 
 
 def coll_pomme_turquoise(score, snake, pomme_t, tps_t, border):
@@ -278,8 +303,7 @@ def pomme_coupe2(score, pomme_coupe, snake):
     [entrée]: score : int
     """
     if pomme_coupe[2]:
-        pygame.draw.rect(
-            dis, vert, [pomme_coupe[0], pomme_coupe[1], 20, 20])
+        dis.blit(image_pomme_verte, (pomme_coupe[0], pomme_coupe[1]))
     if not pomme_coupe[2]:
         if score > 5 and len(snake) > 5:
             s = random.randint(0, 201)
@@ -287,8 +311,6 @@ def pomme_coupe2(score, pomme_coupe, snake):
                 pomme_coupe[0] = random.randint(0, (L-20)/20)*20
                 pomme_coupe[1] = random.randint(0, (H-20)/20)*20
                 pomme_coupe[2] = True
-                pygame.draw.rect(
-                    dis, vert, [pomme_coupe[0], pomme_coupe[1], 20, 20])
     return pomme_coupe
 
 
