@@ -53,8 +53,9 @@ def test_pomme_verte():
     pass    
 
 def test_collision_pomme():
-    score, pomme, snake, queue = collision_pomme(10,[300,300],snake_init,snake_init[-1])
+    score, pomme, snake, queue = collision_pomme(10,[300,300],snake_init,[260,300])
     assert score == 11
-    assert snake == [[300, 300], [280, 300], [260, 300], [260, 300]]
     assert queue == [260,300]
     assert pomme[0] <= 800 and pomme[1] <= 600
+
+test_collision_pomme()
