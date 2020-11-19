@@ -12,6 +12,8 @@ from fonctions_affichage import *
 pygame.init()
 L = 800
 H = 600
+l = L-2*20
+h = H-40
 vert = (0, 255, 0)
 white = (255, 255, 255)
 black = (0, 0, 0)
@@ -58,6 +60,7 @@ def ecran_fin(game_close, game_over, record, score):
         game_over_rect = game_over_surface.get_rect()
         game_over_rect.midtop = (800/2, 600/4)  # positionnement
         dis.fill(black)
+        afficher_mur(True)
         dis.blit(game_over_surface, game_over_rect)  # affiche
 
         police_score = pygame.font.SysFont('times', 40)
@@ -129,10 +132,10 @@ def game_loop(record):
         queue = copy(snake[n-1])
         snake = newsnake(snake, n, dx, dy)
         dis.fill(black)
+        afficher_mur(border)
 
         # detection mur ou soit même
-        snake, game_close = detection_collision_bordure(
-            snake, border, game_close)
+        snake, game_close = detection_collision_bordure(snake, game_close, border)
         game_close = detection_auto_collision(snake, collision, game_close, n)
 
         # lorsqu'on touche la pomme

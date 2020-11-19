@@ -28,6 +28,15 @@ turquoise = (64, 224, 208)
 rose = (253, 108, 158)
 #------------------------------------------------------
 
+# afficher la pomme rouge
+image_mur= pygame.image.load(r'g18_snake/images/mur2.jpg')
+image_mur= pygame.transform.scale(image_mur, (20, 20))
+image_mur= image_mur.convert()
+
+image_mur_transparent= pygame.image.load(r'g18_snake/images/mur_transparent.jpg')
+image_mur_transparent= pygame.transform.scale(image_mur_transparent, (20, 20))
+image_mur_transparent= image_mur_transparent.convert()
+#------------------------------------------------------
 
 #### Initialisation des paramètres de fruits de jeux --------------------------------------
 pomme = [100, 100]
@@ -72,5 +81,20 @@ def update_level(score,level, n=10):
     [entrée: n]: le score nécessaire pour changer de niveau"""
     return floor(score/n),level+1 == floor(score/n)
 
+def afficher_mur(border):
+    if border:
+        for x in range (int(L/20)):
+            dis.blit(image_mur, (x*20,40))
+            dis.blit(image_mur, (x*20,H-20))
+        for y in range (3,int(H/20-1)):
+            dis.blit(image_mur, (0,y*20))
+            dis.blit(image_mur, (L-20,y*20))
+    else:
+        for x in range (int(L/20)):
+            dis.blit(image_mur_transparent, (x*20,40))
+            dis.blit(image_mur_transparent, (x*20,H-20))
+        for y in range (3,int(H/20-1)):
+            dis.blit(image_mur_transparent, (0,y*20))
+            dis.blit(image_mur_transparent, (L-20,y*20))
 
 
