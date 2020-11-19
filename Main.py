@@ -27,7 +27,7 @@ pomme_t = [200, 100, False]
 pomme_coupe = [0, 0, False]
 pomme_rose = [10, 10, False]
 pomme_rapide = [50, 50, False]
-pomme_lente = [22,8,False]
+
 tps_turquoise = -1
 tps_blanche = []
 
@@ -99,7 +99,7 @@ def game_loop(record):
     pomme_lente = [22,8,False]
     tps_turquoise = -1
     tps_blanche = []
-    tps_jaune = []
+    
 
     score = 0
     level = 0
@@ -111,7 +111,8 @@ def game_loop(record):
 
         already_changed = False
         for event in pygame.event.get():  # transfo du mouvement en fonction pour les test
-            dx, dy, game_over, already_changed, direction = move(event, dx, dy, game_over, already_changed, direction)
+            dx, dy, game_over, already_changed, direction = move(
+                event, dx, dy, game_over, already_changed, direction)
 
         # on avance
         queue = copy(snake[n-1])
@@ -154,12 +155,6 @@ def game_loop(record):
             snake, score, pomme_rapide, tps_blanche)
         tps_blanche, frequence = acceleration(tps_blanche, frequence)
 
-        #lorsqu'on touche une pomme jaune on ralenti pendant 10sec
-
-        pomme_lente = proba_pomme_jaune(pomme_lente)
-        score, pomme_lente, tps_jaune = pomme_jaune(snake, score, pomme_lente, tps_jaune)
-        tps_jaune, frequence = ralentissement(tps_jaune, frequence)
-        
         # on affiche le serpent
         affiche_snake(snake)
 
@@ -182,25 +177,6 @@ def game_loop(record):
         clock.tick(frequence)
     pygame.quit()
     quit()
-
-def display_ecran_pause():
-    police = pygame.font.SysFont('times new roman', 90)
-    game_over_surface = police.render(
-        'Pause', True, (255, 0, 0))  # decription
-    # on récupère les coordonées du rectancle game_over_surface
-    game_over_rect = game_over_surface.get_rect()
-    game_over_rect.midtop = (800/2, 600/4)  # positionnement
-    dis.fill(black)
-    dis.blit(game_over_surface, game_over_rect)  # affiche
-
-    police_message = pygame.font.SysFont('times', 20)
-    message_surface = police_message.render(
-        'Press P to resume or Press Q to quit game', True, (255, 0, 0))
-    message_rect = message_surface.get_rect()
-    message_rect.midtop = (800/2, 600/1.5)
-    dis.blit(message_surface, message_rect)
-
-
 
 
 game_loop(record)
