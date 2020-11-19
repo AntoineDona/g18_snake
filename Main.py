@@ -49,7 +49,7 @@ def ecran_fin(game_close, game_over, record, score):
         game_over_rect = game_over_surface.get_rect()
         game_over_rect.midtop = (800/2, 600/4)  # positionnement
         dis.fill(black)
-        afficher_mur()
+        afficher_mur(True)
         dis.blit(game_over_surface, game_over_rect)  # affiche
 
         police_score = pygame.font.SysFont('times', 40)
