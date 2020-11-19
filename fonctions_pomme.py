@@ -73,7 +73,7 @@ tps_jaune = []
 
 def proba_pomme_jaune(pomme_lente):
     if pomme_lente[2]:
-        pygame.draw.rect(dis, jaune, [pomme_lente[0], pomme_lente[1], 20, 20])
+        dis.blit(image_pomme_jaune, (pomme_lente[0], pomme_lente[1]))
     if not pomme_lente[2]:
         p = random.randint(0, 40)
         if p == 0:
@@ -244,7 +244,7 @@ def pomme_turquoise(score, snake, pomme_t):
     if pomme_t[2]:
         dis.blit(image_pomme_turquoise, (pomme_t[0], pomme_t[1]))
     if not pomme_t[2] and score > 5:
-        s = random.randint(0, 501)
+        s = random.randint(0, 5)
         if s == 0:
             pomme_t[0] = random.randint(0, (L-20)/20)*20
             pomme_t[1] = random.randint(0, (H-20)/20)*20
