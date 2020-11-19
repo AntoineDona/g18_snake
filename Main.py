@@ -20,7 +20,7 @@ violet = (127, 0, 255)
 green = (0, 255, 65)
 turquoise = (64, 224, 208)
 rose = (253, 108, 158)
-jaune = (255,255,0)
+jaune = (255, 255, 0)
 
 pomme = [100, 100]
 pomme_t = [200, 100, False]
@@ -37,9 +37,18 @@ clock = pygame.time.Clock()
 record = 0
 
 
-
-
 def ecran_fin(game_close, game_over, record, score):
+    """Cette fonction permett d'afficher l'écran de fin lorsqu'on a perdu la partie. 
+    Elle affiche le score et le record. Elle propose à l'utilisateur de recommencer une partie ou de quitter le jeu.
+    game_close : devient vrai lorsqu'on perd ce qui impliquel'affichage de l'écran de fin
+    game_over : devient vrai lorsque l'utilisateur décide de quitter le jeu,
+    ce qui implique la fermeture de la fenêtre de jeu. 
+    record : le record de la boucle de jeu
+    score : le score
+    [entrée/sortie: game_close]: bool
+    [entrée/sortie: game_over]: bool
+    [entrée/sortie: record]: int
+    [entrée/sortie: score]: int"""
     while game_close == True:
         record = max(record, score)  # calcul du record
         police = pygame.font.SysFont('times new roman', 90)
@@ -80,6 +89,9 @@ def ecran_fin(game_close, game_over, record, score):
 
 
 def game_loop(record):
+    """on rentre dans la boucle de jeu.
+    record : le record de la boucle de jeu
+    [entrée/sortie: record]: int"""
     game_over = False
     game_close = False
     collision = True
@@ -96,10 +108,9 @@ def game_loop(record):
     pomme_coupe = [0, 0, False]
     pomme_rose = [10, 10, False]
     pomme_rapide = [50, 50, False]
-    pomme_lente = [22,8,False]
+    pomme_lente = [22, 8, False]
     tps_turquoise = -1
     tps_blanche = []
-    
 
     score = 0
     level = 0
@@ -120,11 +131,13 @@ def game_loop(record):
         dis.fill(black)
 
         # detection mur ou soit même
-        snake, game_close = detection_collision_bordure(snake, border, game_close)
+        snake, game_close = detection_collision_bordure(
+            snake, border, game_close)
         game_close = detection_auto_collision(snake, collision, game_close, n)
 
         # lorsqu'on touche la pomme
-        score, pomme, snake, queue = collision_pomme(score, pomme, snake, queue)
+        score, pomme, snake, queue = collision_pomme(
+            score, pomme, snake, queue)
 
         # une pomme verte peut apparaitre, s'il y en a déjà déjà une on l'affiche
         pomme_coupe = pomme_coupe2(score, pomme_coupe, snake)
@@ -158,9 +171,9 @@ def game_loop(record):
         # on affiche le serpent
         affiche_snake(snake)
 
-        level,augmented = update_level(score,level)
+        level, augmented = update_level(score, level)
 
-        # on augmente la fréquence 
+        # on augmente la fréquence
         if augmented:
             frequence += 1
         print(frequence)
