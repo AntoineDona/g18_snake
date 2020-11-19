@@ -73,7 +73,9 @@ def detection_collision_bordure(snake,game_over,border,collision_mur):
     de traverser les murs et sortir de l'autre coté.
     [entrée/sortie : snake] : liste de liste
     [entrée/sortie : game_over] : Bool 
-    [entrée : border] : Bool"""
+    [entrée/sortie : collision_mur] : Bool 
+    [entrée : border] : Bool
+    """
     # lorsqu'on touche le bord
     if border and (snake[0][0] < 20 or snake[0][0] > L-40 or snake[0][1] < 60 or snake[0][1] > H-40):
         game_over = True
