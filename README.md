@@ -26,8 +26,8 @@ Le joueur peut appuyer sur les flèches du clavier pour déplacer le serpent. Po
     Un serpent de taille 3 apparaît.   
     En faisant bouger le snake avec les flèches du clavier ("Up", "Down", "Right","Left"), le joueur essaye de manger les fruits qui apparaissent et qui correspondent chacun à des bonus ou mallus différents :  
     - pomme rouge : allonge d'une case, fait gagner un point  
-    - pomme verte : coupe le serpent en deux, fait gagner un point  
-    - pomme jaune : accélère la vitesse du serpent pendant 30 secondes, fait gagner un point  
+    - pomme jaune : coupe le serpent en deux, fait gagner un point  
+    - pomme blanche : accélère la vitesse du serpent pendant 30 secondes, fait gagner 10 points  
     - pomme rose  : fait gagner trois points et allonge la longueur du serpent de 1  
     - pomme turquoise : enlève les bords de la grille pendant 20s  
 
