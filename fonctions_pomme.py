@@ -73,10 +73,9 @@ tps_blanche = []
 tps_jaune = -1
 frequence = 15
 
-    
 def proba_pomme_jaune(pomme_lente):
     if pomme_lente[2]:
-        pygame.draw.rect(dis, jaune, [pomme_lente[0], pomme_lente[1], 20, 20])
+        dis.blit(image_pomme_jaune, (pomme_lente[0], pomme_lente[1]))
     if not pomme_lente[2]:
         p = random.randint(0, 40)
         if p == 0 and pomme_lente[3]:
@@ -84,7 +83,6 @@ def proba_pomme_jaune(pomme_lente):
             pomme_lente[1] = 60 + random.randint(0, (H-100)/20)*20
             pomme_lente[2] = True
             pomme_lente[3] = False
-
     return pomme_lente
 
 def pomme_jaune(l, score, pomme_lente, tps_jaune):
@@ -93,32 +91,24 @@ def pomme_jaune(l, score, pomme_lente, tps_jaune):
             score += 10
             pygame.draw.rect(
                 dis, black, [pomme_lente[0], pomme_lente[1], 10, 10])
-            
             tps_jaune=0
             pomme_lente[2]=False
-            
-
     return score, pomme_lente, tps_jaune
 
 def ralentissement(tps_jaune, frequence,pomme_lente):
     if tps_jaune == 0:
-        
         frequence  -= 10
         tps_jaune = 1
        
     elif tps_jaune>0 and tps_jaune <= frequence*10:
-        
         tps_jaune += 1
         
     elif tps_jaune >= (frequence*10)+1:
-        
         frequence += 10
         tps_jaune = -1
         pomme_lente[3] = True
-        
-       
+          
     return tps_jaune,frequence,pomme_lente
-
 
 
 def proba_pomme_blanche(pomme_rapide):
@@ -217,8 +207,8 @@ def apparition_pomme_rose(score, pomme_rose):
 
     if pomme_rose[2]:
         dis.blit(image_pomme_rose, (pomme_rose[0], pomme_rose[1]))
-    if not pomme_rose[2] and score > 0:
-        s = random.randint(0, 10)
+    if not pomme_rose[2] and score > 5:
+        s = random.randint(0, 100)
         if s == 0:
             pomme_rose[0] = 20 + random.randint(0, (L-60)/20)*20
             pomme_rose[1] = 60 + random.randint(0, (H-100)/20)*20
@@ -258,8 +248,8 @@ def pomme_turquoise(score, snake, pomme_t):
     """
     if pomme_t[2]:
         dis.blit(image_pomme_turquoise, (pomme_t[0], pomme_t[1]))
-    if not pomme_t[2] and score > 0:
-        s = random.randint(0, 500)
+    if not pomme_t[2] and score > 10:
+        s = random.randint(0, 200)
         if s == 0:
             pomme_t[0] = 40 + random.randint(0, (L-100)/20)*20
             pomme_t[1] = 80 + random.randint(0, (H-140)/20)*20
