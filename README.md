@@ -47,9 +47,10 @@ Le joueur peut appuyer sur les flèches du clavier pour déplacer le serpent. Po
 
 # Composition du projet 
 #       Dans les sources : 
-        - fonction_affichage : Fichier qui gère 
-        - fonction_avance : Fichier qui gère 
-        - fonction_pomme : Fichier qui gère 
+- fonction_affichage : Fichier qui gère l'affichage de la fenêtre, du snake et de son déplacement de manière fluide, du score, du niveau et l'initialisation des fruits
+- fonction_avance : Fichier qui gère 
+- fonction_pomme : Fichier qui gère 
+
 #       Dans les tests : 
         - des tests correspondant à chacun des fichiers.
 
