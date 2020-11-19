@@ -72,24 +72,23 @@ tps_turquoise = -1
 tps_blanche = []
 tps_jaune = -1
 frequence = 15
-
     
-def proba_pomme_jaune(pomme_lente):
+def proba_pomme_jaune(pomme_lente,score):
     """ prend en entrée la position de la pomme, un booléen indiquant si la pomme jaune a déjà été mangé 
 et un booléen indiquant si l'effet d'une pomme jaune est toujours en cours, 
 génére avec une proba de 1/200 une pomme jaune aléatoirement 
 si et seulement si aucune paume blanche n'est en cours
-[entrée/sortie]: liste : [int,int,bool,bool]"""
+[entrée/sortie]: liste : [int,int,bool,bool]
+[entrée]: score  : int"""
     if pomme_lente[2]:
-        pygame.draw.rect(dis, jaune, [pomme_lente[0], pomme_lente[1], 20, 20])
-    if not pomme_lente[2]:
-        p = random.randint(0, 40)
+        dis.blit(image_pomme_jaune, (pomme_lente[0], pomme_lente[1]))
+    if not pomme_lente[2] and score>20:
+        p = random.randint(0, 200)
         if p == 0 and pomme_lente[3]:
             pomme_lente[0] = 20 + random.randint(0, (L-60)/20)*20
             pomme_lente[1] = 60 + random.randint(0, (H-100)/20)*20
             pomme_lente[2] = True
             pomme_lente[3] = False
-
     return pomme_lente
 
 def pomme_jaune(snake, score, pomme_lente, tps_jaune):
@@ -110,11 +109,8 @@ def pomme_jaune(snake, score, pomme_lente, tps_jaune):
             score += 10
             pygame.draw.rect(
                 dis, black, [pomme_lente[0], pomme_lente[1], 10, 10])
-            
             tps_jaune=0
             pomme_lente[2]=False
-            
-
     return score, pomme_lente, tps_jaune
 
 def ralentissement(tps_jaune, frequence,pomme_lente):
@@ -125,26 +121,21 @@ def ralentissement(tps_jaune, frequence,pomme_lente):
     [entrée: pomme_lente]: liste: [int,int,bool,bool]
     """
     if tps_jaune == 0:
-        
         frequence  -= 10
         tps_jaune = 1
        
     elif tps_jaune>0 and tps_jaune <= frequence*10:
-        
         tps_jaune += 1
         
     elif tps_jaune >= (frequence*10)+1:
-        
         frequence += 10
         tps_jaune = -1
         pomme_lente[3] = True
-        
-       
+          
     return tps_jaune,frequence,pomme_lente
 
 
-
-def proba_pomme_blanche(pomme_rapide):
+def proba_pomme_blanche(pomme_rapide,score):
     """prend en entrée la liste avec les coordonnées de la pomme et un booléen indiquant si 
     il y a déjà une pomme blanche sur la grille de jeu.
     Génére avec une proba 1/80 une position aléatoire pour la pomme blanche
@@ -153,7 +144,7 @@ def proba_pomme_blanche(pomme_rapide):
     if pomme_rapide[2]:
         dis.blit(image_pomme_blanche, (pomme_rapide[0], pomme_rapide[1]))
     if not pomme_rapide[2]:
-        p = random.randint(0, 81)
+        p = random.randint(0, 200)
         if p == 0:
             pomme_rapide[0] = 20 + random.randint(0, (L-60)/20)*20
             pomme_rapide[1] = 60 + random.randint(0, (H-100)/20)*20
@@ -173,6 +164,7 @@ def pomme_blanche(snake, score, pomme_rapide, tps_blanche):
     [entrée/sortie: pomme_rapide]: liste :  [int,int,bool]
     [entrée/sortie: score]: int
     [entrée/sortie: tps_blanche]: liste
+    [entrée: snake]: liste de liste
     """
     if pomme_rapide[2]:
         if snake[0][0] == pomme_rapide[0] and snake[0][1] == pomme_rapide[1]:
@@ -240,8 +232,8 @@ def apparition_pomme_rose(score, pomme_rose):
 
     if pomme_rose[2]:
         dis.blit(image_pomme_rose, (pomme_rose[0], pomme_rose[1]))
-    if not pomme_rose[2] and score > 0:
-        s = random.randint(0, 10)
+    if not pomme_rose[2] and score > 5:
+        s = random.randint(0, 100)
         if s == 0:
             pomme_rose[0] = 20 + random.randint(0, (L-60)/20)*20
             pomme_rose[1] = 60 + random.randint(0, (H-100)/20)*20
@@ -281,8 +273,8 @@ def pomme_turquoise(score, snake, pomme_t):
     """
     if pomme_t[2]:
         dis.blit(image_pomme_turquoise, (pomme_t[0], pomme_t[1]))
-    if not pomme_t[2] and score > 0:
-        s = random.randint(0, 500)
+    if not pomme_t[2] and score > 10:
+        s = random.randint(0, 200)
         if s == 0:
             pomme_t[0] = 40 + random.randint(0, (L-100)/20)*20
             pomme_t[1] = 80 + random.randint(0, (H-140)/20)*20
@@ -344,7 +336,7 @@ def pomme_coupe2(score, pomme_coupe, snake):
         dis.blit(image_pomme_verte, (pomme_coupe[0], pomme_coupe[1]))
     if not pomme_coupe[2]:
         if score > 5 and len(snake) > 5:
-            s = random.randint(0, 201)
+            s = random.randint(0, 200)
             if s == 0:
                 pomme_coupe[0] = 20 + random.randint(0, (L-60)/20)*20
                 pomme_coupe[1] = 60 + random.randint(0, (H-100)/20)*20
