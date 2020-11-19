@@ -99,6 +99,7 @@ def game_loop(record):
     game_over = False
     game_close = False
     collision = True
+    collision_mur = False
     direction = 'null'
     border = True
     score = 0
@@ -123,10 +124,12 @@ def game_loop(record):
     n = 3
     while not game_over:
 
+        # detection mur ou soit même
         game_close, game_over, record = ecran_fin(
             game_close, game_over, record, score)
 
         already_changed = False
+
         for event in pygame.event.get():  # transfo du mouvement en fonction pour les test
             dx, dy, game_over, already_changed, direction = move(
                 event, dx, dy, game_over, already_changed, direction)
@@ -136,10 +139,6 @@ def game_loop(record):
         snake = newsnake(snake, n, dx, dy)
         dis.fill(black)
         afficher_mur(border)
-
-        # detection mur ou soit même
-        snake, game_close = detection_collision_bordure(snake, game_close, border)
-        game_close = detection_auto_collision(snake, collision, game_close, n)
 
         # lorsqu'on touche la pomme
         score, pomme, snake, queue = collision_pomme(
@@ -179,8 +178,11 @@ def game_loop(record):
         score, pomme_lente, tps_jaune = pomme_jaune(snake, score, pomme_lente, tps_jaune)
         tps_jaune, frequence,pomme_lente = ralentissement(tps_jaune, frequence,pomme_lente)
         
+        snake, game_close,collision_mur = detection_collision_bordure(snake, game_close, border, collision_mur)
+        game_close = detection_auto_collision(snake, collision, game_close, n)
+
         # on affiche le serpent
-        affiche_snake(snake)
+        affiche_snake(snake,collision_mur)
 
         level, augmented = update_level(score, level)
 

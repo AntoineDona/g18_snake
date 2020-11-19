@@ -65,14 +65,20 @@ def newsnake(snake, n, dx, dy):
     return snake
 
 
-def affiche_snake(snake):
+def affiche_snake(snake,coll_mur):
     """ Affiche le snake sur la grille
     [entrée]: snake : liste de liste
     [sortie]: None
     """
-    for x in snake:
-        pygame.draw.rect(dis, violet, [x[0], x[1], 20, 20])
-    pygame.display.update()
+    if coll_mur:
+        for x in snake[1:]:
+            pygame.draw.rect(dis, violet, [x[0], x[1], 20, 20])
+        pygame.display.update()
+
+    else:
+        for x in snake:
+            pygame.draw.rect(dis, violet, [x[0], x[1], 20, 20])
+        pygame.display.update()
 
 
 def update_level(score,level, n=10):
