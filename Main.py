@@ -163,7 +163,7 @@ def game_loop(record):
         # on augmente la fréquence 
         if augmented:
             frequence += 1
-
+        print(frequence)
         # on affiche le score et le niveau
         score_font = pygame.font.SysFont("Times new roman", 35)
         value_score = score_font.render("Score: " + str(score), True, red)
