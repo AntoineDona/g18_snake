@@ -40,7 +40,7 @@ clock = pygame.time.Clock()
 record = 0
 
 
-def ecran_fin(game_close, game_over, record, score):
+def ecran_fin(game_close, game_over, record, score,level):
     """Cette fonction permett d'afficher l'écran de fin lorsqu'on a perdu la partie. 
     Elle affiche le score et le record. Elle propose à l'utilisateur de recommencer une partie ou de quitter le jeu.
     game_close : devient vrai lorsqu'on perd ce qui impliquel'affichage de l'écran de fin
@@ -59,17 +59,18 @@ def ecran_fin(game_close, game_over, record, score):
             'Game over', True, (255, 0, 0))  # decription
         # on récupère les coordonées du rectancle game_over_surface
         game_over_rect = game_over_surface.get_rect()
-        game_over_rect.midtop = (800/2, 600/4)  # positionnement
+        game_over_rect.midtop = (800/2, 500/2)  # positionnement
         dis.fill(black)
         afficher_mur(True)
         dis.blit(game_over_surface, game_over_rect)  # affiche
 
-        police_score = pygame.font.SysFont('times', 40)
-        score_surface = police_score.render(
-            'Score:' + str(score)+'   '+'Record:' + str(record), True, (255, 0, 0))
-        score_rect = score_surface.get_rect()
-        score_rect.midtop = (800/2, 600/2)
-        dis.blit(score_surface, score_rect)
+        score_font = pygame.font.SysFont("Times new roman", 35)
+        value_score = score_font.render("Score: " + str(score), True, red)
+        dis.blit(value_score, [5, 0])
+        value_record = score_font.render("Record: " + str(record), True, red)
+        dis.blit(value_record, [300, 0])
+        value_level = score_font.render("Level: " + str(level), True, red)
+        dis.blit(value_level, [660, 0])
 
         police_message = pygame.font.SysFont('times', 20)
         message_surface = police_message.render(
@@ -78,15 +79,13 @@ def ecran_fin(game_close, game_over, record, score):
         message_rect.midtop = (800/2, 600/1.5)
         dis.blit(message_surface, message_rect)
         for event in pygame.event.get():
-            if event.type == pygame.KEYDOWN:
-                if event.key == pygame.K_q or event.type == pygame.QUIT:
+            if (event.type==KEYDOWN and event.key == pygame.K_q) or event.type == pygame.QUIT:
                     game_over = True
                     game_close = False
                     pygame.quit()
                     quit()
-                if event.key == pygame.K_c:
+            if event.type==KEYDOWN and event.key == pygame.K_c:
                     game_loop(record)
-
         pygame.display.flip()
         time.sleep(1)
     return game_close, game_over, record
@@ -125,13 +124,13 @@ def game_loop(record):
     while not game_over:
         # detection mur ou soit même
         game_close, game_over, record = ecran_fin(
-            game_close, game_over, record, score)
+            game_close, game_over, record, score, level)
 
         already_changed = False
 
         for event in pygame.event.get():  # transfo du mouvement en fonction pour les test
             dx, dy, game_over, already_changed, direction = move(
-                event, dx, dy, game_over, already_changed, direction)
+                event, dx, dy, game_over, already_changed, direction, score, record, level)
 
         # on avance
         queue = copy(snake[n-1])

@@ -4,6 +4,7 @@ from copy import copy
 import random
 import time  # Lola
 from math import floor
+from fonctions_affichage import *
 
 L = 800
 H = 600
@@ -15,7 +16,7 @@ pygame.display.set_caption('Snake Game')
 clock = pygame.time.Clock()
 
 
-def move(event, dx, dy, game_over, already_changed, direction):
+def move(event, dx, dy, game_over, already_changed, direction,score,record,level):
     """ Fonction qui déplace le serpent sur la grille de jeu en utilisant les flèches du clavier 
     event est un événement de pygame ( ici donc le fait d'appuyer sur une touche)
     dx et dy sont les déplacement.
@@ -34,7 +35,7 @@ def move(event, dx, dy, game_over, already_changed, direction):
         if event.key == pygame.K_p:
             exit = False
             while not(exit):
-                display_ecran_pause()
+                display_ecran_pause(score,record,level)
                 for event2 in pygame.event.get():
                     if event2.type == pygame.QUIT or (event2.type == pygame.KEYDOWN and event2.key == pygame.K_q):
                         pygame.quit()
@@ -100,3 +101,4 @@ def detection_auto_collision(snake, collision, game_over, n):
             if collision and snake[0][0] == snake[k][0] and snake[0][1] == snake[k][1]:
                 game_over = True
     return game_over
+

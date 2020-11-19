@@ -137,3 +137,29 @@ def afficher_ecran_accueil():
     dis.blit(value_record, [300, 0])
     value_level = score_font.render("Level: " + str(0), True, red)
     dis.blit(value_level, [660, 0])
+
+def display_ecran_pause(score,record,level):
+    police = pygame.font.SysFont('times new roman', 90)
+    game_over_surface = police.render(
+        'Pause', True, (255, 0, 0))  # decription
+    # on récupère les coordonées du rectancle game_over_surface
+    game_over_rect = game_over_surface.get_rect()
+    game_over_rect.midtop = (800/2, 500/2)  # positionnement
+    dis.fill(black)
+    afficher_mur(True)
+    dis.blit(game_over_surface, game_over_rect)  # affiche
+
+    police_message = pygame.font.SysFont('times', 20)
+    message_surface = police_message.render(
+        'Press P to resume or Press Q to quit game', True, (255, 0, 0))
+    message_rect = message_surface.get_rect()
+    message_rect.midtop = (800/2, 600/1.5)
+    dis.blit(message_surface, message_rect)
+
+    score_font = pygame.font.SysFont("Times new roman", 35)
+    value_score = score_font.render("Score: " + str(score), True, red)
+    dis.blit(value_score, [5, 0])
+    value_record = score_font.render("Record: " + str(record), True, red)
+    dis.blit(value_record, [300, 0])
+    value_level = score_font.render("Level: " + str(level), True, red)
+    dis.blit(value_level, [660, 0])
