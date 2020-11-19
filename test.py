@@ -31,10 +31,10 @@ def test_proba_pomme_jaune():
     assert pomme_jaune[2] or not pomme_jaune[2]
 
 def test_pomme_jaune():
-    score, pomme, tps = pomme_jaune(snake_init,10,[300,300,True],[])
+    score, pomme, tps = pomme_jaune(snake_init,10,[300,300,True],0)
     assert score == 20
     assert pomme[2] == False
-    assert tps == [0]
+    assert tps == 0
 
 def test_ralentissement():
     pass
@@ -53,7 +53,7 @@ def test_pomme_blanche():
 def test_acceleration():
     tps , freq  = acceleration([0,1,3,0],15)
     assert tps == [0,2,4,2]
-    assert freq == 30
+    assert freq == 25
 
 def test_collision_pomme():
     score, pomme, snake, queue = collision_pomme(10,[300,300],snake_init,[260,300])
