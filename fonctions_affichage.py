@@ -66,11 +66,11 @@ def affiche_snake(snake):
     pygame.display.update()
 
 
-def update_level(score, n=5):
+def update_level(score,level, n=10):
     """retourne la partie entière du score divisé par n
     [entrée: score]: int
     [entrée: n]: le score nécessaire pour changer de niveau"""
-    return floor(score/n)
+    return floor(score/n),level+1 == floor(score/n)
 
 
 

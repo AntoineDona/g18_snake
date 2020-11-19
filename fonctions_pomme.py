@@ -244,10 +244,10 @@ def pomme_turquoise(score, snake, pomme_t):
     if pomme_t[2]:
         dis.blit(image_pomme_turquoise, (pomme_t[0], pomme_t[1]))
     if not pomme_t[2] and score > 5:
-        s = random.randint(0, 501)
+        s = random.randint(0, 5)
         if s == 0:
-            pomme_t[0] = random.randint(0, (L-20)/20)*20
-            pomme_t[1] = random.randint(0, (H-20)/20)*20
+            pomme_t[0] = random.randint(20, (L-40)/20)*20
+            pomme_t[1] = random.randint(20, (H-40)/20)*20
             pomme_t[2] = True
     return score, snake, pomme_t    
 
