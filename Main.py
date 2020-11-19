@@ -37,6 +37,8 @@ clock = pygame.time.Clock()
 record = 0
 
 
+
+
 def ecran_fin(game_close, game_over, record, score):
     while game_close == True:
         record = max(record, score)  # calcul du record
@@ -88,7 +90,7 @@ def game_loop(record):
     frequence = 10
     dx = 0
     dy = 0
-    l = [[300, 300], [280, 300], [260, 300]]
+    snake = [[300, 300], [280, 300], [260, 300]]
     pomme = [100, 100]
     pomme_t = [200, 100, False]
     pomme_coupe = [0, 0, False]
@@ -112,44 +114,44 @@ def game_loop(record):
             dx, dy, game_over, already_changed, direction = move(event, dx, dy, game_over, already_changed, direction)
 
         # on avance
-        queue = copy(l[n-1])
-        l = newsnake(l, n, dx, dy)
+        queue = copy(snake[n-1])
+        snake = newsnake(snake, n, dx, dy)
         dis.fill(black)
 
         # detection mur ou soit même
-        l, game_close = detection_collision_bordure(l, border, game_close)
-        game_close = detection_auto_collision(l, collision, game_close, n)
+        snake, game_close = detection_collision_bordure(snake, border, game_close)
+        game_close = detection_auto_collision(snake, collision, game_close, n)
 
         # lorsqu'on touche la pomme
-        score, pomme, l, queue = collision_pomme(score, pomme, l, queue)
+        score, pomme, snake, queue = collision_pomme(score, pomme, snake, queue)
 
         # une pomme verte peut apparaitre, s'il y en a déjà déjà une on l'affiche
-        pomme_coupe = pomme_coupe2(score, pomme_coupe, l)
+        pomme_coupe = pomme_coupe2(score, pomme_coupe, snake)
         # si il rencontre une pomme verte sa taille est divisé par 2
-        l, score, pomme_coupe = coll_pomme_coupe(l, score, pomme_coupe)
-
-        n = len(l)  # taille du serpent après avoir peut être mangé une pomme
-
-        # une pomme tuquoise peut apparaitre
-        score, l, pomme_t = pomme_turquoise(score, l, pomme_t)
-
-        # si on mange une pomme turquoise, on désactive les border
-        score, pomme_t, tps_turquoise, border = coll_pomme_turquoise(
-            score, l, pomme_t, tps_turquoise, border)
-
-        # pendant 20secondes il n'y a plus de border
-        tps_turquoise, border = temps_border(tps_turquoise, border, frequence)
+        snake, score, pomme_coupe = coll_pomme_coupe(snake, score, pomme_coupe)
 
         # une pomme rose peut apparaitre
         apparition_pomme_rose(score, pomme_rose)
 
         # lorsqu'on touche un pomme rose
-        l, score = collision_pomme_rose(l, score, pomme_rose, queue)
+        snake, score = collision_pomme_rose(snake, score, pomme_rose, queue)
+
+        n = len(snake)  # taille du serpent après avoir peut être mangé une pomme
+
+        # une pomme tuquoise peut apparaitre
+        score, snake, pomme_t = pomme_turquoise(score, snake, pomme_t)
+
+        # si on mange une pomme turquoise, on désactive les border
+        score, pomme_t, tps_turquoise, border = coll_pomme_turquoise(
+            score, snake, pomme_t, tps_turquoise, border)
+
+        # pendant 20secondes il n'y a plus de border
+        tps_turquoise, border = temps_border(tps_turquoise, border, frequence)
 
         # lorsqu'on touche une pomme blanche on accèlere pendant 10sec
         pomme_rapide = proba_pomme_blanche(pomme_rapide)
         score, pomme_rapide, tps_blanche = pomme_blanche(
-            l, score, pomme_rapide, tps_blanche)
+            snake, score, pomme_rapide, tps_blanche)
         tps_blanche, frequence = acceleration(tps_blanche, frequence)
 
         #lorsqu'on touche une pomme jaune on ralenti pendant 10sec
@@ -159,7 +161,7 @@ def game_loop(record):
         tps_jaune, frequence = ralentissement(tps_jaune, frequence)
         
         # on affiche le serpent
-        affiche_snake(l)
+        affiche_snake(snake)
 
         level = update_level(score)
         # on affiche le score et le niveau
