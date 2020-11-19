@@ -163,7 +163,12 @@ def game_loop(record):
         # on affiche le serpent
         affiche_snake(snake)
 
-        level = update_level(score)
+        level,augmented = update_level(score,level)
+
+        # on augmente la fréquence 
+        if augmented:
+            frequence += 1
+
         # on affiche le score et le niveau
         score_font = pygame.font.SysFont("Times new roman", 35)
         value_score = score_font.render("Score: " + str(score), True, red)
