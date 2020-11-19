@@ -167,11 +167,11 @@ def game_loop(record):
         # on affiche le score et le niveau
         score_font = pygame.font.SysFont("Times new roman", 35)
         value_score = score_font.render("Score: " + str(score), True, red)
-        dis.blit(value_score, [0, 0])
+        dis.blit(value_score, [5, 0])
         value_record = score_font.render("Record: " + str(record), True, red)
         dis.blit(value_record, [300, 0])
         value_level = score_font.render("Level: " + str(level), True, red)
-        dis.blit(value_level, [600, 0])
+        dis.blit(value_level, [660, 0])
 
         pygame.display.update()
         clock.tick(frequence)
