@@ -29,11 +29,39 @@ pomme_rapide = [50, 50, False]
 tps_turquoise = -1
 tps_blanche = []
 
+# afficher la pomme rouge
+image_pomme_rouge = pygame.image.load(r'g18_snake/images/pomme_rouge.png')
+image_pomme_rouge = pygame.transform.scale(image_pomme_rouge, (20, 20))
+image_pomme_rouge = image_pomme_rouge.convert()
+
+# afficher la pomme blanche
+image_pomme_blanche = pygame.image.load(r'g18_snake/images/pomme_blanche.png')
+image_pomme_blanche = pygame.transform.scale(image_pomme_blanche, (20, 20))
+image_pomme_blanche = image_pomme_blanche.convert()
+
+# afficher la pomme rose
+image_pomme_rose = pygame.image.load(r'g18_snake/images/pomme_rose.png')
+image_pomme_rose = pygame.transform.scale(image_pomme_rose, (20, 20))
+image_pomme_rose = image_pomme_rose.convert()
+
+# afficher la pomme turquoise
+image_pomme_turquoise = pygame.image.load(r'g18_snake/images/pomme_turquoise.png')
+image_pomme_turquoise = pygame.transform.scale(image_pomme_turquoise, (20, 20))
+image_pomme_turquoise = image_pomme_turquoise.convert()
+
+# afficher la pomme verte
+image_pomme_verte = pygame.image.load(r'g18_snake/images/pomme_verte.png')
+image_pomme_verte = pygame.transform.scale(image_pomme_verte, (20, 20))
+image_pomme_verte = image_pomme_verte.convert()
+
+# afficher la pomme jaune
+image_pomme_jaune = pygame.image.load(r'g18_snake/images/pomme_jaune.png')
+image_pomme_jaune = pygame.transform.scale(image_pomme_jaune, (20, 20))
+image_pomme_jaune = image_pomme_jaune .convert()
 
 def proba_pomme_blanche(pomme_rapide):
     if pomme_rapide[2]:
-        pygame.draw.rect(
-            dis, white, [pomme_rapide[0], pomme_rapide[1], 20, 20])
+        dis.blit(image_pomme_blanche, (pomme_rapide[0], pomme_rapide[1]))
     if not pomme_rapide[2]:
         p = random.randint(0, 81)
         if p == 0:
@@ -79,14 +107,14 @@ def collision_pomme(score, pomme, l, queue):
         pomme[0] = random.randint(0, (L-20)/20)*20
         pomme[1] = random.randint(0, (H-20)/20)*20
 
-    pygame.draw.rect(dis, red, [pomme[0], pomme[1], 20, 20])
+    pygame.draw.rect(dis, black, [pomme[0], pomme[1], 20, 20])
+    dis.blit(image_pomme_rouge, (pomme[0], pomme[1]))
     return score, pomme, l, queue
 
 
 def apparition_pomme_rose(score, pomme_rose):
     if pomme_rose[2]:
-        pygame.draw.rect(
-            dis, rose, [pomme_rose[0], pomme_rose[1], 20, 20])
+        dis.blit(image_pomme_rose, (pomme_rose[0], pomme_rose[1]))
     if not pomme_rose[2] and score > 5:
         s = random.randint(0, 101)
         if s == 0:
@@ -110,16 +138,13 @@ def collision_pomme_rose(l, score, pomme_rose, queue):
 
 def pomme_turquoise(score, l, pomme_t):
     if pomme_t[2]:
-        pygame.draw.rect(
-            dis, turquoise, [pomme_t[0], pomme_t[1], 20, 20])
+        dis.blit(image_pomme_turquoise, (pomme_t[0], pomme_t[1]))
     if not pomme_t[2] and score > 5:
         s = random.randint(0, 501)
         if s == 0:
             pomme_t[0] = random.randint(0, (L-20)/20)*20
             pomme_t[1] = random.randint(0, (H-20)/20)*20
             pomme_t[2] = True
-            pygame.draw.rect(
-                dis, black, [pomme_t[0], pomme_t[1], 20, 20])
     return score, l, pomme_t
 
 
@@ -147,8 +172,7 @@ def temps_border(tps_t, border, frequence):
 
 def pomme_coupe2(score, pomme_coupe, l):
     if pomme_coupe[2]:
-        pygame.draw.rect(
-            dis, vert, [pomme_coupe[0], pomme_coupe[1], 20, 20])
+        dis.blit(image_pomme_verte, (pomme_coupe[0], pomme_coupe[1]))
     if not pomme_coupe[2]:
         if score > 5 and len(l) > 5:
             s = random.randint(0, 201)
@@ -156,8 +180,6 @@ def pomme_coupe2(score, pomme_coupe, l):
                 pomme_coupe[0] = random.randint(0, (L-20)/20)*20
                 pomme_coupe[1] = random.randint(0, (H-20)/20)*20
                 pomme_coupe[2] = True
-                pygame.draw.rect(
-                    dis, vert, [pomme_coupe[0], pomme_coupe[1], 20, 20])
     return pomme_coupe
 
 

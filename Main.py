@@ -34,6 +34,8 @@ pygame.display.set_caption('Snake Game')
 clock = pygame.time.Clock()
 record=0
 
+
+
 def ecran_fin(game_close, game_over, record, score):
     while game_close == True:
         record=max(record,score) # calcul du record
@@ -146,6 +148,13 @@ def game_loop(record):
         score, pomme_rapide, tps_blanche = pomme_blanche(
             l, score, pomme_rapide, tps_blanche)
         tps_blanche, frequence = acceleration(tps_blanche, frequence)
+
+        #dis.blit(image_pomme_rouge, (pomme[0], pomme[1]))
+        #dis.blit(image_pomme_blanche, (pomme_rapide[0], pomme_rapide[1]))
+        #dis.blit(image_pomme_rose, (pomme_rose[0], pomme_rose[1]))
+        #dis.blit(image_pomme_turquoise, (pomme_t[0], pomme_t[1]))
+        #dis.blit(image_pomme_verte, (pomme_coupe[0], pomme_coupe[1]))
+        #dis.blit(image_pomme_jaune, (pomme_lente[0], pomme_lente[1]))
 
         # on affiche le serpent
         affiche_snake(l)
