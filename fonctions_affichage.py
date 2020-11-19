@@ -103,4 +103,37 @@ def afficher_mur(border):
             dis.blit(image_mur_transparent, (0,y*20))
             dis.blit(image_mur_transparent, (L-20,y*20))
 
+def afficher_ecran_accueil():
+    police = pygame.font.SysFont('times new roman', 50)
+    game_over_surface = police.render(
+        'Welcome to a new game of', True, (255, 0, 0))  # decription
+    # on récupère les coordonées du rectancle game_over_surface
+    game_over_rect = game_over_surface.get_rect()
+    game_over_rect.midtop = (800/2, 600/4)  # positionnement
+    dis.fill(black)
 
+    afficher_mur(True)
+
+    dis.blit(game_over_surface, game_over_rect)  # affiche
+
+    police_score = pygame.font.SysFont('times', 90)
+    score_surface = police_score.render(
+        'SNAKE', True, (255, 0, 0))
+    score_rect = score_surface.get_rect()
+    score_rect.midtop = (800/2, 500/2)
+    dis.blit(score_surface, score_rect)
+
+    police_message = pygame.font.SysFont('times', 20)
+    message_surface = police_message.render(
+        'Press any key to start', True, (255, 0, 0))
+    message_rect = message_surface.get_rect()
+    message_rect.midtop = (800/2, 600/1.5)
+    dis.blit(message_surface, message_rect)
+
+    score_font = pygame.font.SysFont("Times new roman", 35)
+    value_score = score_font.render("Score: " + str(0), True, red)
+    dis.blit(value_score, [5, 0])
+    value_record = score_font.render("Record: " + str(0), True, red)
+    dis.blit(value_record, [300, 0])
+    value_level = score_font.render("Level: " + str(0), True, red)
+    dis.blit(value_level, [660, 0])

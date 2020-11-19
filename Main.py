@@ -117,13 +117,12 @@ def game_loop(record):
     tps_turquoise = -1
     tps_blanche = []
     tps_jaune = -1
-    
+    new_game=True
 
     score = 0
     level = 0
     n = 3
     while not game_over:
-
         # detection mur ou soit même
         game_close, game_over, record = ecran_fin(
             game_close, game_over, record, score)
@@ -204,5 +203,12 @@ def game_loop(record):
     pygame.quit()
     quit()
 
-
-game_loop(record)
+while True:
+    afficher_ecran_accueil()
+    for event in pygame.event.get():
+        if event.type == pygame.KEYDOWN and not event.key == pygame.K_q  :
+            game_loop(record)
+        if (event.type==KEYDOWN and event.key == pygame.K_q) or event.type == pygame.QUIT:
+            pygame.quit()
+            quit()
+        pygame.display.flip()
