@@ -137,7 +137,7 @@ def acceleration(tps_blanche, frequence):
 
 
 def collision_pomme(score, pomme, snake, queue):
-    """Pomme : une liste qui représente les coordonnées de la pomme et si une pomme est déjà présente 
+    """Pomme : une liste qui représente les coordonnées de la pomme rouge et si une pomme rouge est déjà présente 
     sur la grille de jeu. 
     Snake : La liste avec les coordonées des carrés du serpent
     score : le score 
