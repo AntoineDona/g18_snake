@@ -30,6 +30,7 @@ pomme_rapide = [50, 50, False]
 
 tps_turquoise = -1
 tps_blanche = []
+tps_jaune = -1
 
 dis = pygame.display.set_mode((L, H))
 pygame.display.set_caption('Snake Game')
@@ -87,7 +88,7 @@ def game_loop(record):
     border = True
     score = 0
     n = 3
-    frequence = 10
+    frequence = 15
     dx = 0
     dy = 0
     snake = [[300, 300], [280, 300], [260, 300]]
@@ -96,9 +97,10 @@ def game_loop(record):
     pomme_coupe = [0, 0, False]
     pomme_rose = [10, 10, False]
     pomme_rapide = [50, 50, False]
-    pomme_lente = [22,8,False]
+    pomme_lente = [22,8,False,True]
     tps_turquoise = -1
     tps_blanche = []
+    tps_jaune = -1
     
 
     score = 0
@@ -155,6 +157,11 @@ def game_loop(record):
             snake, score, pomme_rapide, tps_blanche)
         tps_blanche, frequence = acceleration(tps_blanche, frequence)
 
+
+        pomme_lente = proba_pomme_jaune(pomme_lente)
+        score, pomme_lente, tps_jaune = pomme_jaune(snake, score, pomme_lente, tps_jaune)
+        tps_jaune, frequence,pomme_lente = ralentissement(tps_jaune, frequence,pomme_lente)
+        
         # on affiche le serpent
         affiche_snake(snake)
 

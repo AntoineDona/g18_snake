@@ -26,6 +26,7 @@ violet = (127, 0, 255)
 green = (0, 255, 65)
 turquoise = (64, 224, 208)
 rose = (253, 108, 158)
+jaune = (255,255,0)
 
 
 #---------- Définition des images --------------------
@@ -66,10 +67,60 @@ pomme_t = [200, 100, False]
 pomme_coupe = [0, 0, False]
 pomme_rose = [10, 10, False]
 pomme_rapide = [50, 50, False]
-pomme_lente = [22,8,False]
+pomme_lente = [300,300,False,True]
 tps_turquoise = -1
 tps_blanche = []
+tps_jaune = -1
+frequence = 15
+
     
+def proba_pomme_jaune(pomme_lente):
+    if pomme_lente[2]:
+        pygame.draw.rect(dis, jaune, [pomme_lente[0], pomme_lente[1], 20, 20])
+    if not pomme_lente[2]:
+        p = random.randint(0, 40)
+        if p == 0 and pomme_lente[3]:
+            pomme_lente[0] = random.randint(0, (L-20)/20)*20
+            pomme_lente[1] = random.randint(0, (H-20)/20)*20
+            pomme_lente[2] = True
+            pomme_lente[3] = False
+
+    return pomme_lente
+
+def pomme_jaune(l, score, pomme_lente, tps_jaune):
+    if pomme_lente[2]:
+        if l[0][0] == pomme_lente[0] and l[0][1] == pomme_lente[1]:
+            score += 10
+            pygame.draw.rect(
+                dis, black, [pomme_lente[0], pomme_lente[1], 10, 10])
+            
+            tps_jaune=0
+            pomme_lente[2]=False
+            
+
+    return score, pomme_lente, tps_jaune
+
+def ralentissement(tps_jaune, frequence,pomme_lente):
+    if tps_jaune == 0:
+        
+        frequence  -= 10
+        tps_jaune = 1
+       
+    elif tps_jaune>0 and tps_jaune <= frequence*10:
+        
+        tps_jaune += 1
+        
+    elif tps_jaune >= (frequence*10)+1:
+        
+        frequence += 10
+        tps_jaune = -1
+        pomme_lente[3] = True
+        
+       
+    return tps_jaune,frequence,pomme_lente
+
+
+
 def proba_pomme_blanche(pomme_rapide):
     """prend en entrée la liste avec les coordonnées de la pomme et un booléen indiquant si 
     il y a déjà une pomme blanche sur la grille de jeu.
@@ -119,12 +170,12 @@ def acceleration(tps_blanche, frequence):
     """
     for i in range(len(tps_blanche)):
         if tps_blanche[i] == 0:
-            frequence += 15
+            frequence += 10
             tps_blanche[-1] = 1
         elif tps_blanche[i] > 0 and tps_blanche[i] <= frequence*10:
             tps_blanche[i] += 1
         elif tps_blanche[i] == (frequence*10)+1:
-            frequence -= 15
+            frequence -= 10
             tps_blanche[i] = -1
 
     return tps_blanche, frequence
