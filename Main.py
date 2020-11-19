@@ -20,12 +20,14 @@ violet = (127, 0, 255)
 green = (0, 255, 65)
 turquoise = (64, 224, 208)
 rose = (253, 108, 158)
+jaune = (255,255,0)
 
 pomme = [100, 100]
 pomme_t = [200, 100, False]
 pomme_coupe = [0, 0, False]
 pomme_rose = [10, 10, False]
 pomme_rapide = [50, 50, False]
+pomme_lente = [22,8,False]
 tps_turquoise = -1
 tps_blanche = []
 
@@ -91,8 +93,10 @@ def game_loop(record):
     pomme_coupe = [0, 0, False]
     pomme_rose = [10, 10, False]
     pomme_rapide = [50, 50, False]
+    pomme_lente = [22,8,False]
     tps_turquoise = -1
     tps_blanche = []
+    tps_jaune = []
 
     score = 0
     level = 0
@@ -148,6 +152,12 @@ def game_loop(record):
             l, score, pomme_rapide, tps_blanche)
         tps_blanche, frequence = acceleration(tps_blanche, frequence)
 
+        #lorsqu'on touche une pomme jaune on ralenti pendant 10sec
+
+        pomme_lente = proba_pomme_jaune(pomme_lente)
+        score, pomme_lente, tps_jaune = pomme_jaune(l, score, pomme_lente, tps_jaune)
+        tps_jaune, frequence = ralentissement(tps_jaune, frequence)
+        print(tps_jaune,frequence)
         # on affiche le serpent
         affiche_snake(l)
 
