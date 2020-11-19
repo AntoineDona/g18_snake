@@ -5,12 +5,17 @@
 Projet de la semaine 2 des Coding Weeks : Elaboration d'un jeu Snake interactif
 
 # Membres de l'équipe
-Membre A : Beya Ben Ayed  
-Membre B : Jules Duchesne   
-Membre C : Yse de Reydet de Vulpillieres  
-Membre D : Antoine Do Nascimento   
-Membre E : Lola Escande   
-Membre F : Guillaume Franchino     
+**Membre A, Beya Ben Ayed :** première interface, mouvements élémentaires avec les flèches du clavier, pomme bonus, affichage des images de pommes à la place des carrés pour les différents bonus, rédaction du ReadMe, Powerpoint​ 
+
+**Membre B, Jules Duchesne :**  fruit malus, accélération et ralentissement du snake, pomme bonus, gestion de git​   
+
+**Membre C, Yse de Reydet de Vulpillieres :**fonctions de mouvement, évolution du snake, pommes bonus, gestion des bords, découpage en fonction du code, refactoring de Main.py, biblio​graphie
+
+**Membre D, Antoine Do Nascimento :** gestion du bord (collision et traversée), quitter le jeu même en pause, probleme de deplacement du serpent sur lui-même, focnction score et record, affichage d'une bordure qui change de couleur avec un bonus, augmentation de la vitesse avec le niveau​ 
+
+**Membre E, Lola Escande :** message et écran de fin de partie, rejouer la partie en appuyant sur une touche, mettre sur pause, refactoring du main.py ( nom des variables et commentaires), effectuer des tests​ exhaustifs
+
+**Membre F, Guillaume Franchino :** collision avec un fruit bonus, suivi du travail des autres pour la présentation, PowerPoint     
 
 # Fonctionnement
 Executer la partie Main.py pour jouer.  
@@ -29,7 +34,8 @@ Le joueur peut appuyer sur les flèches du clavier pour déplacer le serpent. Po
     - pomme verte : coupe le serpent en deux, fait gagner 1 point  
     - pomme blanche : accélère la vitesse du serpent pendant 30 secondes, fait gagner 10 points  
     - pomme rose :  allonge le serpent d'une case, fait gagner 3 points 
-    - pomme turquoise, sous la forme d'un petit fantôme : enlève les bords de la grille pendant 20 secondes, fait gagner 1 point
+    - pomme turquoise, sous la forme d'un petit fantôme : le serpent peut traverser les bords de la grille qui deviennent bleus pendant 20 secondes, fait gagner 1 point
+    - pomme jaune :  rallentit le serpent, fait gagner 1 point 
 
 
 # FIN DU JEU :   
@@ -52,7 +58,7 @@ Le joueur peut appuyer sur les flèches du clavier pour déplacer le serpent. Po
 - fonction_pomme : Fichier qui gère les différents bonus, les apparitions avec une certaine probabilité, les effets de chaque bonus, l'affichage d'une pomme du dessin
 
 #       Dans les tests : 
-        - des tests correspondant à chacun des fichiers.
+Tests exhaustifs des fonctions de bonus et malus et de fin de jeu dans un fichier Test.py à part avec unittest
 
 
 # Contact : 
