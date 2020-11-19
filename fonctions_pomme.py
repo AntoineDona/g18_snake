@@ -188,7 +188,7 @@ def collision_pomme(score, pomme, snake, queue):
 
     pygame.draw.rect(dis, black, [pomme[0], pomme[1], 20, 20])
     dis.blit(image_pomme_rouge, (pomme[0], pomme[1]))
-    return score, pomme, l, queue
+    return score, pomme, snake, queue
 
 
 def apparition_pomme_rose(score, pomme_rose):

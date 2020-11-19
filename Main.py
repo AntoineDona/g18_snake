@@ -157,7 +157,7 @@ def game_loop(record):
         #lorsqu'on touche une pomme jaune on ralenti pendant 10sec
 
         pomme_lente = proba_pomme_jaune(pomme_lente)
-        score, pomme_lente, tps_jaune = pomme_jaune(l, score, pomme_lente, tps_jaune)
+        score, pomme_lente, tps_jaune = pomme_jaune(snake, score, pomme_lente, tps_jaune)
         tps_jaune, frequence = ralentissement(tps_jaune, frequence)
         
         # on affiche le serpent
