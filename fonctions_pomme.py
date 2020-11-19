@@ -132,8 +132,8 @@ def proba_pomme_blanche(pomme_rapide):
     if not pomme_rapide[2]:
         p = random.randint(0, 81)
         if p == 0:
-            pomme_rapide[0] = random.randint(0, (L-20)/20)*20
-            pomme_rapide[1] = random.randint(0, (H-20)/20)*20
+            pomme_rapide[0] = 20 + random.randint(0, (L-60)/20)*20
+            pomme_rapide[1] = 60 + random.randint(0, (H-100)/20)*20
             pomme_rapide[2] = True
 
     return pomme_rapide
@@ -198,8 +198,8 @@ def collision_pomme(score, pomme, snake, queue):
         snake.append([queue[0], queue[1]])
 
         pygame.draw.rect(dis, black, [pomme[0], pomme[1], 20, 20])
-        pomme[0] = random.randint(0, (L-20)/20)*20
-        pomme[1] = random.randint(0, (H-20)/20)*20
+        pomme[0] = 20 + random.randint(0, (L-60)/20)*20
+        pomme[1] = 60 + random.randint(0, (H-100)/20)*20
 
     pygame.draw.rect(dis, black, [pomme[0], pomme[1], 20, 20])
     dis.blit(image_pomme_rouge, (pomme[0], pomme[1]))
@@ -220,8 +220,8 @@ def apparition_pomme_rose(score, pomme_rose):
     if not pomme_rose[2] and score > 0:
         s = random.randint(0, 10)
         if s == 0:
-            pomme_rose[0] = random.randint(0, (L-20)/20)*20
-            pomme_rose[1] = random.randint(0, (H-20)/20)*20
+            pomme_rose[0] = 20 + random.randint(0, (L-60)/20)*20
+            pomme_rose[1] = 60 + random.randint(0, (H-100)/20)*20
             pomme_rose[2] = True
 
 
@@ -259,10 +259,10 @@ def pomme_turquoise(score, snake, pomme_t):
     if pomme_t[2]:
         dis.blit(image_pomme_turquoise, (pomme_t[0], pomme_t[1]))
     if not pomme_t[2] and score > 5:
-        s = random.randint(0, 501)
+        s = random.randint(0, 5)
         if s == 0:
-            pomme_t[0] = random.randint(0, (L-20)/20)*20
-            pomme_t[1] = random.randint(0, (H-20)/20)*20
+            pomme_t[0] = 20 + random.randint(0, (L-60)/20)*20
+            pomme_t[1] = 60 + random.randint(0, (H-100)/20)*20
             pomme_t[2] = True
     return score, snake, pomme_t    
 
@@ -323,8 +323,8 @@ def pomme_coupe2(score, pomme_coupe, snake):
         if score > 5 and len(snake) > 5:
             s = random.randint(0, 201)
             if s == 0:
-                pomme_coupe[0] = random.randint(0, (L-20)/20)*20
-                pomme_coupe[1] = random.randint(0, (H-20)/20)*20
+                pomme_coupe[0] = 20 + random.randint(0, (L-60)/20)*20
+                pomme_coupe[1] = 60 + random.randint(0, (H-100)/20)*20
                 pomme_coupe[2] = True
     return pomme_coupe
 

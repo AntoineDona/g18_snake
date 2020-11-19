@@ -12,6 +12,8 @@ from fonctions_affichage import *
 pygame.init()
 L = 800
 H = 600
+l = L-2*20
+h = H-40
 vert = (0, 255, 0)
 white = (255, 255, 255)
 black = (0, 0, 0)
@@ -20,7 +22,7 @@ violet = (127, 0, 255)
 green = (0, 255, 65)
 turquoise = (64, 224, 208)
 rose = (253, 108, 158)
-jaune = (255,255,0)
+jaune = (255, 255, 0)
 
 pomme = [100, 100]
 pomme_t = [200, 100, False]
@@ -38,9 +40,18 @@ clock = pygame.time.Clock()
 record = 0
 
 
-
-
 def ecran_fin(game_close, game_over, record, score):
+    """Cette fonction permett d'afficher l'écran de fin lorsqu'on a perdu la partie. 
+    Elle affiche le score et le record. Elle propose à l'utilisateur de recommencer une partie ou de quitter le jeu.
+    game_close : devient vrai lorsqu'on perd ce qui impliquel'affichage de l'écran de fin
+    game_over : devient vrai lorsque l'utilisateur décide de quitter le jeu,
+    ce qui implique la fermeture de la fenêtre de jeu. 
+    record : le record de la boucle de jeu
+    score : le score
+    [entrée/sortie: game_close]: bool
+    [entrée/sortie: game_over]: bool
+    [entrée/sortie: record]: int
+    [entrée/sortie: score]: int"""
     while game_close == True:
         record = max(record, score)  # calcul du record
         police = pygame.font.SysFont('times new roman', 90)
@@ -50,6 +61,7 @@ def ecran_fin(game_close, game_over, record, score):
         game_over_rect = game_over_surface.get_rect()
         game_over_rect.midtop = (800/2, 600/4)  # positionnement
         dis.fill(black)
+        afficher_mur(True)
         dis.blit(game_over_surface, game_over_rect)  # affiche
 
         police_score = pygame.font.SysFont('times', 40)
@@ -81,6 +93,9 @@ def ecran_fin(game_close, game_over, record, score):
 
 
 def game_loop(record):
+    """on rentre dans la boucle de jeu.
+    record : le record de la boucle de jeu
+    [entrée/sortie: record]: int"""
     game_over = False
     game_close = False
     collision = True
@@ -97,11 +112,17 @@ def game_loop(record):
     pomme_coupe = [0, 0, False]
     pomme_rose = [10, 10, False]
     pomme_rapide = [50, 50, False]
+<<<<<<< HEAD
     pomme_lente = [22,8,False,True]
     tps_turquoise = -1
     tps_blanche = []
     tps_jaune = -1
     
+=======
+    pomme_lente = [22, 8, False]
+    tps_turquoise = -1
+    tps_blanche = []
+>>>>>>> d4b22941269783cc4604513fdf7dc9fe3800f7ca
 
     score = 0
     level = 0
@@ -120,13 +141,15 @@ def game_loop(record):
         queue = copy(snake[n-1])
         snake = newsnake(snake, n, dx, dy)
         dis.fill(black)
+        afficher_mur(border)
 
         # detection mur ou soit même
-        snake, game_close = detection_collision_bordure(snake, border, game_close)
+        snake, game_close = detection_collision_bordure(snake, game_close, border)
         game_close = detection_auto_collision(snake, collision, game_close, n)
 
         # lorsqu'on touche la pomme
-        score, pomme, snake, queue = collision_pomme(score, pomme, snake, queue)
+        score, pomme, snake, queue = collision_pomme(
+            score, pomme, snake, queue)
 
         # une pomme verte peut apparaitre, s'il y en a déjà déjà une on l'affiche
         pomme_coupe = pomme_coupe2(score, pomme_coupe, snake)
@@ -165,15 +188,20 @@ def game_loop(record):
         # on affiche le serpent
         affiche_snake(snake)
 
-        level = update_level(score)
+        level, augmented = update_level(score, level)
+
+        # on augmente la fréquence
+        if augmented:
+            frequence += 1
+        print(frequence)
         # on affiche le score et le niveau
         score_font = pygame.font.SysFont("Times new roman", 35)
         value_score = score_font.render("Score: " + str(score), True, red)
-        dis.blit(value_score, [0, 0])
+        dis.blit(value_score, [5, 0])
         value_record = score_font.render("Record: " + str(record), True, red)
         dis.blit(value_record, [300, 0])
         value_level = score_font.render("Level: " + str(level), True, red)
-        dis.blit(value_level, [600, 0])
+        dis.blit(value_level, [660, 0])
 
         pygame.display.update()
         clock.tick(frequence)
