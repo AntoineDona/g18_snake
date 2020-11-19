@@ -51,9 +51,9 @@ def proba_pomme_jaune(pomme_lente):
 
     return pomme_lente
 
-def pomme_jaune(l, score, pomme_jaune, tps_jaune):
+def pomme_jaune(snake, score, pomme_lente, tps_jaune):
     if pomme_lente[2]:
-        if l[0][0] == pomme_lente[0] and l[0][1] == pomme_lente[1]:
+        if snake[0][0] == pomme_lente[0] and snake[0][1] == pomme_lente[1]:
             score += 10
             pygame.draw.rect(
                 dis, black, [pomme_lente[0], pomme_lente[1], 10, 10])
