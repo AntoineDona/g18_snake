@@ -34,11 +34,12 @@ tps_blanche = []
 dis = pygame.display.set_mode((L, H))
 pygame.display.set_caption('Snake Game')
 clock = pygame.time.Clock()
-record=0
+record = 0
+
 
 def ecran_fin(game_close, game_over, record, score):
     while game_close == True:
-        record=max(record,score) # calcul du record
+        record = max(record, score)  # calcul du record
         police = pygame.font.SysFont('times new roman', 90)
         game_over_surface = police.render(
             'Game over', True, (255, 0, 0))  # decription
@@ -50,7 +51,7 @@ def ecran_fin(game_close, game_over, record, score):
 
         police_score = pygame.font.SysFont('times', 40)
         score_surface = police_score.render(
-            'Score:'+ str(score)+'   '+'Record:'+ str(record), True, (255, 0, 0))
+            'Score:' + str(score)+'   '+'Record:' + str(record), True, (255, 0, 0))
         score_rect = score_surface.get_rect()
         score_rect.midtop = (800/2, 600/2)
         dis.blit(score_surface, score_rect)
@@ -100,11 +101,11 @@ def game_loop(record):
 
     score = 0
     level = 0
-    record=0
     n = 3
     while not game_over:
 
-        game_close, game_over, record = ecran_fin(game_close, game_over,record,score)
+        game_close, game_over, record = ecran_fin(
+            game_close, game_over, record, score)
 
         already_changed = False
         for event in pygame.event.get():  # transfo du mouvement en fonction pour les test
