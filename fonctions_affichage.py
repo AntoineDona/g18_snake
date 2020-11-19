@@ -5,13 +5,19 @@ import random
 import time  # Lola
 from math import floor
 
+### Taille de la fenêtre de jeu ----------
 L = 800
 H = 600
+#------------------------------------------
 
+
+### affichage de la fenêtre et initialisation de l'horloge ------------------
 dis = pygame.display.set_mode((L, H))
 pygame.display.set_caption('Snake Game')
 clock = pygame.time.Clock()
+#----------------------------------------------------------------------------
 
+#---------- Définition des couleurs --------------------
 vert = (0, 255, 0)
 white = (255, 255, 255)
 black = (0, 0, 0)
@@ -20,7 +26,10 @@ violet = (127, 0, 255)
 green = (0, 255, 65)
 turquoise = (64, 224, 208)
 rose = (253, 108, 158)
+#------------------------------------------------------
 
+
+#### Initialisation des paramètres de fruits de jeux --------------------------------------
 pomme = [100, 100]
 pomme_t = [200, 100, False]
 pomme_coupe = [0, 0, False]
@@ -29,7 +38,7 @@ pomme_rapide = [50, 50, False]
 tps_turquoise = -1
 tps_blanche = []
 
-
+#------------------------------------------------------------------------------------------
 
 
 
@@ -48,12 +57,19 @@ def newsnake(snake, n, dx, dy):
 
 
 def affiche_snake(snake):
+    """ Affiche le snake sur la grille
+    [entrée]: snake : liste de liste
+    [sortie]: None
+    """
     for x in snake:
         pygame.draw.rect(dis, violet, [x[0], x[1], 20, 20])
     pygame.display.update()
 
 
 def update_level(score, n=5):
+    """retourne la partie entière du score divisé par n
+    [entrée: score]: int
+    [entrée: n]: le score nécessaire pour changer de niveau"""
     return floor(score/n)
 
 

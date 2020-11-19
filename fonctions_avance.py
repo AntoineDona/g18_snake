@@ -14,6 +14,18 @@ clock = pygame.time.Clock()
 
 
 def move(event, dx, dy, game_over, already_changed, direction):
+    """ Fonction qui déplace le serpent sur la grille de jeu en utilisant les flèches du clavier 
+    event est un événement de pygame ( ici donc le fait d'appuyer sur une touche)
+    dx et dy sont les déplacement.
+    game_over est True quand on veut quitter le jeu (cliquer sur la croix ou taper Q )
+    already_changed empêche de faire un demi tour sur soi même et direction garde en mémoire la direction
+    [entrée: event] : événement de la classe événement de pygame
+    [entrée/sortie : dx] : int
+    [entrée/sortie : dy] : int
+    [entrée/sortie : game_over]: bool
+    [entrée/sortie : already_changer]: bool
+    [entrée/sortie : direction ] : string
+    """
     if event.type == pygame.QUIT or (event.type == pygame.KEYDOWN and event.key == pygame.K_q):
         game_over = True
     if event.type == pygame.KEYDOWN:
@@ -53,20 +65,30 @@ def move(event, dx, dy, game_over, already_changed, direction):
     return dx, dy, game_over, already_changed, direction
 
 
-def detection_collision_bordure(l, border, game_over):
+def detection_collision_bordure(snake, border, game_over):
+    """Permet si border est False de terminer le jeu si on touche le bord et si border vaut True
+    de traverser les murs et sortir de l'autre coté.
+    [entrée/sortie : snake] : liste de liste
+    [entrée/sortie : game_over] : Bool 
+    [entrée : border ] : Bool"""
     # lorsqu'on touche le bord
-    if border and (l[0][0] < 20 or l[0][0] > L-20 or l[0][1] < 20 or l[0][1] > H-20):
+    if border and (snake[0][0] < 20 or snake[0][0] > L-20 or snake[0][1] < 20 or snake[0][1] > H-20):
         game_over = True
     # si bord désactivé on passe de l'autre coté
-    if not border and (l[0][0] < 10 or l[0][0] > L-10 or l[0][1] < 10 or l[0][1] > H-10):
-        l[0][0] = l[0][0] % L
-        l[0][1] = l[0][1] % H
-    return l, game_over
+    if not border and (snake[0][0] < 10 or snake[0][0] > L-10 or snake[0][1] < 10 or snake[0][1] > H-10):
+        snake[0][0] = snake[0][0] % L
+        snake[0][1] = snake[0][1] % H
+    return snake, game_over
 
 
-def detection_auto_collision(l, collision, game_over, n):
-    for k in range(1, len(l)):  # lorsqu'on se touche
+def detection_auto_collision(snake, collision, game_over, n):
+    """Permet de terminer le jeu quand le serpent se touche lui même, si le mode collision est activé
+    [entrée : snake] : liste de liste
+    [entrée/sortie : game_over] : Bool 
+    [entrée : collision"] : Bool
+    """
+    for k in range(1, len(snake)):  # lorsqu'on se touche
         if n > 3:
-            if collision and l[0][0] == l[k][0] and l[0][1] == l[k][1]:
+            if collision and snake[0][0] == snake[k][0] and snake[0][1] == snake[k][1]:
                 game_over = True
     return game_over
