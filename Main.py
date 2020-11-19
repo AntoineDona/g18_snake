@@ -96,7 +96,6 @@ def game_loop(record):
 
     score = 0
     level = 0
-    record=0
     n = 3
     while not game_over:
 
@@ -182,36 +181,7 @@ def display_ecran_pause():
     message_rect.midtop = (800/2, 600/1.5)
     dis.blit(message_surface, message_rect)
 
-def ecran_fin(game_close, game_over):
-    while game_close == True:
-        police = pygame.font.SysFont('times new roman', 90)
-        game_over_surface = police.render(
-            'Game over', True, (255, 0, 0))  # decription
-        # on récupère les coordonées du rectancle game_over_surface
-        game_over_rect = game_over_surface.get_rect()
-        game_over_rect.midtop = (800/2, 600/4)  # positionnement
-        dis.fill(black)
-        dis.blit(game_over_surface, game_over_rect)  # affiche
 
-        police_message = pygame.font.SysFont('times', 20)
-        message_surface = police_message.render(
-            'Press Q to quit game and C to restart', True, (255, 0, 0))
-        message_rect = message_surface.get_rect()
-        message_rect.midtop = (800/2, 600/1.5)
-        dis.blit(message_surface, message_rect)
-        for event in pygame.event.get():
-            if event.type == pygame.KEYDOWN:
-                if event.key == pygame.K_q or event.type == pygame.QUIT:
-                    game_over = True
-                    game_close = False
-                    pygame.quit()
-                    quit()
-                if event.key == pygame.K_c:
-                    game_loop()
-
-        pygame.display.flip()
-        time.sleep(1)
-    return game_close, game_over
 
 
 game_loop(record)
