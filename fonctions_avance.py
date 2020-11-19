@@ -7,6 +7,8 @@ from math import floor
 
 L = 800
 H = 600
+l = L-2*20
+h = H-40
 
 dis = pygame.display.set_mode((L, H))
 pygame.display.set_caption('Snake Game')
@@ -65,19 +67,24 @@ def move(event, dx, dy, game_over, already_changed, direction):
     return dx, dy, game_over, already_changed, direction
 
 
-def detection_collision_bordure(snake, border, game_over):
+def detection_collision_bordure(snake,game_over,border):
     """Permet si border est False de terminer le jeu si on touche le bord et si border vaut True
     de traverser les murs et sortir de l'autre coté.
     [entrée/sortie : snake] : liste de liste
     [entrée/sortie : game_over] : Bool 
     [entrée : border] : Bool"""
     # lorsqu'on touche le bord
-    if border and (snake[0][0] < 20 or snake[0][0] > L-20 or snake[0][1] < 20 or snake[0][1] > H-20):
+    if border and (snake[0][0] < 40 or snake[0][0] > L-60 or snake[0][1] < 80 or snake[0][1] > H-60):
         game_over = True
     # si bord désactivé on passe de l'autre coté
-    if not border and (snake[0][0] < 10 or snake[0][0] > L-10 or snake[0][1] < 10 or snake[0][1] > H-10):
-        snake[0][0] = snake[0][0] % L
-        snake[0][1] = snake[0][1] % H
+    if not border:
+        if snake[0][0] > L-40 or snake[0][1] > H-40:
+            snake[0][0] = snake[0][0] % (L-40)
+            snake[0][1] = snake[0][1] % (H-80)
+        if snake[0][0] < 20:
+            snake[0][0] = L-40
+        if snake[0][1] < 60:
+            snake[0][1] = H-40
     return snake, game_over
 
 
