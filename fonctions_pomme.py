@@ -115,8 +115,8 @@ def collision_pomme(score, pomme, l, queue):
 def apparition_pomme_rose(score, pomme_rose):
     if pomme_rose[2]:
         dis.blit(image_pomme_rose, (pomme_rose[0], pomme_rose[1]))
-    if not pomme_rose[2] and score > 5:
-        s = random.randint(0, 101)
+    if not pomme_rose[2] and score > 0:
+        s = random.randint(0, 10)
         if s == 0:
             pomme_rose[0] = random.randint(0, (L-20)/20)*20
             pomme_rose[1] = random.randint(0, (H-20)/20)*20
@@ -129,9 +129,7 @@ def collision_pomme_rose(l, score, pomme_rose, queue):
             score += 3
             l.append([queue[0], queue[1]])
             pygame.draw.rect(
-                dis, black, [pomme_rose[0], pomme_rose[1], 20, 20])
-            pomme_rose[0] = random.randint(0, (L-20)/20)*20
-            pomme_rose[1] = random.randint(0, (H-20)/20)*20
+                dis, red, [pomme_rose[0], pomme_rose[1], 20, 20])
             pomme_rose[2] = False
     return l, score
 
