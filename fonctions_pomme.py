@@ -73,11 +73,11 @@ tps_blanche = []
 tps_jaune = -1
 frequence = 15
 
-def proba_pomme_jaune(pomme_lente):
+def proba_pomme_jaune(pomme_lente,score):
     if pomme_lente[2]:
         dis.blit(image_pomme_jaune, (pomme_lente[0], pomme_lente[1]))
-    if not pomme_lente[2]:
-        p = random.randint(0, 40)
+    if not pomme_lente[2] and score>20:
+        p = random.randint(0, 200)
         if p == 0 and pomme_lente[3]:
             pomme_lente[0] = 20 + random.randint(0, (L-60)/20)*20
             pomme_lente[1] = 60 + random.randint(0, (H-100)/20)*20
@@ -88,7 +88,7 @@ def proba_pomme_jaune(pomme_lente):
 def pomme_jaune(l, score, pomme_lente, tps_jaune):
     if pomme_lente[2]:
         if l[0][0] == pomme_lente[0] and l[0][1] == pomme_lente[1]:
-            score += 10
+            score += 1
             pygame.draw.rect(
                 dis, black, [pomme_lente[0], pomme_lente[1], 10, 10])
             tps_jaune=0
@@ -111,7 +111,7 @@ def ralentissement(tps_jaune, frequence,pomme_lente):
     return tps_jaune,frequence,pomme_lente
 
 
-def proba_pomme_blanche(pomme_rapide):
+def proba_pomme_blanche(pomme_rapide,score):
     """prend en entrée la liste avec les coordonnées de la pomme et un booléen indiquant si 
     il y a déjà une pomme blanche sur la grille de jeu.
     Génére avec une proba 1/80 une position aléatoire pour la pomme blanche
@@ -120,7 +120,7 @@ def proba_pomme_blanche(pomme_rapide):
     if pomme_rapide[2]:
         dis.blit(image_pomme_blanche, (pomme_rapide[0], pomme_rapide[1]))
     if not pomme_rapide[2]:
-        p = random.randint(0, 81)
+        p = random.randint(0, 200)
         if p == 0:
             pomme_rapide[0] = 20 + random.randint(0, (L-60)/20)*20
             pomme_rapide[1] = 60 + random.randint(0, (H-100)/20)*20
@@ -311,7 +311,7 @@ def pomme_coupe2(score, pomme_coupe, snake):
         dis.blit(image_pomme_verte, (pomme_coupe[0], pomme_coupe[1]))
     if not pomme_coupe[2]:
         if score > 5 and len(snake) > 5:
-            s = random.randint(0, 201)
+            s = random.randint(0, 200)
             if s == 0:
                 pomme_coupe[0] = 20 + random.randint(0, (L-60)/20)*20
                 pomme_coupe[1] = 60 + random.randint(0, (H-100)/20)*20
