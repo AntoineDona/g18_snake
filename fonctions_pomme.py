@@ -241,7 +241,7 @@ def pomme_turquoise(score, snake, pomme_t):
     """prend en entrée le score,le serpent et la liste avec les coordonnées de la pomme et un booléen indiquant si 
     il y a déjà une pomme turquoise sur la grille de jeu. 
     Génére avec une proba 1/500 une position aléatoire pour la pomme turquoise
-    Augmente le score de 1
+
     [entrée/sortie]: pomme_t : [int,int,bool]
     [entrée/sortie]: snake : liste de liste 
     [entrée/sortie]: score : int

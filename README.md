@@ -9,9 +9,9 @@ Projet de la semaine 2 des Coding Weeks : Elaboration d'un jeu Snake interactif
 
 **Membre B, Jules Duchesne :**  fruit malus, accélération et ralentissement du snake, pomme bonus, gestion de git​   
 
-**Membre C, Yse de Reydet de Vulpillieres :** fonctions de mouvement, évolution du snake, pommes bonus, gestion des bords, découpage en fonction du code, refactoring de Main.py, biblio​graphie, Demonstration video
+**Membre C, Yse de Reydet de Vulpillieres :** fonctions de mouvement, évolution du snake, pommes bonus, gestion des bords, découpage en fonction du code, refactoring de Main.py, biblio​graphie
 
-**Membre D, Antoine Do Nascimento :** gestion du bord (collision et traversée), quitter le jeu même en pause, probleme de deplacement du serpent sur lui-même, focnction score et record, affichage d'une bordure qui change de couleur avec un bonus, augmentation de la vitesse avec le niveau​ 
+**Membre D, Antoine Do Nascimento :** gestion du bord (collision et traversée), quitter le jeu même en pause, probleme de deplacement du serpent sur lui-même, focnction score et record, affichage d'une bordure qui change de couleur avec un bonus, augmentation de la vitesse avec le niveau​, Demonstration video
 
 **Membre E, Lola Escande :** message et écran de fin de partie, rejouer la partie en appuyant sur une touche, mettre sur pause, refactoring du main.py ( nom des variables et commentaires), effectuer des tests​ exhaustifs
 
