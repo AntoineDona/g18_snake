@@ -73,7 +73,7 @@ tps_blanche = []
 tps_jaune = -1
 frequence = 15
     
-def proba_pomme_jaune(pomme_lente):
+def proba_pomme_jaune(pomme_lente,score):
     ''' prend en entrée la position de la pomme, un booléen indiquant si la pomme jaune a déjà été mangé 
 et un booléen indiquant si l'effet d'une pomme jaune est toujours en cours, 
 génére avec une proba de 1/200 une pomme jaune aléatoirement 
@@ -107,7 +107,7 @@ def pomme_jaune(snake, score, pomme_lente, tps_jaune):
     [entrée: snake]: liste de liste
     """
     if pomme_lente[2]:
-        if l[0][0] == pomme_lente[0] and l[0][1] == pomme_lente[1]:
+        if snake[0][0] == pomme_lente[0] and snake[0][1] == pomme_lente[1]:
             score += 1
             pygame.draw.rect(
                 dis, black, [pomme_lente[0], pomme_lente[1], 10, 10])
