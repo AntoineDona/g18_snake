@@ -19,8 +19,9 @@ def test_new_snake():
     assert snake == [[300, 280], [300, 300], [280, 300]]
 
 def test_update_level():
-    level = update_level(100,10)
-    assert level == 10
+    level, levelup = update_level(99,8)
+    assert level == 9
+    assert levelup 
 
 #--------------------- TESTS DES FONCTIONS POMMES ----------------------------------------------------------
 
@@ -103,7 +104,7 @@ def test_detection_collision_bordure():
     assert game_over == True
     snake, game_over = detection_collision_bordure([[-10,0],[0,0],[10,0]],False,False)
     assert not game_over
-    assert snake == [[790,0],[0,0],[10,0]]
+    assert snake == [[760,560],[0,0],[10,0]]
 
 def test_detection_auto_collision():
     game_over = detection_auto_collision([[300,300],[280,300],[260,300],[300,300]],True,False,4)
