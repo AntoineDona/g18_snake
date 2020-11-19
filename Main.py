@@ -103,7 +103,7 @@ def game_loop(record):
     border = True
     score = 0
     n = 3
-    frequence = 15
+    frequence = 10
     dx = 0
     dy = 0
     snake = [[300, 300], [280, 300], [260, 300]]
@@ -169,13 +169,13 @@ def game_loop(record):
         tps_turquoise, border = temps_border(tps_turquoise, border, frequence)
 
         # lorsqu'on touche une pomme blanche on accèlere pendant 10sec
-        pomme_rapide = proba_pomme_blanche(pomme_rapide)
+        pomme_rapide = proba_pomme_blanche(pomme_rapide,score)
         score, pomme_rapide, tps_blanche = pomme_blanche(
             snake, score, pomme_rapide, tps_blanche)
         tps_blanche, frequence = acceleration(tps_blanche, frequence)
 
 
-        pomme_lente = proba_pomme_jaune(pomme_lente)
+        pomme_lente = proba_pomme_jaune(pomme_lente,score)
         score, pomme_lente, tps_jaune = pomme_jaune(snake, score, pomme_lente, tps_jaune)
         tps_jaune, frequence,pomme_lente = ralentissement(tps_jaune, frequence,pomme_lente)
         
