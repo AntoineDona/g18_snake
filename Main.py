@@ -109,8 +109,7 @@ def game_loop(record):
 
         already_changed = False
         for event in pygame.event.get():  # transfo du mouvement en fonction pour les test
-            dx, dy, game_over, already_changed, direction = move(
-                event, dx, dy, game_over, already_changed, direction)
+            dx, dy, game_over, already_changed, direction = move(event, dx, dy, game_over, already_changed, direction)
 
         # on avance
         queue = copy(l[n-1])
@@ -176,6 +175,25 @@ def game_loop(record):
         clock.tick(frequence)
     pygame.quit()
     quit()
+
+def display_ecran_pause():
+    police = pygame.font.SysFont('times new roman', 90)
+    game_over_surface = police.render(
+        'Pause', True, (255, 0, 0))  # decription
+    # on récupère les coordonées du rectancle game_over_surface
+    game_over_rect = game_over_surface.get_rect()
+    game_over_rect.midtop = (800/2, 600/4)  # positionnement
+    dis.fill(black)
+    dis.blit(game_over_surface, game_over_rect)  # affiche
+
+    police_message = pygame.font.SysFont('times', 20)
+    message_surface = police_message.render(
+        'Press P to resume or Press Q to quit game', True, (255, 0, 0))
+    message_rect = message_surface.get_rect()
+    message_rect.midtop = (800/2, 600/1.5)
+    dis.blit(message_surface, message_rect)
+
+
 
 
 game_loop(record)
