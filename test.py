@@ -1,6 +1,12 @@
-from fonctions_affichage import *
+#######################
+# Tests des           #
+# fonctions           #
+#######################
 
-l=[[0,0],[1,0],[2,0]]
-n=3
-def test_newsnake():
-    return newsnake(l,n,1,0)
+from pytest_mock import*
+from pytest import*
+from fonctions_affichage import*
+
+
+print('hello')
+
