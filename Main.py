@@ -20,23 +20,26 @@ violet = (127, 0, 255)
 green = (0, 255, 65)
 turquoise = (64, 224, 208)
 rose = (253, 108, 158)
+jaune = (255,255,0)
 
 pomme = [100, 100]
 pomme_t = [200, 100, False]
 pomme_coupe = [0, 0, False]
 pomme_rose = [10, 10, False]
 pomme_rapide = [50, 50, False]
+pomme_lente = [22,8,False]
 tps_turquoise = -1
 tps_blanche = []
 
 dis = pygame.display.set_mode((L, H))
 pygame.display.set_caption('Snake Game')
 clock = pygame.time.Clock()
-record=0
+record = 0
+
 
 def ecran_fin(game_close, game_over, record, score):
     while game_close == True:
-        record=max(record,score) # calcul du record
+        record = max(record, score)  # calcul du record
         police = pygame.font.SysFont('times new roman', 90)
         game_over_surface = police.render(
             'Game over', True, (255, 0, 0))  # decription
@@ -48,7 +51,7 @@ def ecran_fin(game_close, game_over, record, score):
 
         police_score = pygame.font.SysFont('times', 40)
         score_surface = police_score.render(
-            'Score:'+ str(score)+'   '+'Record:'+ str(record), True, (255, 0, 0))
+            'Score:' + str(score)+'   '+'Record:' + str(record), True, (255, 0, 0))
         score_rect = score_surface.get_rect()
         score_rect.midtop = (800/2, 600/2)
         dis.blit(score_surface, score_rect)
@@ -91,15 +94,18 @@ def game_loop(record):
     pomme_coupe = [0, 0, False]
     pomme_rose = [10, 10, False]
     pomme_rapide = [50, 50, False]
+    pomme_lente = [22,8,False]
     tps_turquoise = -1
     tps_blanche = []
+    tps_jaune = []
 
     score = 0
     level = 0
     n = 3
     while not game_over:
 
-        game_close, game_over, record = ecran_fin(game_close, game_over,record,score)
+        game_close, game_over, record = ecran_fin(
+            game_close, game_over, record, score)
 
         already_changed = False
         for event in pygame.event.get():  # transfo du mouvement en fonction pour les test
@@ -146,6 +152,12 @@ def game_loop(record):
             l, score, pomme_rapide, tps_blanche)
         tps_blanche, frequence = acceleration(tps_blanche, frequence)
 
+        #lorsqu'on touche une pomme jaune on ralenti pendant 10sec
+
+        pomme_lente = proba_pomme_jaune(pomme_lente)
+        score, pomme_lente, tps_jaune = pomme_jaune(l, score, pomme_lente, tps_jaune)
+        tps_jaune, frequence = ralentissement(tps_jaune, frequence)
+        
         # on affiche le serpent
         affiche_snake(l)
 

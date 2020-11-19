@@ -26,8 +26,7 @@ violet = (127, 0, 255)
 green = (0, 255, 65)
 turquoise = (64, 224, 208)
 rose = (253, 108, 158)
-#------------------------------------------------------
-
+jaune = (255,255,0)
 
 #### Initialisation des paramètres de fruits de jeux --------------------------------------
 pomme = [100, 100]
@@ -35,11 +34,46 @@ pomme_t = [200, 100, False]
 pomme_coupe = [0, 0, False]
 pomme_rose = [10, 10, False]
 pomme_rapide = [50, 50, False]
+pomme_lente = [22,8,False]
 tps_turquoise = -1
 tps_blanche = []
+tps_jaune = []
 
-#------------------------------------------------------------------------------------------
+def proba_pomme_jaune(pomme_lente):
+    if pomme_lente[2]:
+        pygame.draw.rect(dis, jaune, [pomme_lente[0], pomme_lente[1], 20, 20])
+    if not pomme_lente[2]:
+        p = random.randint(0, 40)
+        if p == 0:
+            pomme_lente[0] = random.randint(0, (L-20)/20)*20
+            pomme_lente[1] = random.randint(0, (H-20)/20)*20
+            pomme_lente[2] = True
 
+    return pomme_lente
+
+def pomme_jaune(l, score, pomme_jaune, tps_jaune):
+    if pomme_lente[2]:
+        if l[0][0] == pomme_lente[0] and l[0][1] == pomme_lente[1]:
+            score += 10
+            pygame.draw.rect(
+                dis, black, [pomme_lente[0], pomme_lente[1], 10, 10])
+            pomme_lente[2] = False
+            tps_jaune.append(0)
+
+    return score, pomme_lente, tps_jaune
+
+def ralentissement(tps_jaune, frequence):
+    for i in range(len(tps_jaune)):
+        if tps_jaune[i] == 0:
+            frequence = int(frequence/2)
+            tps_jaune[-1] = 1
+        elif tps_jaune[i] > 0 and tps_jaune[i] <= frequence*10:
+            tps_jaune[i] += 1
+        elif tps_jaune[i] == (frequence*10)+1:
+            frequence = frequence*2
+            tps_jaune[i] = -1
+    return tps_jaune,frequence
+    
 def proba_pomme_blanche(pomme_rapide):
     """prend en entrée la liste avec les coordonnées de la pomme et un booléen indiquant si 
     il y a déjà une pomme blanche sur la grille de jeu.
@@ -76,7 +110,7 @@ def pomme_blanche(snake, score, pomme_rapide, tps_blanche):
         if snake[0][0] == pomme_rapide[0] and snake[0][1] == pomme_rapide[1]:
             score += 10
             pygame.draw.rect(
-                dis, black, [pomme_coupe[0], pomme_coupe[1], 10, 10])
+                dis, black, [pomme_rapide[0], pomme_rapide[1], 10, 10])
             pomme_rapide[2] = False
             tps_blanche.append(0)
 
@@ -97,7 +131,7 @@ def acceleration(tps_blanche, frequence):
             tps_blanche[i] += 1
         elif tps_blanche[i] == (frequence*10)+1:
             frequence -= 15
-            tps_blanche[i] += 1
+            tps_blanche[i] = -1
 
     return tps_blanche, frequence
 
