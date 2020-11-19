@@ -75,6 +75,11 @@ frequence = 15
 
     
 def proba_pomme_jaune(pomme_lente):
+    """ prend en entrée la position de la pomme, un booléen indiquant si la pomme jaune a déjà été mangé 
+et un booléen indiquant si l'effet d'une pomme jaune est toujours en cours, 
+génére avec une proba de 1/200 une pomme jaune aléatoirement 
+si et seulement si aucune paume blanche n'est en cours
+[entrée/sortie]: liste : [int,int,bool,bool]"""
     if pomme_lente[2]:
         pygame.draw.rect(dis, jaune, [pomme_lente[0], pomme_lente[1], 20, 20])
     if not pomme_lente[2]:
@@ -87,9 +92,21 @@ def proba_pomme_jaune(pomme_lente):
 
     return pomme_lente
 
-def pomme_jaune(l, score, pomme_lente, tps_jaune):
+def pomme_jaune(snake, score, pomme_lente, tps_jaune):
+    """Ajoute 1 au score et modifie le int tps_jaune pour qu'il indique le temps 0 auquel commencer 
+    le ralentissement.
+    pomme_lente : une liste qui représente les coordonnées de la pomme, si une pomme est déjà présente 
+    sur la grille de jeu et si le serpent est infecté par une pomme jaune. 
+    Snake : La liste avec les coordonées des carrés du serpent
+    score : le score 
+    tps_jaune : Un int de temps  
+    [entrée/sortie: pomme_lente]: liste :  [int,int,bool,bool]
+    [entrée/sortie: score]: int
+    [entrée/sortie: tps_jaune]: int
+    [entrée: snake]: liste de liste
+    """
     if pomme_lente[2]:
-        if l[0][0] == pomme_lente[0] and l[0][1] == pomme_lente[1]:
+        if snake[0][0] == pomme_lente[0] and snake[0][1] == pomme_lente[1]:
             score += 10
             pygame.draw.rect(
                 dis, black, [pomme_lente[0], pomme_lente[1], 10, 10])
@@ -101,6 +118,12 @@ def pomme_jaune(l, score, pomme_lente, tps_jaune):
     return score, pomme_lente, tps_jaune
 
 def ralentissement(tps_jaune, frequence,pomme_lente):
+    """Prend un int de temps et augmente le nombre d'itération en un tick d'horloge 
+    Fréquence est donc le nombre d'itérations en 1 tick d'horloge.
+    [entrée/sortie: tps blanche]: int
+    [entrée/sortie: frequence]: int
+    [entrée: pomme_lente]: liste: [int,int,bool,bool]
+    """
     if tps_jaune == 0:
         
         frequence  -= 10
