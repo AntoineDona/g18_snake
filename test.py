@@ -26,7 +26,7 @@ def test_update_level():
 #--------------------- TESTS DES FONCTIONS POMMES ----------------------------------------------------------
 
 def test_proba_pomme_jaune():
-    pomme_jaune = proba_pomme_jaune([0,0,False])
+    pomme_jaune = proba_pomme_jaune([0,0,False],10)
     assert pomme_jaune[0] <= 800 and pomme_jaune[1] <= 600
     assert pomme_jaune[2] or not pomme_jaune[2]
 
@@ -40,7 +40,7 @@ def test_ralentissement():
     pass
 
 def test_proba_pomme_blanche():
-    pomme_blanche = proba_pomme_blanche([0,0,False])
+    pomme_blanche = proba_pomme_blanche([0,0,False],10)
     assert pomme_blanche[0] <= 800 and pomme_blanche[1] <= 600
     assert pomme_blanche[2] or not pomme_blanche[2]
 
