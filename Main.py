@@ -112,17 +112,11 @@ def game_loop(record):
     pomme_coupe = [0, 0, False]
     pomme_rose = [10, 10, False]
     pomme_rapide = [50, 50, False]
-<<<<<<< HEAD
     pomme_lente = [22,8,False,True]
     tps_turquoise = -1
     tps_blanche = []
     tps_jaune = -1
     
-=======
-    pomme_lente = [22, 8, False]
-    tps_turquoise = -1
-    tps_blanche = []
->>>>>>> d4b22941269783cc4604513fdf7dc9fe3800f7ca
 
     score = 0
     level = 0
