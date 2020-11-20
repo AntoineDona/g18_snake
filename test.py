@@ -26,7 +26,7 @@ def test_update_level():
 #--------------------- TESTS DES FONCTIONS POMMES ----------------------------------------------------------
 
 def test_proba_pomme_jaune():
-    pomme_jaune = proba_pomme_jaune([0,0,False])
+    pomme_jaune = proba_pomme_jaune([0,0,False],10)
     assert pomme_jaune[0] <= 800 and pomme_jaune[1] <= 600
     assert pomme_jaune[2] or not pomme_jaune[2]
 
@@ -40,7 +40,7 @@ def test_ralentissement():
     pass
 
 def test_proba_pomme_blanche():
-    pomme_blanche = proba_pomme_blanche([0,0,False])
+    pomme_blanche = proba_pomme_blanche([0,0,False],10)
     assert pomme_blanche[0] <= 800 and pomme_blanche[1] <= 600
     assert pomme_blanche[2] or not pomme_blanche[2]
 
@@ -100,9 +100,10 @@ def test_coll_pomme_coupe():
 # -------------------------------------- TESTS COLLISIONS ------------------------------------------------
 
 def test_detection_collision_bordure():
-    snake, game_over = detection_collision_bordure([[0,0],[10,0],[20,0]],True,False)
+    snake, game_over,collision_mur = detection_collision_bordure([[0,0],[10,0],[20,0]],True,False,True)
     assert game_over == True
-    snake, game_over = detection_collision_bordure([[-10,0],[0,0],[10,0]],False,False)
+    assert collision_mur
+    snake, game_over,collision_mur = detection_collision_bordure([[-10,0],[0,0],[10,0]],False,False,False)
     assert not game_over
     assert snake == [[760,560],[0,0],[10,0]]
 

@@ -4,6 +4,7 @@ from copy import copy
 import random
 import time  # Lola
 from math import floor
+from fonctions_affichage import *
 
 L = 800
 H = 600
@@ -15,7 +16,7 @@ pygame.display.set_caption('Snake Game')
 clock = pygame.time.Clock()
 
 
-def move(event, dx, dy, game_over, already_changed, direction):
+def move(event, dx, dy, game_over, already_changed, direction,score,record,level):
     """ Fonction qui déplace le serpent sur la grille de jeu en utilisant les flèches du clavier 
     event est un événement de pygame ( ici donc le fait d'appuyer sur une touche)
     dx et dy sont les déplacement.
@@ -34,7 +35,7 @@ def move(event, dx, dy, game_over, already_changed, direction):
         if event.key == pygame.K_p:
             exit = False
             while not(exit):
-                display_ecran_pause()
+                display_ecran_pause(score,record,level)
                 for event2 in pygame.event.get():
                     if event2.type == pygame.QUIT or (event2.type == pygame.KEYDOWN and event2.key == pygame.K_q):
                         pygame.quit()
@@ -67,15 +68,18 @@ def move(event, dx, dy, game_over, already_changed, direction):
     return dx, dy, game_over, already_changed, direction
 
 
-def detection_collision_bordure(snake,game_over,border):
-    """Permet si border est False de terminer le jeu si on touche le bord et si border vaut True
+def detection_collision_bordure(snake,game_over,border,collision_mur):
+    """Permet si border est True de terminer le jeu si on touche le bord et si border vaut False
     de traverser les murs et sortir de l'autre coté.
     [entrée/sortie : snake] : liste de liste
     [entrée/sortie : game_over] : Bool 
-    [entrée : border] : Bool"""
+    [entrée/sortie : collision_mur] : Bool 
+    [entrée : border] : Bool
+    """
     # lorsqu'on touche le bord
-    if border and (snake[0][0] < 40 or snake[0][0] > L-60 or snake[0][1] < 80 or snake[0][1] > H-60):
+    if border and (snake[0][0] < 20 or snake[0][0] > L-40 or snake[0][1] < 60 or snake[0][1] > H-40):
         game_over = True
+        collision_mur=True
     # si bord désactivé on passe de l'autre coté
     if not border:
         if snake[0][0] > L-40 or snake[0][1] > H-40:
@@ -85,7 +89,7 @@ def detection_collision_bordure(snake,game_over,border):
             snake[0][0] = L-40
         if snake[0][1] < 60:
             snake[0][1] = H-40
-    return snake, game_over
+    return snake, game_over,collision_mur
 
 
 def detection_auto_collision(snake, collision, game_over, n):
@@ -99,3 +103,4 @@ def detection_auto_collision(snake, collision, game_over, n):
             if collision and snake[0][0] == snake[k][0] and snake[0][1] == snake[k][1]:
                 game_over = True
     return game_over
+
