@@ -71,7 +71,6 @@ pomme_lente = [300,300,False,True]
 tps_turquoise = -1
 tps_blanche = []
 tps_jaune = -1
-frequence = 15
     
 def proba_pomme_jaune(pomme_lente,score):
     """ prend en entrée la position de la pomme, un booléen indiquant si la pomme jaune a déjà été mangé 
@@ -106,7 +105,7 @@ def pomme_jaune(snake, score, pomme_lente, tps_jaune):
     """
     if pomme_lente[2]:
         if snake[0][0] == pomme_lente[0] and snake[0][1] == pomme_lente[1]:
-            score += 10
+            score += 1
             pygame.draw.rect(
                 dis, black, [pomme_lente[0], pomme_lente[1], 10, 10])
             tps_jaune=0
