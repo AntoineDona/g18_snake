@@ -28,7 +28,7 @@ turquoise = (64, 224, 208)
 rose = (253, 108, 158)
 #------------------------------------------------------
 
-# afficher la pomme rouge
+# afficher le mur
 image_mur= pygame.image.load(r'g18_snake/images/mur2.jpg')
 image_mur= pygame.transform.scale(image_mur, (20, 20))
 image_mur= image_mur.convert()
