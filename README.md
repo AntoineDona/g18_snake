@@ -26,6 +26,7 @@ Le joueur peut appuyer sur les flèches du clavier pour déplacer le serpent. Po
 
 # PRINCIPE DU JEU:   
     Obtenir le Score le plus haut possible en mangeant des fruits.
+    Le record actuel est de 317.
 
 # DEROULEMENT:   
     Un serpent de taille 3 apparaît.   
