@@ -137,7 +137,7 @@ def ralentissement(tps_jaune, frequence,pomme_lente):
 def proba_pomme_blanche(pomme_rapide,score):
     """prend en entrée la liste avec les coordonnées de la pomme et un booléen indiquant si 
     il y a déjà une pomme blanche sur la grille de jeu.
-    Génére avec une proba 1/80 une position aléatoire pour la pomme blanche
+    Génére avec une proba 1/200 une position aléatoire pour la pomme blanche
     [entrée/sortie]: liste : [int,int,bool]
     """
     if pomme_rapide[2]:
@@ -264,7 +264,7 @@ def collision_pomme_rose(snake, score, pomme_rose, queue):
 def pomme_turquoise(score, snake, pomme_t):
     """prend en entrée le score,le serpent et la liste avec les coordonnées de la pomme et un booléen indiquant si 
     il y a déjà une pomme turquoise sur la grille de jeu. 
-    Génére avec une proba 1/500 une position aléatoire pour la pomme turquoise
+    Génére avec une proba 1/200 une position aléatoire pour la pomme turquoise
 
     [entrée/sortie]: pomme_t : [int,int,bool]
     [entrée/sortie]: snake : liste de liste 
