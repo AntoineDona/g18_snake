@@ -121,7 +121,7 @@ def ralentissement(tps_jaune, frequence,pomme_lente):
     [entrée: pomme_lente]: liste: [int,int,bool,bool]
     """
     if tps_jaune == 0:
-        frequence  -= 10
+        frequence  -= 5
         tps_jaune = 1
        
     elif tps_jaune>0 and tps_jaune <= frequence*10:
