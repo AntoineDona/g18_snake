@@ -40,7 +40,7 @@ clock = pygame.time.Clock()
 record = 0
 
 
-def ecran_fin(game_close, game_over, record, score,level):
+def ecran_fin(game_close, game_over, record, score, level):
     """Cette fonction permett d'afficher l'écran de fin lorsqu'on a perdu la partie. 
     Elle affiche le score et le record. Elle propose à l'utilisateur de recommencer une partie ou de quitter le jeu.
     game_close : devient vrai lorsqu'on perd ce qui impliquel'affichage de l'écran de fin
@@ -79,13 +79,13 @@ def ecran_fin(game_close, game_over, record, score,level):
         message_rect.midtop = (800/2, 600/1.5)
         dis.blit(message_surface, message_rect)
         for event in pygame.event.get():
-            if (event.type==KEYDOWN and event.key == pygame.K_q) or event.type == pygame.QUIT:
-                    game_over = True
-                    game_close = False
-                    pygame.quit()
-                    quit()
-            if event.type==KEYDOWN and event.key == pygame.K_c:
-                    game_loop(record)
+            if (event.type == KEYDOWN and event.key == pygame.K_q) or event.type == pygame.QUIT:
+                game_over = True
+                game_close = False
+                pygame.quit()
+                quit()
+            if event.type == KEYDOWN and event.key == pygame.K_c:
+                game_loop(record)
         pygame.display.flip()
         time.sleep(1)
     return game_close, game_over, record
@@ -112,11 +112,11 @@ def game_loop(record):
     pomme_coupe = [0, 0, False]
     pomme_rose = [10, 10, False]
     pomme_rapide = [50, 50, False]
-    pomme_lente = [22,8,False,True]
+    pomme_lente = [22, 8, False, True]
     tps_turquoise = -1
     tps_blanche = []
     tps_jaune = -1
-    new_game=True
+    new_game = True
 
     score = 0
     level = 0
@@ -166,21 +166,23 @@ def game_loop(record):
         tps_turquoise, border = temps_border(tps_turquoise, border, frequence)
 
         # lorsqu'on touche une pomme blanche on accèlere pendant 10sec
-        pomme_rapide = proba_pomme_blanche(pomme_rapide,score)
+        pomme_rapide = proba_pomme_blanche(pomme_rapide, score)
         score, pomme_rapide, tps_blanche = pomme_blanche(
             snake, score, pomme_rapide, tps_blanche)
         tps_blanche, frequence = acceleration(tps_blanche, frequence)
 
+        pomme_lente = proba_pomme_jaune(pomme_lente, score)
+        score, pomme_lente, tps_jaune = pomme_jaune(
+            snake, score, pomme_lente, tps_jaune)
+        tps_jaune, frequence, pomme_lente = ralentissement(
+            tps_jaune, frequence, pomme_lente)
 
-        pomme_lente = proba_pomme_jaune(pomme_lente,score)
-        score, pomme_lente, tps_jaune = pomme_jaune(snake, score, pomme_lente, tps_jaune)
-        tps_jaune, frequence,pomme_lente = ralentissement(tps_jaune, frequence,pomme_lente)
-        
-        snake, game_close,collision_mur = detection_collision_bordure(snake, game_close, border, collision_mur)
+        snake, game_close, collision_mur = detection_collision_bordure(
+            snake, game_close, border, collision_mur)
         game_close = detection_auto_collision(snake, collision, game_close, n)
 
         # on affiche le serpent
-        affiche_snake(snake,collision_mur)
+        affiche_snake(snake, collision_mur)
 
         level, augmented = update_level(score, level)
 
@@ -188,7 +190,11 @@ def game_loop(record):
         if augmented:
             frequence += 1
         print(frequence)
-        # on affiche le score et le niveau
+
+        # on update le record
+        record = max(record, score)
+
+        # on affiche le score et lerecord et le niveau
         score_font = pygame.font.SysFont("Times new roman", 35)
         value_score = score_font.render("Score: " + str(score), True, red)
         dis.blit(value_score, [5, 0])
@@ -202,12 +208,13 @@ def game_loop(record):
     pygame.quit()
     quit()
 
+
 while True:
     afficher_ecran_accueil()
     for event in pygame.event.get():
-        if event.type == pygame.KEYDOWN and not event.key == pygame.K_q  :
+        if event.type == pygame.KEYDOWN and not event.key == pygame.K_q:
             game_loop(record)
-        if (event.type==KEYDOWN and event.key == pygame.K_q) or event.type == pygame.QUIT:
+        if (event.type == KEYDOWN and event.key == pygame.K_q) or event.type == pygame.QUIT:
             pygame.quit()
             quit()
         pygame.display.flip()

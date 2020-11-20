@@ -105,7 +105,7 @@ def pomme_jaune(snake, score, pomme_lente, tps_jaune):
     """
     if pomme_lente[2]:
         if snake[0][0] == pomme_lente[0] and snake[0][1] == pomme_lente[1]:
-            score += 10
+            score += 1
             pygame.draw.rect(
                 dis, black, [pomme_lente[0], pomme_lente[1], 10, 10])
             tps_jaune=0
