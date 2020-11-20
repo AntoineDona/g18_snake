@@ -71,7 +71,6 @@ pomme_lente = [300,300,False,True]
 tps_turquoise = -1
 tps_blanche = []
 tps_jaune = -1
-frequence = 15
     
 def proba_pomme_jaune(pomme_lente,score):
     """ prend en entrée la position de la pomme, un booléen indiquant si la pomme jaune a déjà été mangé 
@@ -121,7 +120,7 @@ def ralentissement(tps_jaune, frequence,pomme_lente):
     [entrée: pomme_lente]: liste: [int,int,bool,bool]
     """
     if tps_jaune == 0:
-        frequence  -= 5
+        frequence  -= 10
         tps_jaune = 1
        
     elif tps_jaune>0 and tps_jaune <= frequence*10:
