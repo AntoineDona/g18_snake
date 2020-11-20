@@ -100,9 +100,10 @@ def test_coll_pomme_coupe():
 # -------------------------------------- TESTS COLLISIONS ------------------------------------------------
 
 def test_detection_collision_bordure():
-    snake, game_over = detection_collision_bordure([[0,0],[10,0],[20,0]],True,False)
+    snake, game_over,collision_mur = detection_collision_bordure([[0,0],[10,0],[20,0]],True,False,True)
     assert game_over == True
-    snake, game_over = detection_collision_bordure([[-10,0],[0,0],[10,0]],False,False)
+    assert collision_mur
+    snake, game_over,collision_mur = detection_collision_bordure([[-10,0],[0,0],[10,0]],False,False,False)
     assert not game_over
     assert snake == [[760,560],[0,0],[10,0]]
 
