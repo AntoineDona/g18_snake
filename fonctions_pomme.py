@@ -31,32 +31,32 @@ jaune = (255,255,0)
 
 #---------- Définition des images --------------------
 # afficher la pomme rouge
-image_pomme_rouge = pygame.image.load(r'g18_snake/images/pomme_rouge.png')
+image_pomme_rouge = pygame.image.load(r'images/pomme_rouge.png')
 image_pomme_rouge = pygame.transform.scale(image_pomme_rouge, (20, 20))
 image_pomme_rouge = image_pomme_rouge.convert()
 
 # afficher la pomme blanche
-image_pomme_blanche = pygame.image.load(r'g18_snake/images/pomme_blanche.png')
+image_pomme_blanche = pygame.image.load(r'images/pomme_blanche.png')
 image_pomme_blanche = pygame.transform.scale(image_pomme_blanche, (20, 20))
 image_pomme_blanche = image_pomme_blanche.convert()
 
 # afficher la pomme rose
-image_pomme_rose = pygame.image.load(r'g18_snake/images/pomme_rose.png')
+image_pomme_rose = pygame.image.load(r'images/pomme_rose.png')
 image_pomme_rose = pygame.transform.scale(image_pomme_rose, (20, 20))
 image_pomme_rose = image_pomme_rose.convert()
 
 # afficher la pomme turquoise
-image_pomme_turquoise = pygame.image.load(r'g18_snake/images/pomme_turquoise.png')
+image_pomme_turquoise = pygame.image.load(r'images/pomme_turquoise.png')
 image_pomme_turquoise = pygame.transform.scale(image_pomme_turquoise, (20, 20))
 image_pomme_turquoise = image_pomme_turquoise.convert()
 
 # afficher la pomme verte
-image_pomme_verte = pygame.image.load(r'g18_snake/images/pomme_verte.png')
+image_pomme_verte = pygame.image.load(r'images/pomme_verte.png')
 image_pomme_verte = pygame.transform.scale(image_pomme_verte, (20, 20))
 image_pomme_verte = image_pomme_verte.convert()
 
 # afficher la pomme jaune
-image_pomme_jaune = pygame.image.load(r'g18_snake/images/pomme_jaune.png')
+image_pomme_jaune = pygame.image.load(r'images/pomme_jaune.png')
 image_pomme_jaune = pygame.transform.scale(image_pomme_jaune, (20, 20))
 image_pomme_jaune = image_pomme_jaune .convert()
 

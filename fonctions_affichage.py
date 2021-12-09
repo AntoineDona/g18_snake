@@ -29,11 +29,11 @@ rose = (253, 108, 158)
 #------------------------------------------------------
 
 # afficher le mur
-image_mur= pygame.image.load(r'g18_snake/images/mur2.jpg')
+image_mur= pygame.image.load(r'images/mur2.jpg')
 image_mur= pygame.transform.scale(image_mur, (20, 20))
 image_mur= image_mur.convert()
 
-image_mur_transparent= pygame.image.load(r'g18_snake/images/mur_transparent.jpg')
+image_mur_transparent= pygame.image.load(r'images/mur_transparent.jpg')
 image_mur_transparent= pygame.transform.scale(image_mur_transparent, (20, 20))
 image_mur_transparent= image_mur_transparent.convert()
 #------------------------------------------------------
